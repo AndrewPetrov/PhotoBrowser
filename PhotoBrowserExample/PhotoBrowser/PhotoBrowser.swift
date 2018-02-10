@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 
+
 //@interface MWPhoto : NSObject <MWPhoto>
 //
 //@property (nonatomic, strong) NSString *caption;

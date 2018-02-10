@@ -28,6 +28,7 @@ class ViewController: UIViewController {
             ImageItem(image: UIImage(named: "9")!),
             ImageItem(image: UIImage(named: "10")!)
         ]
+        images![2].isLiked = true
 
     }
 

@@ -11,9 +11,14 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
 
-    @IBOutlet weak var mainImageView: UIImageView!
+    @IBOutlet private weak var mainImageView: UIImageView!
 
-    @IBOutlet weak var buttomInset: NSLayoutConstraint!
+    @IBOutlet private weak var buttomInset: NSLayoutConstraint!
+
+    @IBOutlet private weak var selectionButton: UIButton!
+    @IBOutlet private weak var likeImageView: UIImageView!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var deliveryStatusImageView: UIImageView!
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -21,14 +26,27 @@ class TableViewCell: UITableViewCell {
         mainImageView.image = nil
     }
 
-    func configureCell(image: UIImage?, hasInset: Bool) {
+    func configureCell(item: Item, hasInset: Bool) {
         if hasInset {
             buttomInset.constant = TableViewController.inset
         }
         else {
             buttomInset.constant = 0
         }
-        mainImageView.image = image
+        mainImageView.image = item.image
+        switch item.deliveryStatus {
+        case .nonDelivered:
+            deliveryStatusImageView.image = nil
+        case .delivered:
+            deliveryStatusImageView.image = #imageLiteral(resourceName: "tick")
+        case .seen:
+            deliveryStatusImageView.image = #imageLiteral(resourceName: "doubleTick")
+        }
+
+        dateLabel.text = TableViewController.dateFormatter.string(from: item.sentTime)
+        likeImageView.image = item.isLiked ? #imageLiteral(resourceName: "star") : nil
+
+        selectionButton.isHidden = true
     }
     
 }

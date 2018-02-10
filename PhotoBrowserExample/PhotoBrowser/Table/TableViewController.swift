@@ -11,6 +11,7 @@ import UIKit
 
 class TableViewController: UITableViewController {
 
+    static var dateFormatter = DateFormatter()
     static let inset: CGFloat = 10
 
     private weak var presentationInput: PresentationInput!
@@ -45,6 +46,8 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+         TableViewController.dateFormatter.dateStyle = .short
+
 
     }
 
@@ -76,8 +79,9 @@ extension TableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-
-        cell.configureCell(image: presentationInput.item(at: indexPath)?.image, hasInset: !isLastCell(indexPath: indexPath))
+        if let item = presentationInput.item(at: indexPath) {
+            cell.configureCell(item: item, hasInset: !isLastCell(indexPath: indexPath))
+        }
 
         return cell
     }
