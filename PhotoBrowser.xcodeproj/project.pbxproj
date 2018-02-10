@@ -19,6 +19,7 @@
 		77A4A4EE202E553C000B73B3 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4ED202E553C000B73B3 /* TableViewCell.swift */; };
 		77A4A4F3202E676D000B73B3 /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4F2202E676D000B73B3 /* CarouselCollectionViewCell.swift */; };
 		77DF1E7E202E2A50003CFA75 /* PhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */; };
+		77F4CBDE202F0A7100DED9AF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4CBDD202F0A7000DED9AF /* Item.swift */; };
 		77F4DE19202E2D99009A6BFA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F4DE18202E2D99009A6BFA /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		77A4A4ED202E553C000B73B3 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		77A4A4F2202E676D000B73B3 /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBrowser.swift; sourceTree = "<group>"; };
+		77F4CBDD202F0A7000DED9AF /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		77F4DE18202E2D99009A6BFA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,12 +114,21 @@
 		77DF1E7C202E29F5003CFA75 /* PhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				77F4CBDC202F0A5C00DED9AF /* Item */,
 				77A4A4F1202E66CE000B73B3 /* Table */,
 				77A4A4F0202E66C4000B73B3 /* Grid */,
 				77A4A4EF202E669D000B73B3 /* Carousel */,
 				77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */,
 			);
 			path = PhotoBrowser;
+			sourceTree = "<group>";
+		};
+		77F4CBDC202F0A5C00DED9AF /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				77F4CBDD202F0A7000DED9AF /* Item.swift */,
+			);
+			path = Item;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77F4CBDE202F0A7100DED9AF /* Item.swift in Sources */,
 				77A4A4E6202E2F49000B73B3 /* CarouselViewController.swift in Sources */,
 				77A4A4EE202E553C000B73B3 /* TableViewCell.swift in Sources */,
 				77A4A4EA202E301C000B73B3 /* TableViewController.swift in Sources */,

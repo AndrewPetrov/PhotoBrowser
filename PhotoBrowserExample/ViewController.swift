@@ -8,16 +8,6 @@
 
 import UIKit
 
-class ImageItem: Item {
-    var image: UIImage
-    var name: String
-
-    init(image: UIImage, name: String) {
-        self.image = image
-        self.name = name
-    }
-}
-
 class ViewController: UIViewController {
 
     var images: [ImageItem]?
@@ -27,16 +17,16 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         images = [
-            ImageItem(image: UIImage(named: "1")!, name: "1"),
-            ImageItem(image: UIImage(named: "2")!, name: "2"),
-            ImageItem(image: UIImage(named: "3")!, name: "3"),
-            ImageItem(image: UIImage(named: "4")!, name: "4"),
-            ImageItem(image: UIImage(named: "5")!, name: "5"),
-            ImageItem(image: UIImage(named: "6")!, name: "6"),
-            ImageItem(image: UIImage(named: "7")!, name: "7"),
-            ImageItem(image: UIImage(named: "8")!, name: "8"),
-            ImageItem(image: UIImage(named: "9")!, name: "9"),
-            ImageItem(image: UIImage(named: "10")!, name: "10"),
+            ImageItem(image: UIImage(named: "1")!),
+            ImageItem(image: UIImage(named: "2")!),
+            ImageItem(image: UIImage(named: "3")!),
+            ImageItem(image: UIImage(named: "4")!),
+            ImageItem(image: UIImage(named: "5")!),
+            ImageItem(image: UIImage(named: "6")!),
+            ImageItem(image: UIImage(named: "7")!),
+            ImageItem(image: UIImage(named: "8")!),
+            ImageItem(image: UIImage(named: "9")!),
+            ImageItem(image: UIImage(named: "10")!)
         ]
 
     }

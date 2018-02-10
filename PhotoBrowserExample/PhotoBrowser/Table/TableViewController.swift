@@ -11,6 +11,8 @@ import UIKit
 
 class TableViewController: UITableViewController {
 
+    static let inset: CGFloat = 10
+
     private weak var presentationInput: PresentationInput!
 
 //    @IBOutlet private weak var tableView: UITableView!
@@ -53,6 +55,10 @@ class TableViewController: UITableViewController {
 
     }
 
+    private func isLastCell(indexPath: IndexPath) -> Bool {
+        return indexPath.row == presentationInput.numberOfItems() - 1
+    }
+
 }
 
 
@@ -71,9 +77,17 @@ extension TableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
 
-        cell.configureCell(image: presentationInput.item(at: indexPath)?.image)
+        cell.configureCell(image: presentationInput.item(at: indexPath)?.image, hasInset: !isLastCell(indexPath: indexPath))
 
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let image = presentationInput.item(at: indexPath)?.image else { return 30 }
+        let proportion = image.size.height / image.size.width
+        let height = tableView.frame.width * proportion
+
+        return height + (isLastCell(indexPath: indexPath) ? 0 : TableViewController.inset)
     }
 
 

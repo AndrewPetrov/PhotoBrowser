@@ -9,12 +9,6 @@
 import Foundation
 import UIKit
 
-protocol Item: class {
-    var image: UIImage {get set}
-    var name: String {get set}
-//    var
-
-}
 
 //@interface MWPhoto : NSObject <MWPhoto>
 //
@@ -66,13 +60,13 @@ protocol PhotoBrowserDataSouce: class {
 
 
 
-protocol PhotoBrowserPresentationDataSouce {
+protocol PhotoBrowserPresentationDataSouce: class {
     func numberOfItems() -> Int
     func currentItemIndex() -> IndexPath
     func item(at index: IndexPath) -> Item?
 }
 
-protocol PhotoBrowserPresentationDelegate {
+protocol PhotoBrowserPresentationDelegate: class {
     func viewController(viewController: UIViewController, indexPath: IndexPath, selecled: Bool)
 
 }
@@ -107,7 +101,7 @@ class PhotoBrowser: UIViewController {
     private weak var dataSource: PhotoBrowserDataSouce?
     private var presentation: Presentation
 
-    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .grid) {
+    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .table) {
         self.dataSource = dataSource
         self.delegate = delegate
         self.presentation = presentation
