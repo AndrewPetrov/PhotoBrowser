@@ -36,6 +36,9 @@ import UIKit
 
 protocol PhotoBrowserDelegate: class {
 
+//    func setItem(at index: IndexPath, isSelected: Bool)
+//    func setItemAsCurrent(at index: IndexPath)
+
 
 
 //    - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
@@ -53,19 +56,18 @@ protocol PhotoBrowserDelegate: class {
 //    - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser;
 }
 
+
 protocol PhotoBrowserDataSouce: class {
     func numberOfItems() -> Int
     func currentItemIndex() -> IndexPath
     func item(at index: IndexPath) -> Item?
 }
 
-
-
-protocol PhotoBrowserPresentationDataSouce: class {
-    func numberOfItems() -> Int
-    func currentItemIndex() -> IndexPath
-    func item(at index: IndexPath) -> Item?
-}
+//protocol PhotoBrowserPresentationDataSouce: class {
+//    func numberOfItems() -> Int
+//    func currentItemIndex() -> IndexPath
+//    func item(at index: IndexPath) -> Item?
+//}
 
 protocol PhotoBrowserPresentationDelegate: class {
     func viewController(viewController: UIViewController, indexPath: IndexPath, selecled: Bool)
@@ -78,10 +80,9 @@ protocol PresentationInput: AnyObject {
     func item(at index: IndexPath) -> Item?
 }
 
-protocol PresentationOutput:  AnyObject {
+protocol PresentationOutput: AnyObject {
     func setItem(at index: IndexPath, isSelected: Bool)
     func setItemAsCurrent(at index: IndexPath)
-
 }
 
 
@@ -153,10 +154,16 @@ extension PhotoBrowser: PresentationInput {
     }
 
     func item(at index: IndexPath) -> Item? {
-//        return Item()
         return dataSource?.item(at:index)
+    }
+}
+
+extension PhotoBrowser: PresentationOutput {
+    func setItem(at index: IndexPath, isSelected: Bool) {
+//        delegate?.setItem(at: index, isSelected: isSelected)
+    }
+    func setItemAsCurrent(at index: IndexPath) {
 
     }
-
-
 }
+

@@ -15,13 +15,17 @@ class TableViewController: UITableViewController {
     static let inset: CGFloat = 10
 
     private weak var presentationInput: PresentationInput!
-
-//    @IBOutlet private weak var tableView: UITableView!
-
-
-    //    required init?(coder aDecoder: NSCoder) {
-    //        fatalError("init(coder:) has not been implemented")
-    //    }
+    private var isSelectionAllowed = false {
+        didSet {
+            if !isSelectionAllowed {
+                selectedIndexPathes.removeAll()
+            }
+            setupNavigationBar()
+        }
+    }
+    private var selectButton: UIBarButtonItem!
+    private var selectAllButton: UIBarButtonItem!
+    private var selectedIndexPathes = Set<IndexPath>()
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -38,24 +42,56 @@ class TableViewController: UITableViewController {
         return newViewController
     }
 
-    //
-    //    init(presentationInput: PresentationInput) {
-    ////        super.init(nibName: nil, bundle: nil)
-    //    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-         TableViewController.dateFormatter.dateStyle = .short
+        TableViewController.dateFormatter.dateStyle = .short
+        setupNavigationBar()
 
 
     }
 
-    private func setupCollectionView() {
-        //        collectionView
-        //        collectionView?.register(UINib(nibName: "TableCollectionViewCell", bundle: nil),
-        //                                 forCellWithReuseIdentifier: "TableCollectionViewCell")
+    private func setupNavigationBar() {
 
+
+        navigationItem.hidesBackButton = isSelectionAllowed
+
+        selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
+        navigationItem.rightBarButtonItem = selectButton
+
+        selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
+        if isSelectionAllowed {
+            navigationItem.leftBarButtonItem = selectAllButton
+        } else {
+            navigationItem.leftBarButtonItem = nil
+        }
+
+
+    }
+
+    @objc private func toggleSelectAll() {
+        //select all
+        if selectedIndexPathes.count < presentationInput.numberOfItems() {
+            selectAllButton.title = "Deselect All"
+            selectedIndexPathes.removeAll()
+            let count = presentationInput.numberOfItems()
+            for row in 0..<count {
+                selectedIndexPathes.insert(IndexPath(row: row, section: 0))
+            }
+        } else {
+            //deselect all
+            selectAllButton.title = "Select All"
+            selectedIndexPathes.removeAll()
+        }
+        tableView.reloadData()
+    }
+
+    @objc private func toggleSelection() {
+        isSelectionAllowed = !isSelectionAllowed
+        let title = isSelectionAllowed ? "Calcel" : "Select"
+        selectButton.title = title
+
+        tableView.reloadData()
     }
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
@@ -64,51 +100,42 @@ class TableViewController: UITableViewController {
 
 }
 
-
 extension TableViewController {
-
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presentationInput.numberOfItems()
     }
 
-
-    // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-    // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
         if let item = presentationInput.item(at: indexPath) {
-            cell.configureCell(item: item, hasInset: !isLastCell(indexPath: indexPath))
+
+            let isSelected = selectedIndexPathes.contains(indexPath)
+
+            cell.configureCell(
+                item: item,
+                hasInset: !isLastCell(indexPath: indexPath),
+                isSelectionAllowed: isSelectionAllowed,
+                isSelected: isSelected) { [weak self]  isSelected in
+                    guard let `self` = self else { return }
+                    if isSelected {
+                        self.selectedIndexPathes.insert(indexPath)
+                    } else {
+                        self.selectedIndexPathes.remove(indexPath)
+                    }
+            }
         }
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = presentationInput.item(at: indexPath)?.image else { return 30 }
+        guard let image = presentationInput.item(at: indexPath)?.image else { return 0 }
         let proportion = image.size.height / image.size.width
         let height = tableView.frame.width * proportion
 
         return height + (isLastCell(indexPath: indexPath) ? 0 : TableViewController.inset)
     }
-
-
-
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TableCollectionViewCell",
-//                                                      for: indexPath) as! TableCollectionViewCell
-//        //        cell.delegate = self
-//        //        cell.isForPreviewOnly = isForPreviewOnly
-//        //        if let network: SocialNetworkEntity = dataSourceArray?[indexPath.row]{
-//        //            cell.configure(network: network, index:indexPath.row)
-//        //        }
-//        cell.configureCell(image: presentationInput.item(at: indexPath)?.image)
-//
-//        return cell
-//    }
 
 }
 
@@ -121,6 +148,5 @@ extension TableViewController : PresentationOutput {
     func setItemAsCurrent(at index: IndexPath) {
 
     }
-
 
 }

@@ -19,14 +19,21 @@ class TableViewCell: UITableViewCell {
     @IBOutlet private weak var likeImageView: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var deliveryStatusImageView: UIImageView!
+    private var selectionHandler: ((Bool) -> ())!
+
+    private weak var item: Item!
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
         mainImageView.image = nil
+        likeImageView.image = nil
+        selectionButton.isSelected = false
+
     }
 
-    func configureCell(item: Item, hasInset: Bool) {
+    func configureCell(item: Item, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool, selectionHandler: @escaping (Bool) -> ()) {
+        self.item = item
         if hasInset {
             buttomInset.constant = TableViewController.inset
         }
@@ -42,11 +49,25 @@ class TableViewCell: UITableViewCell {
         case .seen:
             deliveryStatusImageView.image = #imageLiteral(resourceName: "doubleTick")
         }
+        self.selectionHandler = selectionHandler
 
         dateLabel.text = TableViewController.dateFormatter.string(from: item.sentTime)
         likeImageView.image = item.isLiked ? #imageLiteral(resourceName: "star") : nil
 
-        selectionButton.isHidden = true
+        selectionButton.isHidden = !isSelectionAllowed
+        selectionButton.isSelected = isSelected
     }
-    
+
+//    private func updateSelectionState(isSelected: Bool) {
+//        selectionButton.isSelected = isSelected
+//    }
+
+
+    @IBAction func selectButtonTapped(_ sender: UIButton) {
+//        updateSelectionState(isSelected: isSelected)
+        print(item)
+        selectionButton.isSelected = !selectionButton.isSelected
+        selectionHandler(selectionButton.isSelected)
+    }
+
 }

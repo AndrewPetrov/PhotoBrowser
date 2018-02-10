@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var images: [ImageItem]?
+    var images: [ImageItem]!
     lazy var photoBrowser: PhotoBrowser = PhotoBrowser(dataSource: self, delegate: self)
 
     override func viewDidLoad() {
@@ -28,8 +28,12 @@ class ViewController: UIViewController {
             ImageItem(image: UIImage(named: "9")!),
             ImageItem(image: UIImage(named: "10")!)
         ]
-        images![2].isLiked = true
+        images[2].isLiked = true
+        images[4].isLiked = true
 
+        images[0].deliveryStatus = .nonDelivered
+        images[1].deliveryStatus = .delivered
+        images[2].deliveryStatus = .seen
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -61,6 +65,14 @@ extension ViewController: PhotoBrowserDataSouce {
 }
 
 extension ViewController: PhotoBrowserDelegate {
+    func setItem(at index: IndexPath, isSelected: Bool) {
+//        images[index.row].isSelected = isSelected
+    }
+
+    func setItemAsCurrent(at index: IndexPath) {
+        
+    }
+
 
 }
 

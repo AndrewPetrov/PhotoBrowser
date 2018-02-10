@@ -25,7 +25,7 @@ enum DeliveryStatus {
 protocol Item: class {
     var image: UIImage {get}
     var name: String {get}
-    var isSelected: Bool {get}
+//    var isSelected: Bool {get}
     var isLiked: Bool {get}
     var sentTime: Date {get}
     var itemType: ItemType {get}
@@ -33,7 +33,7 @@ protocol Item: class {
 }
 
 class ImageItem: Item {
-    var isSelected: Bool = false
+//    var isSelected: Bool = false
     var isLiked: Bool = false
     var sentTime: Date = Date()
     var image: UIImage
