@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+import AVKit
+import AVFoundation
 
 protocol CarouselViewControllerDelegate {
     func didDoubleTap(_: CarouselViewController)
@@ -153,7 +155,7 @@ class CarouselViewController: UIViewController {
     @IBAction func actionButtonDidTap(_ sender: Any) {
     }
 
-    @IBAction func likeButtonDidTap(_ sender: Any) {
+    @objc func likeButtonDidTap(_ sender: Any) {
         let isCellLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
         presentationInputOutput.setItemAs(isLiked: !isCellLiked, at: currentCellIndexPath)
         setupToolBar()
@@ -161,6 +163,15 @@ class CarouselViewController: UIViewController {
 
     @IBAction func collectionViewDidTap(_ sender: UITapGestureRecognizer) {
         toggleFullScreen()
+        if let videoItem = presentationInputOutput.item(at: currentCellIndexPath) as? VideoItem {
+
+            let player = AVPlayer(url: videoItem.url)
+            let playerController = AVPlayerViewController()
+            playerController.player = player
+            present(playerController, animated: true) {
+                player.play()
+        }
+    }
     }
 
     @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
@@ -177,6 +188,7 @@ class CarouselViewController: UIViewController {
 }
 
 extension CarouselViewController: UICollectionViewDataSource {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return presentationInputOutput.numberOfItems()
     }

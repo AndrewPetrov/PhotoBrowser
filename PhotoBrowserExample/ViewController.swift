@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
@@ -36,8 +37,14 @@ class ViewController: UIViewController {
         (items[7] as! ImageItem).deliveryStatus = .nonDelivered
         (items[4] as! ImageItem).deliveryStatus = .delivered
         (items[2] as! ImageItem).deliveryStatus = .seen
-        
 
+        if let path = Bundle.main.path(forResource: "small", ofType:"mp4") {
+            let url = URL(fileURLWithPath: path)
+            let videoItem = VideoItem(url: url, thumbnail: nil)
+            items.append(videoItem)
+        } else {
+            debugPrint("small.mp4 not found")
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

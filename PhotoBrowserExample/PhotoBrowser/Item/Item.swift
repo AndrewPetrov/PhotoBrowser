@@ -72,25 +72,26 @@ class ImageItem: Item, Likable {
 
 class VideoItem: Item, Likable {
     var isLiked: Bool = false
-    let videoAsset: AVURLAsset
+    let url: URL
 
-    init(videoAsset: AVURLAsset,
+    init(url: URL,
          thumbnail: UIImage?,
          name: String = "",
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
-        self.videoAsset = videoAsset
+         self.url = url
 
-        super.init(image: thumbnail ?? VideoItem.getThumbnailFrom(videoAsset: videoAsset) ?? UIImage(),
+        super.init(image: thumbnail ?? VideoItem.getThumbnailFrom(url: url) ?? UIImage(),
                    name: name,
                    sentTime: sentTime,
                    type: .video,
                    deliveryStatus: deliveryStatus)
     }
 
-    private static func getThumbnailFrom(videoAsset: AVURLAsset) -> UIImage? {
+    private static func getThumbnailFrom(url: URL) -> UIImage? {
         do {
-            let imgGenerator = AVAssetImageGenerator(asset: videoAsset)
+            let asset = AVURLAsset(url: url , options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
             imgGenerator.appliesPreferredTrackTransform = true
             let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
             let thumbnail = UIImage(cgImage: cgImage)
