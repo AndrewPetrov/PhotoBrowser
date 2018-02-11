@@ -9,71 +9,28 @@
 import Foundation
 import UIKit
 
-
-
-//@interface MWPhoto : NSObject <MWPhoto>
-//
-//@property (nonatomic, strong) NSString *caption;
-//@property (nonatomic, strong) NSURL *videoURL;
-//@property (nonatomic) BOOL emptyImage;
-//@property (nonatomic) BOOL isVideo;
-//
-//+ (MWPhoto *)photoWithImage:(UIImage *)image;
-//+ (MWPhoto *)photoWithURL:(NSURL *)url;
-//+ (MWPhoto *)photoWithAsset:(PHAsset *)asset targetSize:(CGSize)targetSize;
-//+ (MWPhoto *)videoWithURL:(NSURL *)url; // Initialise video with no poster image
-//
-//- (id)init;
-//- (id)initWithImage:(UIImage *)image;
-//- (id)initWithURL:(NSURL *)url;
-//- (id)initWithAsset:(PHAsset *)asset targetSize:(CGSize)targetSize;
-//- (id)initWithVideoURL:(NSURL *)url;
-
-
-
-
-
-
 protocol PhotoBrowserDelegate: class {
 
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(indexPathes: Set<IndexPath>)
 
-    //    func setItem(at indexPath: IndexPath, isSelected: Bool)
-    //    func setItemAsCurrent(at indexPath: IndexPath)
-
-
-
-    //    - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
-    //    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index;
-    //
-    //    @optional
-    //
-    //    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtindexPath:(NSUInteger)index;
-    //    - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtindexPath:(NSUInteger)index;
-    //    - (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtindexPath:(NSUInteger)index;
-    //    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtindexPath:(NSUInteger)index;
-    //    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtindexPath:(NSUInteger)index;
-    //    - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtindexPath:(NSUInteger)index;
-    //    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index selectedChanged:(BOOL)selected;
-    //    - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser;
 }
 
 
 protocol PhotoBrowserDataSouce: class {
+
     func numberOfItems() -> Int
     func startingItemIndexPath() -> IndexPath
     func item(at indexPath: IndexPath) -> Item?
     func numberOfItems(withTypes types: [ItemType]) -> Int
     func item(withTypes types: [ItemType], at indexPath: IndexPath) -> Item?
+
 }
-
-//--------------------
-
 
 typealias PresentationInputOutput = PresentationInput & PresentationOutput
 
 protocol PresentationInput: AnyObject {
+
     func currentItemIndex() -> IndexPath
     func isItemLiked(at indexPath: IndexPath) -> Bool
     func numberOfItems() -> Int
@@ -83,30 +40,39 @@ protocol PresentationInput: AnyObject {
 }
 
 protocol PresentationOutput: AnyObject {
+
     func setItemAsCurrent(at indexPath: IndexPath)
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(indexPathes: Set<IndexPath>)
+    func switchTo(presentation: Presentation)
+
 }
 
 enum Presentation {
+
     case carousel
     case container
     case table
+
 }
 
 class PhotoBrowser: UIViewController {
 
     private weak var delegate: PhotoBrowserDelegate?
     private weak var dataSource: PhotoBrowserDataSouce?
-    private var presentation: Presentation
-    private weak var photoBrowserInput: PresentationOutput!
-    //for trnsitions
-    private var currentItemIndexPath = IndexPath(row: 0, section: 0)
+    private var currentPresentation: Presentation
+    //for transitions to the same item
+    private var currentItemIndexPath: IndexPath
 
-    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .carousel) {
+    init(dataSource: PhotoBrowserDataSouce?,
+         delegate: PhotoBrowserDelegate?,
+         presentation: Presentation,
+         starIndex: IndexPath = IndexPath(row: 0, section: 0)) {
+
         self.dataSource = dataSource
         self.delegate = delegate
-        self.presentation = presentation
+        self.currentPresentation = presentation
+        currentItemIndexPath = starIndex
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -126,19 +92,27 @@ class PhotoBrowser: UIViewController {
     }
 
     func switchToCurrentPresentation() {
-        switch presentation {
-        case .carousel:
-            navigationController?.pushViewController(carouselViewController, animated: true)
-        case .container:
-            navigationController?.pushViewController(containerViewController, animated: true)
-        case .table:
-            navigationController?.pushViewController(tableViewController, animated: true)
+        if navigationController?.viewControllers.last != self {
+            navigationController?.popViewController(animated: true)
+        }
+        //TODO: delete 'asyncAfter' when will implement animated transitions
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            guard let `self` = self else { return }
+            switch self.currentPresentation {
+            case .carousel:
+                self.navigationController?.pushViewController(self.carouselViewController, animated: true)
+            case .container:
+                self.navigationController?.pushViewController(self.containerViewController, animated: true)
+            case .table:
+                self.navigationController?.pushViewController(self.tableViewController, animated: true)
+            }
         }
     }
 
 }
 
 extension PhotoBrowser: PresentationInput {
+
     func item(withType types: [ItemType], at indexPath: IndexPath) -> Item? {
         return dataSource?.item(withTypes: types, at: indexPath)
     }
@@ -156,7 +130,7 @@ extension PhotoBrowser: PresentationInput {
 
 
     func currentItemIndex() -> IndexPath {
-        return IndexPath()
+        return currentItemIndexPath
     }
 
     func numberOfItems() -> Int {
@@ -166,9 +140,15 @@ extension PhotoBrowser: PresentationInput {
     func item(at indexPath: IndexPath) -> Item? {
         return dataSource?.item(at: indexPath)
     }
+
 }
 
 extension PhotoBrowser: PresentationOutput {
+
+    func switchTo(presentation: Presentation) {
+        self.currentPresentation = presentation
+    }
+
     func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
         print("like = ", isLiked,  indexPath)
         delegate?.setItemAs(isLiked: isLiked, at: indexPath)
@@ -181,8 +161,7 @@ extension PhotoBrowser: PresentationOutput {
 
     func setItemAsCurrent(at indexPath: IndexPath) {
         currentItemIndexPath = indexPath
+        switchToCurrentPresentation()
     }
 
 }
-
-

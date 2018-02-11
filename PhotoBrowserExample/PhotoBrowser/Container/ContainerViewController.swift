@@ -39,6 +39,7 @@ class ContainerViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+
     private lazy var mediaViewController = MediaViewController.make(presentationInputOutput: presentationInputOutput)
     private lazy var linksViewController = LinksViewController.make(presentationInputOutput: presentationInputOutput)
     private lazy var docsViewController = DocsViewController.make(presentationInputOutput: presentationInputOutput)
@@ -70,13 +71,11 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
         setupNavigationBar()
         add(asChildViewController: mediaViewController)
     }
 
     private func setupNavigationBar() {
-
         mediaTypesSegmentedControl = UISegmentedControl(items: [
             ContainerItemTypes.media.title,
             ContainerItemTypes.links.title,
@@ -86,7 +85,6 @@ class ContainerViewController: UIViewController {
         mediaTypesSegmentedControl.selectedSegmentIndex = 0;
         mediaTypesSegmentedControl.addTarget(self, action: #selector(mediaTypeDidChange(_:)), for: .valueChanged)
         navigationItem.titleView = mediaTypesSegmentedControl
-
     }
 
     @objc func mediaTypeDidChange(_ sender: UISegmentedControl) {
@@ -101,7 +99,5 @@ class ContainerViewController: UIViewController {
             add(asChildViewController: docsViewController)
         }
     }
-
-
 
 }

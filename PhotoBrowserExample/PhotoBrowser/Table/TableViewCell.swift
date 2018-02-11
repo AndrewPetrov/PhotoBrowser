@@ -12,9 +12,7 @@ import UIKit
 class TableViewCell: UITableViewCell {
 
     @IBOutlet private weak var mainImageView: UIImageView!
-
     @IBOutlet private weak var buttomInset: NSLayoutConstraint!
-
     @IBOutlet private weak var selectionButton: UIButton!
     @IBOutlet private weak var likeImageView: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
@@ -29,26 +27,23 @@ class TableViewCell: UITableViewCell {
         mainImageView.image = nil
         likeImageView.image = nil
         selectionButton.isSelected = false
-
     }
 
     func configureCell(item: Item & Likable, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool, selectionHandler: @escaping (Bool) -> ()) {
         self.item = item
-        if hasInset {
-            buttomInset.constant = TableViewController.inset
-        }
-        else {
-            buttomInset.constant = 0
-        }
+
+        buttomInset.constant = hasInset ? TableViewController.inset : 0
         mainImageView.image = item.image
+        var image = UIImage()
         switch item.deliveryStatus {
-        case .nonDelivered:
-            deliveryStatusImageView.image = nil
         case .delivered:
-            deliveryStatusImageView.image = #imageLiteral(resourceName: "tick")
+            image = #imageLiteral(resourceName: "tick")
         case .seen:
-            deliveryStatusImageView.image = #imageLiteral(resourceName: "doubleTick")
+            image = #imageLiteral(resourceName: "doubleTick")
+        case .nonDelivered:
+            break
         }
+        deliveryStatusImageView.image = image
         self.selectionHandler = selectionHandler
 
         dateLabel.text = TableViewController.dateFormatter.string(from: item.sentTime)
@@ -58,14 +53,7 @@ class TableViewCell: UITableViewCell {
         selectionButton.isSelected = isSelected
     }
 
-//    private func updateSelectionState(isSelected: Bool) {
-//        selectionButton.isSelected = isSelected
-//    }
-
-
     @IBAction func selectButtonTapped(_ sender: UIButton) {
-//        updateSelectionState(isSelected: isSelected)
-        print(item)
         selectionButton.isSelected = !selectionButton.isSelected
         selectionHandler(selectionButton.isSelected)
     }

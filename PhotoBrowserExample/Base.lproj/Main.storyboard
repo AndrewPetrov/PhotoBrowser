@@ -26,7 +26,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0jr-sf-lTh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-846" y="659"/>
+            <point key="canvasLocation" x="-2074" y="645"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -42,7 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1" y="659"/>
+            <point key="canvasLocation" x="-1190" y="645"/>
         </scene>
         <!--Carousel View Controller-->
         <scene sceneID="k1u-bb-zdB">
@@ -185,19 +185,18 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="751" y="659"/>
+            <point key="canvasLocation" x="-382" y="659"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="WYD-iu-Akp">
             <objects>
-                <viewController storyboardIdentifier="TableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4pt-ov-OqO" customClass="TableViewController" customModule="PhotoBrowser" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TableViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4pt-ov-OqO" customClass="TableViewController" customModule="PhotoBrowser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hlF-eg-hvh">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vFl-Pi-cz8">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vFl-Pi-cz8">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="337" id="CZs-Lh-jQd" customClass="TableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
@@ -293,10 +292,15 @@
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="bottom" secondItem="4Wq-EN-Cro" secondAttribute="bottom" id="FRc-TN-8U9"/>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="top" secondItem="hlF-eg-hvh" secondAttribute="top" id="HQ2-Ua-3KA"/>
                             <constraint firstItem="QJY-jQ-yyB" firstAttribute="leading" secondItem="4Wq-EN-Cro" secondAttribute="leading" id="Y7A-l0-nMr"/>
                             <constraint firstItem="4Wq-EN-Cro" firstAttribute="bottom" secondItem="QJY-jQ-yyB" secondAttribute="bottom" id="ZPp-v7-xRi"/>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="leading" secondItem="4Wq-EN-Cro" secondAttribute="leading" id="d5a-sk-cZI"/>
                             <constraint firstItem="QJY-jQ-yyB" firstAttribute="trailing" secondItem="4Wq-EN-Cro" secondAttribute="trailing" id="hP0-ao-2F0"/>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="trailing" secondItem="4Wq-EN-Cro" secondAttribute="trailing" id="wsd-Cd-0e0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4Wq-EN-Cro"/>
                     </view>
@@ -309,7 +313,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cde-ZT-oI5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1500" y="659"/>
+            <point key="canvasLocation" x="452" y="659"/>
         </scene>
         <!--Container View Controller-->
         <scene sceneID="7aU-gs-wyY">
@@ -324,7 +328,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mFG-aM-NZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2255" y="659"/>
+            <point key="canvasLocation" x="1183" y="659"/>
         </scene>
         <!--Links View Controller-->
         <scene sceneID="VSn-X6-FqV">
@@ -419,7 +423,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tJr-fc-u9p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2973.5999999999999" y="653.52323838080963"/>
+            <point key="canvasLocation" x="2109" y="659"/>
         </scene>
         <!--Docs View Controller-->
         <scene sceneID="GqO-Vz-yT0">
@@ -434,7 +438,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T0Q-gz-c85" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2990" y="1347"/>
+            <point key="canvasLocation" x="2109" y="1419"/>
         </scene>
         <!--Media View Controller-->
         <scene sceneID="lOM-zQ-cZM">
@@ -498,7 +502,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ucl-D8-7U5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2990" y="-80"/>
+            <point key="canvasLocation" x="2109" y="-107"/>
         </scene>
     </scenes>
     <resources>

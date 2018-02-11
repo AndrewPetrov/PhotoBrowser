@@ -12,7 +12,7 @@ import AVFoundation
 class ViewController: UIViewController {
 
     var items = [Item]()
-    lazy var photoBrowser: PhotoBrowser = PhotoBrowser(dataSource: self, delegate: self)
+    lazy var photoBrowser: PhotoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .table)
 
     override func viewDidLoad() {
         super.viewDidLoad()

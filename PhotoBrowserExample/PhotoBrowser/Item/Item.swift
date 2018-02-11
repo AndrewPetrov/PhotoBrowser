@@ -15,14 +15,14 @@ protocol Likable {
 }
 
 enum ItemType: Equatable {
-    case photo
+    case image
     case video
     case link
     case document
 
     static func ==(lhs: ItemType, rhs: ItemType) -> Bool {
         switch (lhs, rhs) {
-        case (.photo, .photo):
+        case (.image, .image):
             return true
         case (.video, .video):
             return true
@@ -51,7 +51,12 @@ class Item {
     var type: ItemType
     var deliveryStatus: DeliveryStatus = .nonDelivered
 
-    init(image: UIImage, name: String = "", sentTime: Date = Date(), type: ItemType, deliveryStatus: DeliveryStatus = .nonDelivered) {
+    init(image: UIImage,
+         name: String = "",
+         sentTime: Date = Date(),
+         type: ItemType,
+         deliveryStatus: DeliveryStatus = .nonDelivered) {
+
         self.image = image
         self.name = name
         self.sentTime = sentTime
@@ -65,8 +70,7 @@ class ImageItem: Item, Likable {
     var isLiked: Bool = false
 
     init(image: UIImage, name: String = "", sentTime: Date = Date(), deliveryStatus: DeliveryStatus = .nonDelivered) {
-        super.init(image: image, name: name, sentTime: sentTime, type: .photo, deliveryStatus: deliveryStatus)
-
+        super.init(image: image, name: name, sentTime: sentTime, type: .image, deliveryStatus: deliveryStatus)
     }
 }
 
@@ -79,7 +83,7 @@ class VideoItem: Item, Likable {
          name: String = "",
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
-         self.url = url
+        self.url = url
 
         super.init(image: thumbnail ?? VideoItem.getThumbnailFrom(url: url) ?? UIImage(),
                    name: name,

@@ -14,13 +14,12 @@ class TableViewController: UIViewController {
     static var dateFormatter = DateFormatter()
     static let inset: CGFloat = 10
 
+    private weak var presentationInputOutput: PresentationInputOutput!
+
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var selectedCountLabel: UIBarButtonItem!
-
-
     @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
-    private weak var presentationInputOutput: PresentationInputOutput!
 
     private var isSelectionAllowed = false {
         didSet {
@@ -32,6 +31,7 @@ class TableViewController: UIViewController {
             setupToolbar()
         }
     }
+
     private var selectButton: UIBarButtonItem!
     private var selectAllButton: UIBarButtonItem!
     private var selectedIndexPathes = Set<IndexPath>() {
@@ -63,17 +63,6 @@ class TableViewController: UIViewController {
         setupToolbar()
     }
 
-
-
-    private var BROHeaderY: CGFloat {
-        if let navigationController = navigationController {
-            return navigationController.navigationBar.intrinsicContentSize.height + UIApplication.shared.statusBarFrame.height
-        } else {
-            //default value for evry iPhone but iPhone X
-            return 64.0
-        }
-    }
-
     private func setupToolbar() {
         if isSelectionAllowed {
             toolbarBottomContraint.constant = 0
@@ -85,31 +74,22 @@ class TableViewController: UIViewController {
         UIView.animate(withDuration: 0.33) {
             self.view.layoutIfNeeded()
         }
-
     }
 
     private func updateSelectionTitle() {
+        //TODO: concider other type combinations
         let type = "Items"
-        //TODO: concider other types
-
-       selectedCountLabel.title = "\(selectedIndexPathes.count) " + type + " Selected"
+        selectedCountLabel.title = "\(selectedIndexPathes.count) " + type + " Selected"
     }
 
     private func setupNavigationBar() {
-
-
         navigationItem.hidesBackButton = isSelectionAllowed
 
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
         navigationItem.rightBarButtonItem = selectButton
 
         selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
-        if isSelectionAllowed {
-            navigationItem.leftBarButtonItem = selectAllButton
-        } else {
-            navigationItem.leftBarButtonItem = nil
-        }
-
+        navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
     }
 
     @objc private func toggleSelectAll() {
@@ -148,7 +128,7 @@ class TableViewController: UIViewController {
             guard let `self` = self else { return }
             self.presentationInputOutput.deleteItems(indexPathes: self.selectedIndexPathes)
 
-            }
+        }
         alertController.addAction(deleteForMeAction)
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
@@ -158,12 +138,10 @@ class TableViewController: UIViewController {
         alertController.addAction(cancelAction)
 
         present(alertController, animated: true, completion: nil)
-
     }
 
-
-
     @IBAction func actionButtonDidTap(_ sender: Any) {
+        //TODO: add action here
     }
 
 }
@@ -174,7 +152,7 @@ extension TableViewController: UITableViewDataSource {
         return presentationInputOutput.numberOfItems()
     }
 
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
         if let item = presentationInputOutput.item(at: indexPath) as? Item & Likable {
 
@@ -209,19 +187,14 @@ extension TableViewController: UITableViewDelegate {
         return height + (isLastCell(indexPath: indexPath) ? 0 : TableViewController.inset)
     }
 
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        //fix jumping after reloadData()
+        return 1000
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presentationInputOutput.setItemAsCurrent(at: indexPath)
+        presentationInputOutput.switchTo(presentation: .carousel)
+    }
+
 }
-
-//extension TableViewController: PresentationOutput {
-//    func deleteItems(indexPathes: Set<IndexPath>) {
-//
-//    }
-//    func setItem(at indexPath: IndexPath, isSelected: Bool) {
-//
-//    }
-//
-//    func setItemAsCurrent(at indexPath: IndexPath) {
-//
-//    }
-//
-//}
-

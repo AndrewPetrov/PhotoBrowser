@@ -12,7 +12,6 @@ import UIKit
 class CarouselCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
-    private var tapHandler: (()->())?
     @IBOutlet weak var playImageView: UIImageView!
 
     @IBOutlet weak var scrollView: UIScrollView!
@@ -28,8 +27,7 @@ class CarouselCollectionViewCell: UICollectionViewCell {
         playImageView.isHidden = true
     }
 
-    func configureCell(image: UIImage?, isVideo: Bool, tapHandler: @escaping ()->()) {
-        self.tapHandler = tapHandler
+    func configureCell(image: UIImage?, isVideo: Bool) {
         imageView.image = image
         playImageView.isHidden = !isVideo
         scrollView.maximumZoomScale = isVideo ? 1 : minScale
