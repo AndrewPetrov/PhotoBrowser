@@ -89,7 +89,7 @@ protocol PresentationOutput: AnyObject {
 
 enum Presentation {
     case carousel
-    case grid
+    case container
     case table
 }
 
@@ -105,7 +105,7 @@ class PhotoBrowser: UIViewController {
     private var presentation: Presentation
     private weak var photoBrowserInput: PresentationOutput!
 
-    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .carousel) {
+    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .container) {
         self.dataSource = dataSource
         self.delegate = delegate
         self.presentation = presentation
@@ -117,9 +117,9 @@ class PhotoBrowser: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private lazy var carouselViewController = CarouselViewController.makeCarouselViewController(presentationInputOutput: self)
-    private lazy var gridViewController = GridViewController.makeGridViewController (presentationInputOutput: self)
-    private lazy var tableViewController = TableViewController.makeTableViewController(presentationInputOutput: self)
+    private lazy var carouselViewController = CarouselViewController.make(presentationInputOutput: self)
+    private lazy var containerViewController = ContainerViewController.make (presentationInputOutput: self)
+    private lazy var tableViewController = TableViewController.make(presentationInputOutput: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,8 +131,8 @@ class PhotoBrowser: UIViewController {
         switch presentation {
         case .carousel:
             navigationController?.pushViewController(carouselViewController, animated: true)
-        case .grid:
-            navigationController?.pushViewController(gridViewController, animated: true)
+        case .container:
+            navigationController?.pushViewController(containerViewController, animated: true)
         case .table:
             navigationController?.pushViewController(tableViewController, animated: true)
         }

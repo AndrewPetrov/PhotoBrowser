@@ -7,15 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7737C758203076D90052F6A2 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C757203076D90052F6A2 /* ContainerViewController.swift */; };
+		7737C75C203078340052F6A2 /* LinksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75B203078340052F6A2 /* LinksViewController.swift */; };
+		7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75D203078460052F6A2 /* DocsViewController.swift */; };
 		779A8D80202E282400CCFF26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D7F202E282400CCFF26 /* AppDelegate.swift */; };
 		779A8D82202E282400CCFF26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D81202E282400CCFF26 /* ViewController.swift */; };
 		779A8D85202E282400CCFF26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 779A8D83202E282400CCFF26 /* Main.storyboard */; };
 		779A8D87202E282400CCFF26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 779A8D86202E282400CCFF26 /* Assets.xcassets */; };
 		779A8D8A202E282400CCFF26 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 779A8D88202E282400CCFF26 /* LaunchScreen.storyboard */; };
 		77A4A4E6202E2F49000B73B3 /* CarouselViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4E5202E2F49000B73B3 /* CarouselViewController.swift */; };
-		77A4A4E8202E2F87000B73B3 /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4E7202E2F87000B73B3 /* GridViewController.swift */; };
+		77A4A4E8202E2F87000B73B3 /* MediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4E7202E2F87000B73B3 /* MediaViewController.swift */; };
 		77A4A4EA202E301C000B73B3 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4E9202E301C000B73B3 /* TableViewController.swift */; };
-		77A4A4EC202E53C6000B73B3 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4EB202E53C6000B73B3 /* GridCollectionViewCell.swift */; };
+		77A4A4EC202E53C6000B73B3 /* MediaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4EB202E53C6000B73B3 /* MediaCollectionViewCell.swift */; };
 		77A4A4EE202E553C000B73B3 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4ED202E553C000B73B3 /* TableViewCell.swift */; };
 		77A4A4F3202E676D000B73B3 /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4A4F2202E676D000B73B3 /* CarouselCollectionViewCell.swift */; };
 		77DF1E7E202E2A50003CFA75 /* PhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */; };
@@ -24,6 +27,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7737C757203076D90052F6A2 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		7737C75B203078340052F6A2 /* LinksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinksViewController.swift; sourceTree = "<group>"; };
+		7737C75D203078460052F6A2 /* DocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
 		779A8D7C202E282400CCFF26 /* PhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A8D7F202E282400CCFF26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		779A8D81202E282400CCFF26 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -32,9 +38,9 @@
 		779A8D89202E282400CCFF26 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		779A8D8B202E282400CCFF26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		77A4A4E5202E2F49000B73B3 /* CarouselViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselViewController.swift; sourceTree = "<group>"; };
-		77A4A4E7202E2F87000B73B3 /* GridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
+		77A4A4E7202E2F87000B73B3 /* MediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaViewController.swift; sourceTree = "<group>"; };
 		77A4A4E9202E301C000B73B3 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		77A4A4EB202E53C6000B73B3 /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
+		77A4A4EB202E53C6000B73B3 /* MediaCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCollectionViewCell.swift; sourceTree = "<group>"; };
 		77A4A4ED202E553C000B73B3 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		77A4A4F2202E676D000B73B3 /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBrowser.swift; sourceTree = "<group>"; };
@@ -53,6 +59,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7737C7562030758E0052F6A2 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				7737C75A203078230052F6A2 /* Docs */,
+				7737C7592030781D0052F6A2 /* Links */,
+				77A4A4F0202E66C4000B73B3 /* Media */,
+				7737C757203076D90052F6A2 /* ContainerViewController.swift */,
+			);
+			path = Container;
+			sourceTree = "<group>";
+		};
+		7737C7592030781D0052F6A2 /* Links */ = {
+			isa = PBXGroup;
+			children = (
+				7737C75B203078340052F6A2 /* LinksViewController.swift */,
+			);
+			path = Links;
+			sourceTree = "<group>";
+		};
+		7737C75A203078230052F6A2 /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				7737C75D203078460052F6A2 /* DocsViewController.swift */,
+			);
+			path = Docs;
+			sourceTree = "<group>";
+		};
 		779A8D73202E282400CCFF26 = {
 			isa = PBXGroup;
 			children = (
@@ -93,13 +126,13 @@
 			path = Carousel;
 			sourceTree = "<group>";
 		};
-		77A4A4F0202E66C4000B73B3 /* Grid */ = {
+		77A4A4F0202E66C4000B73B3 /* Media */ = {
 			isa = PBXGroup;
 			children = (
-				77A4A4E7202E2F87000B73B3 /* GridViewController.swift */,
-				77A4A4EB202E53C6000B73B3 /* GridCollectionViewCell.swift */,
+				77A4A4E7202E2F87000B73B3 /* MediaViewController.swift */,
+				77A4A4EB202E53C6000B73B3 /* MediaCollectionViewCell.swift */,
 			);
-			path = Grid;
+			path = Media;
 			sourceTree = "<group>";
 		};
 		77A4A4F1202E66CE000B73B3 /* Table */ = {
@@ -114,10 +147,10 @@
 		77DF1E7C202E29F5003CFA75 /* PhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
-				77F4CBDC202F0A5C00DED9AF /* Item */,
+				7737C7562030758E0052F6A2 /* Container */,
 				77A4A4F1202E66CE000B73B3 /* Table */,
-				77A4A4F0202E66C4000B73B3 /* Grid */,
 				77A4A4EF202E669D000B73B3 /* Carousel */,
+				77F4CBDC202F0A5C00DED9AF /* Item */,
 				77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */,
 			);
 			path = PhotoBrowser;
@@ -207,11 +240,14 @@
 				77F4CBDE202F0A7100DED9AF /* Item.swift in Sources */,
 				77A4A4E6202E2F49000B73B3 /* CarouselViewController.swift in Sources */,
 				77A4A4EE202E553C000B73B3 /* TableViewCell.swift in Sources */,
+				7737C758203076D90052F6A2 /* ContainerViewController.swift in Sources */,
 				77A4A4EA202E301C000B73B3 /* TableViewController.swift in Sources */,
-				77A4A4E8202E2F87000B73B3 /* GridViewController.swift in Sources */,
+				7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */,
+				77A4A4E8202E2F87000B73B3 /* MediaViewController.swift in Sources */,
 				77A4A4F3202E676D000B73B3 /* CarouselCollectionViewCell.swift in Sources */,
 				779A8D82202E282400CCFF26 /* ViewController.swift in Sources */,
-				77A4A4EC202E53C6000B73B3 /* GridCollectionViewCell.swift in Sources */,
+				7737C75C203078340052F6A2 /* LinksViewController.swift in Sources */,
+				77A4A4EC202E53C6000B73B3 /* MediaCollectionViewCell.swift in Sources */,
 				779A8D80202E282400CCFF26 /* AppDelegate.swift in Sources */,
 				77DF1E7E202E2A50003CFA75 /* PhotoBrowser.swift in Sources */,
 			);
@@ -350,12 +386,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9XN4NB5VV8;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PhotoBrowserExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AndrewPetrov.PhotoBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -365,12 +405,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9XN4NB5VV8;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PhotoBrowserExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AndrewPetrov.PhotoBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

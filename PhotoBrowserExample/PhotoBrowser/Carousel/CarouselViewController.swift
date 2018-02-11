@@ -51,7 +51,7 @@ class CarouselViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func makeCarouselViewController(presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
+    static func make(presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CarouselViewController") as! CarouselViewController
         newViewController.presentationInputOutput = presentationInputOutput
 

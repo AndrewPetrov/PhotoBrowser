@@ -48,7 +48,7 @@ class TableViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func makeTableViewController(presentationInputOutput: PresentationInputOutput) -> TableViewController {
+    static func make(presentationInputOutput: PresentationInputOutput) -> TableViewController {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
         newViewController.presentationInputOutput = presentationInputOutput
 

@@ -1,5 +1,5 @@
 //
-//  GridViewController.swift
+//  MediaViewController.swift
 //  PhotoBrowser
 //
 //  Created by AndrewPetrov on 2/9/18.
@@ -9,11 +9,12 @@
 import Foundation
 import UIKit
 
-class GridViewController: UIViewController {
-    
-    private weak var presentationInputOutput: PresentationInputOutput!
+
+
+class MediaViewController: UIViewController {
 
     @IBOutlet private weak var collectionView: UICollectionView!
+    private weak var presentationInputOutput: PresentationInputOutput!
 
 
     //    required init?(coder aDecoder: NSCoder) {
@@ -28,18 +29,13 @@ class GridViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func makeGridViewController(presentationInputOutput: PresentationInputOutput) -> GridViewController {
-        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GridViewController") as! GridViewController
+    static func make(presentationInputOutput: PresentationInputOutput) -> MediaViewController {
+        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MediaViewController") as! MediaViewController
         newViewController.presentationInputOutput = presentationInputOutput
 
         return newViewController
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-
-    }
 
     private func setupCollectionView() {
         //        collectionView
@@ -47,18 +43,22 @@ class GridViewController: UIViewController {
         //                                 forCellWithReuseIdentifier: "CarouselCollectionViewCell")
 
     }
+
+
+
+
     
 }
 
-extension GridViewController: UICollectionViewDataSource {
+extension MediaViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return presentationInputOutput.numberOfItems()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GridCollectionViewCell",
-                                                      for: indexPath) as! GridCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaCollectionViewCell",
+                                                      for: indexPath) as! MediaCollectionViewCell
         //        cell.delegate = self
         //        cell.isForPreviewOnly = isForPreviewOnly
         //        if let network: SocialNetworkEntity = dataSourceArray?[indexPath.row]{
@@ -71,7 +71,7 @@ extension GridViewController: UICollectionViewDataSource {
 
 }
 
-//extension GridViewController : PresentationOutput {
+//extension MediaViewController : PresentationOutput {
 //    func deleteItems(indexPathes: Set<IndexPath>) {
 //        print("delete", indexPathes)
 //    }
