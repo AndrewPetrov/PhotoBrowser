@@ -10,13 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var images: [ImageItem]!
+    var items: [Item]!
     lazy var photoBrowser: PhotoBrowser = PhotoBrowser(dataSource: self, delegate: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        images = [
+        items = [
             ImageItem(image: UIImage(named: "11")!),
             ImageItem(image: UIImage(named: "2")!),
             ImageItem(image: UIImage(named: "3")!),
@@ -29,12 +29,15 @@ class ViewController: UIViewController {
             ImageItem(image: UIImage(named: "10")!),
             ImageItem(image: UIImage(named: "1")!)
         ]
-        images[2].isLiked = true
-        images[4].isLiked = true
+        (items[2] as! ImageItem).isLiked = true
+        (items[4] as! ImageItem).isLiked = true
+        (items[7] as! ImageItem).isLiked = true
 
-        images[0].deliveryStatus = .nonDelivered
-        images[1].deliveryStatus = .delivered
-        images[2].deliveryStatus = .seen
+        (items[7] as! ImageItem).deliveryStatus = .nonDelivered
+        (items[4] as! ImageItem).deliveryStatus = .delivered
+        (items[2] as! ImageItem).deliveryStatus = .seen
+        
+
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -50,16 +53,32 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: PhotoBrowserDataSouce {
-    func numberOfItems() -> Int {
-        return images?.count ?? 0
+
+    func numberOfItems(withTypes types: [ItemType]) -> Int {
+        return filtredItems(withTypes: types).count
     }
 
-    func currentItemIndex() -> IndexPath {
+    func item(withTypes types: [ItemType], at indexPath: IndexPath) -> Item? {
+        return filtredItems(withTypes: types)[indexPath.row]
+    }
+
+    func numberOfItems() -> Int {
+        return items?.count ?? 0
+    }
+
+    func startingItemIndexPath() -> IndexPath {
         return IndexPath(item: 0, section: 0)
     }
 
     func item(at indexPath: IndexPath) -> Item? {
-        return images?[indexPath.row]
+        return items?[indexPath.row]
+    }
+
+    private func filtredItems(withTypes types: [ItemType]) -> [Item] {
+        let filteredItems = items.filter { imageItem -> Bool in
+            types.contains { $0 == imageItem.type }
+        }
+        return filteredItems
     }
 
 
@@ -67,12 +86,14 @@ extension ViewController: PhotoBrowserDataSouce {
 
 extension ViewController: PhotoBrowserDelegate {
     func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
-        images[indexPath.row].isLiked = isLiked
+        if var item = items[indexPath.row] as? Likable {
+            item.isLiked = isLiked
+        }
     }
 
     func deleteItems(indexPathes: Set<IndexPath>) {
         for indexPath in indexPathes {
-            images.remove(at: indexPath.row)
+            items.remove(at: indexPath.row)
         }
     }
 

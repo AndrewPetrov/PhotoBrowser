@@ -176,7 +176,7 @@ extension TableViewController: UITableViewDataSource {
 
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-        if let item = presentationInputOutput.item(at: indexPath) {
+        if let item = presentationInputOutput.item(at: indexPath) as? Item & Likable {
 
             let isSelected = selectedIndexPathes.contains(indexPath)
 

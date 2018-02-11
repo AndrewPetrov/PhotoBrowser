@@ -39,34 +39,34 @@ protocol PhotoBrowserDelegate: class {
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(indexPathes: Set<IndexPath>)
 
-//    func setItem(at indexPath: IndexPath, isSelected: Bool)
-//    func setItemAsCurrent(at indexPath: IndexPath)
+    //    func setItem(at indexPath: IndexPath, isSelected: Bool)
+    //    func setItemAsCurrent(at indexPath: IndexPath)
 
 
 
-//    - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
-//    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index;
-//
-//    @optional
-//
-//    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtindexPath:(NSUInteger)index;
-//    - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtindexPath:(NSUInteger)index;
-//    - (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtindexPath:(NSUInteger)index;
-//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtindexPath:(NSUInteger)index;
-//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtindexPath:(NSUInteger)index;
-//    - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtindexPath:(NSUInteger)index;
-//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index selectedChanged:(BOOL)selected;
-//    - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser;
+    //    - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
+    //    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index;
+    //
+    //    @optional
+    //
+    //    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtindexPath:(NSUInteger)index;
+    //    - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtindexPath:(NSUInteger)index;
+    //    - (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtindexPath:(NSUInteger)index;
+    //    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtindexPath:(NSUInteger)index;
+    //    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtindexPath:(NSUInteger)index;
+    //    - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtindexPath:(NSUInteger)index;
+    //    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index selectedChanged:(BOOL)selected;
+    //    - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser;
 }
 
 
 protocol PhotoBrowserDataSouce: class {
     func numberOfItems() -> Int
-    func currentItemIndex() -> IndexPath
+    func startingItemIndexPath() -> IndexPath
     func item(at indexPath: IndexPath) -> Item?
+    func numberOfItems(withTypes types: [ItemType]) -> Int
+    func item(withTypes types: [ItemType], at indexPath: IndexPath) -> Item?
 }
-
-
 
 //--------------------
 
@@ -77,6 +77,8 @@ protocol PresentationInput: AnyObject {
     func currentItemIndex() -> IndexPath
     func isItemLiked(at indexPath: IndexPath) -> Bool
     func numberOfItems() -> Int
+    func numberOfItems(withType types: [ItemType]) -> Int
+    func item(withType types: [ItemType], at indexPath: IndexPath) -> Item?
     func item(at indexPath: IndexPath) -> Item?
 }
 
@@ -86,16 +88,10 @@ protocol PresentationOutput: AnyObject {
     func deleteItems(indexPathes: Set<IndexPath>)
 }
 
-
 enum Presentation {
     case carousel
     case container
     case table
-}
-
-enum SelectionState {
-    case selection
-    case notSelection
 }
 
 class PhotoBrowser: UIViewController {
@@ -104,8 +100,10 @@ class PhotoBrowser: UIViewController {
     private weak var dataSource: PhotoBrowserDataSouce?
     private var presentation: Presentation
     private weak var photoBrowserInput: PresentationOutput!
+    //for trnsitions
+    private var currentItemIndexPath = IndexPath(row: 0, section: 0)
 
-    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .container) {
+    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .carousel) {
         self.dataSource = dataSource
         self.delegate = delegate
         self.presentation = presentation
@@ -141,8 +139,19 @@ class PhotoBrowser: UIViewController {
 }
 
 extension PhotoBrowser: PresentationInput {
+    func item(withType types: [ItemType], at indexPath: IndexPath) -> Item? {
+        return dataSource?.item(withTypes: types, at: indexPath)
+    }
+
+    func numberOfItems(withType types: [ItemType]) -> Int {
+        return dataSource?.numberOfItems(withTypes: types) ?? 0
+    }
+
     func isItemLiked(at indexPath: IndexPath) -> Bool {
-         return dataSource?.item(at: indexPath)?.isLiked ?? false
+        if let item = dataSource?.item(at: indexPath) as? Likable {
+            return item.isLiked
+        }
+        return false
     }
 
 
@@ -161,7 +170,7 @@ extension PhotoBrowser: PresentationInput {
 
 extension PhotoBrowser: PresentationOutput {
     func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
-         print("like = ", isLiked,  indexPath)
+        print("like = ", isLiked,  indexPath)
         delegate?.setItemAs(isLiked: isLiked, at: indexPath)
     }
 
@@ -171,7 +180,7 @@ extension PhotoBrowser: PresentationOutput {
     }
 
     func setItemAsCurrent(at indexPath: IndexPath) {
-
+        currentItemIndexPath = indexPath
     }
 
 }

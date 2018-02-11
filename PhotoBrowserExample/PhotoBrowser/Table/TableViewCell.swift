@@ -32,7 +32,7 @@ class TableViewCell: UITableViewCell {
 
     }
 
-    func configureCell(item: Item, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool, selectionHandler: @escaping (Bool) -> ()) {
+    func configureCell(item: Item & Likable, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool, selectionHandler: @escaping (Bool) -> ()) {
         self.item = item
         if hasInset {
             buttomInset.constant = TableViewController.inset

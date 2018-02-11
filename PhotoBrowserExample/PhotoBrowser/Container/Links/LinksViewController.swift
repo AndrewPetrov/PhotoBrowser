@@ -28,3 +28,27 @@ class LinksViewController: UIViewController {
     }
     
 }
+
+extension LinksViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return presentationInputOutput.numberOfItems(withType: [.link])
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LinkTableViewCell") as! LinkTableViewCell
+        if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
+            cell.configureCell(with: item) {
+                print("go to message")
+            }
+        }
+
+        return cell
+    }
+
+
+}
+
+extension LinksViewController: UITableViewDelegate {
+
+}
