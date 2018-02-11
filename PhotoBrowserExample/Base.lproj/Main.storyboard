@@ -53,40 +53,60 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="mIi-ln-bNQ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="1" green="0.62007791343563323" blue="0.30888128344248711" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="PiE-eH-ptY">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="200" height="200"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CarouselCollectionViewCell" id="YoK-NN-wAB" customClass="CarouselCollectionViewCell" customModule="PhotoBrowser" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="diy-Lb-gAq">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                                    <gestureRecognizers/>
-                                                </imageView>
+                                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRl-zL-3du">
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pVg-HR-FsO">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                                            <gestureRecognizers/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="pVg-HR-FsO" firstAttribute="centerX" secondItem="nRl-zL-3du" secondAttribute="centerX" id="5MC-jY-Ac1"/>
+                                                        <constraint firstAttribute="trailing" secondItem="pVg-HR-FsO" secondAttribute="trailing" id="MXS-7T-1Fx"/>
+                                                        <constraint firstItem="pVg-HR-FsO" firstAttribute="leading" secondItem="nRl-zL-3du" secondAttribute="leading" id="VZH-VH-xtc"/>
+                                                        <constraint firstItem="pVg-HR-FsO" firstAttribute="top" secondItem="nRl-zL-3du" secondAttribute="top" id="iWB-EE-nnB"/>
+                                                        <constraint firstItem="pVg-HR-FsO" firstAttribute="centerY" secondItem="nRl-zL-3du" secondAttribute="centerY" id="kxV-il-Xll"/>
+                                                        <constraint firstAttribute="bottom" secondItem="pVg-HR-FsO" secondAttribute="bottom" id="zbq-uP-6BY"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="YoK-NN-wAB" id="MD4-W8-Wu3"/>
+                                                    </connections>
+                                                </scrollView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="diy-Lb-gAq" firstAttribute="leading" secondItem="YoK-NN-wAB" secondAttribute="leading" id="QY8-1p-Coe"/>
-                                            <constraint firstAttribute="trailing" secondItem="diy-Lb-gAq" secondAttribute="trailing" id="g6e-D5-eia"/>
-                                            <constraint firstItem="diy-Lb-gAq" firstAttribute="top" secondItem="YoK-NN-wAB" secondAttribute="top" id="vO8-11-Mnh"/>
-                                            <constraint firstAttribute="bottom" secondItem="diy-Lb-gAq" secondAttribute="bottom" id="zgk-z8-x5B"/>
+                                            <constraint firstItem="nRl-zL-3du" firstAttribute="leading" secondItem="YoK-NN-wAB" secondAttribute="leading" id="7fe-z4-3bP"/>
+                                            <constraint firstItem="nRl-zL-3du" firstAttribute="top" secondItem="YoK-NN-wAB" secondAttribute="top" id="BwW-VU-aXJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="nRl-zL-3du" secondAttribute="trailing" id="EZL-xE-0za"/>
+                                            <constraint firstAttribute="bottom" secondItem="nRl-zL-3du" secondAttribute="bottom" id="cue-Mm-mNM"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="imageView" destination="diy-Lb-gAq" id="xkY-m3-zPy"/>
+                                            <outlet property="imageView" destination="pVg-HR-FsO" id="H93-wf-8lU"/>
+                                            <outlet property="scrollView" destination="nRl-zL-3du" id="tq2-G7-FEc"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
                                     <outlet property="dataSource" destination="puo-de-Lqy" id="0tw-jG-Jly"/>
                                     <outlet property="delegate" destination="puo-de-Lqy" id="vQA-hl-PrH"/>
+                                    <outletCollection property="gestureRecognizers" destination="oxT-a7-yr2" appends="YES" id="t8L-ia-ptw"/>
+                                    <outletCollection property="gestureRecognizers" destination="EtR-rf-0HQ" appends="YES" id="RdF-cY-i0e"/>
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fsW-1W-kGR">
@@ -135,11 +155,23 @@
                         <outlet property="carouselView" destination="fsW-1W-kGR" id="8p1-Le-TGR"/>
                         <outlet property="collectionView" destination="mIi-ln-bNQ" id="Cfx-RO-kWx"/>
                         <outlet property="deleteBarButtonItem" destination="nca-Ei-wVr" id="BUV-1B-KlS"/>
+                        <outlet property="doubleTapGestureRecognizer" destination="oxT-a7-yr2" id="SK3-WK-5mC"/>
                         <outlet property="layout" destination="PiE-eH-ptY" id="LFy-NG-kYS"/>
+                        <outlet property="singleTapGestureRecognizer" destination="EtR-rf-0HQ" id="2g5-QM-60c"/>
                         <outlet property="toolbar" destination="JAY-xU-NgX" id="Z4t-3J-f1m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ksv-dk-DhK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer delaysTouchesBegan="YES" numberOfTapsRequired="2" id="oxT-a7-yr2" userLabel="Dubble Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="collectionViewDidDubbleTap:" destination="puo-de-Lqy" id="ySB-5h-mfc"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer delaysTouchesBegan="YES" id="EtR-rf-0HQ">
+                    <connections>
+                        <action selector="collectionViewDidTap:" destination="puo-de-Lqy" id="LRA-GF-Nhh"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="751" y="659"/>
         </scene>

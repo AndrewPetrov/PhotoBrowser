@@ -14,16 +14,10 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     private var tapHandler: (()->())?
 
+    @IBOutlet weak var scrollView: UIScrollView!
 
-
-//    override func awakeFromNib() {
-//        super.awakeFromNib()
-//
-//        let imageViewTap = UITapGestureRecognizer(target: self, action:#selector(handleTap))
-//        imageViewTap.numberOfTapsRequired = 2
-//        imageView.addGestureRecognizer(imageViewTap)
-//    }
-
+    let minScale: CGFloat = 1
+    let maxScale: CGFloat = 4
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -34,6 +28,9 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     func configureCell(image: UIImage?, tapHandler: @escaping ()->()) {
         self.tapHandler = tapHandler
         imageView.image = image
+
+        scrollView.maximumZoomScale = 1
+        scrollView.maximumZoomScale = 4
     }
 
 //    @objc private func handleTap(recognizer: UITapGestureRecognizer) {
@@ -48,7 +45,26 @@ class CarouselCollectionViewCell: UICollectionViewCell {
 //                                  y:view.center.y + translation.y)
 //        }
 //        recognizer.setTranslation(CGPoint.zero, in: self.view)
+
+    
+}
+
+extension CarouselCollectionViewCell: UIScrollViewDelegate {
+
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
+
+}
+
+extension CarouselCollectionViewCell: CarouselViewControllerDelegate {
+    func didDoubleTap(_: CarouselViewController) {
+        let scale = scrollView.zoomScale == minScale ? maxScale : minScale
+        scrollView.setZoomScale(scale, animated: true)
+    }
+}
+
+
 
 //    @IBAction func didTap(_ sender: Any) {
 //        tapHandler?()

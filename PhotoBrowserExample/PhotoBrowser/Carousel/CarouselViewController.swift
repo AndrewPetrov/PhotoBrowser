@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol CarouselViewControllerDelegate {
+    func didDoubleTap(_: CarouselViewController)
+}
+
 class CarouselViewController: UIViewController {
 
     private weak var presentationInputOutput: PresentationInputOutput!
@@ -21,10 +25,15 @@ class CarouselViewController: UIViewController {
     @IBOutlet weak var deleteBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var actionBarButtonItem: UIBarButtonItem!
 
+    @IBOutlet var doubleTapGestureRecognizer: UITapGestureRecognizer!
+    @IBOutlet var singleTapGestureRecognizer: UITapGestureRecognizer!
+
+    private var delegate: CarouselViewControllerDelegate!
+
     var currentCellIndexPath = IndexPath(row: 0, section: 0) {
         didSet {
-//            print(currentCellIndexPath.row)
             setupToolBar()
+            setupDelegate()
         }
     }
 
@@ -54,18 +63,35 @@ class CarouselViewController: UIViewController {
 
         setupToolBar()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        setupDelegate()
+        setupGestureRecognizers() 
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         setupCollectionView()
     }
 
+    private func setupGestureRecognizers() {
+        singleTapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
+    }
+
+    private func setupDelegate() {
+        delegate = collectionView.cellForItem(at: currentCellIndexPath) as! CarouselViewControllerDelegate
+    }
+
     private func setupToolBar() {
         let isLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
         let size = CGSize(width: 25, height: 25)
         let image = isLiked ? #imageLiteral(resourceName: "likedYes") : #imageLiteral(resourceName: "likeNo")
+        let sizedImage = imageWithImage(image: image, scaledToSize: size)
         let flaxibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let likeBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
+        let likeBarButtonItem = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
 
         toolbar.items = [actionBarButtonItem, flaxibleSpace, likeBarButtonItem, flaxibleSpace, deleteBarButtonItem]
     }
@@ -133,6 +159,21 @@ class CarouselViewController: UIViewController {
         setupToolBar()
     }
 
+    @IBAction func collectionViewDidTap(_ sender: UITapGestureRecognizer) {
+        toggleFullScreen()
+    }
+
+    @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
+        delegate.didDoubleTap(self)
+    }
+
+    fileprivate func calculateCurrentCellIndexPath(_ contentOffset: CGFloat) {
+        let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
+        let row = Int((contentOffset / cellWidth).rounded())
+        currentCellIndexPath = IndexPath(row: row, section: 0)
+    }
+
+
 }
 
 extension CarouselViewController: UICollectionViewDataSource {
@@ -161,13 +202,13 @@ extension CarouselViewController: UICollectionViewDataSource {
 extension CarouselViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        toggleFullScreen()
+//        toggleFullScreen()
     }
 
+
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
-        let row = Int((scrollView.contentOffset.x / cellWidth).rounded())
-        currentCellIndexPath = IndexPath(row: row, section: 0)
+        calculateCurrentCellIndexPath(scrollView.contentOffset.x)
     }
     
 }
