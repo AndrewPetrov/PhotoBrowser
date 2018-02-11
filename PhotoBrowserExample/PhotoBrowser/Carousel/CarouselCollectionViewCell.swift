@@ -13,6 +13,7 @@ class CarouselCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     private var tapHandler: (()->())?
+    @IBOutlet weak var playImageView: UIImageView!
 
     @IBOutlet weak var scrollView: UIScrollView!
 
@@ -24,14 +25,15 @@ class CarouselCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
 
         imageView.image = nil
+        playImageView.isHidden = true
     }
 
-    func configureCell(image: UIImage?, tapHandler: @escaping ()->()) {
+    func configureCell(image: UIImage?, isVideo: Bool, tapHandler: @escaping ()->()) {
         self.tapHandler = tapHandler
         imageView.image = image
-
-        scrollView.maximumZoomScale = 1
-        scrollView.maximumZoomScale = 4
+        playImageView.isHidden = !isVideo
+        scrollView.maximumZoomScale = isVideo ? 1 : minScale
+        scrollView.maximumZoomScale = isVideo ? 1 : maxScale
     }
 }
 

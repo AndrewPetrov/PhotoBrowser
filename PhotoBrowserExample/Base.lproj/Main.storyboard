@@ -77,6 +77,13 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                                             <gestureRecognizers/>
                                                         </imageView>
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play" translatesAutoresizingMaskIntoConstraints="NO" id="T6h-3t-Ekj">
+                                                            <rect key="frame" x="75" y="75" width="50" height="50"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="50" id="VPR-1M-bNL"/>
+                                                                <constraint firstAttribute="width" constant="50" id="ZSn-5b-azI"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="pVg-HR-FsO" firstAttribute="centerX" secondItem="nRl-zL-3du" secondAttribute="centerX" id="5MC-jY-Ac1"/>
@@ -93,13 +100,16 @@
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="T6h-3t-Ekj" firstAttribute="centerX" secondItem="YoK-NN-wAB" secondAttribute="centerX" id="53S-dt-N8i"/>
                                             <constraint firstItem="nRl-zL-3du" firstAttribute="leading" secondItem="YoK-NN-wAB" secondAttribute="leading" id="7fe-z4-3bP"/>
                                             <constraint firstItem="nRl-zL-3du" firstAttribute="top" secondItem="YoK-NN-wAB" secondAttribute="top" id="BwW-VU-aXJ"/>
                                             <constraint firstAttribute="trailing" secondItem="nRl-zL-3du" secondAttribute="trailing" id="EZL-xE-0za"/>
+                                            <constraint firstItem="T6h-3t-Ekj" firstAttribute="centerY" secondItem="YoK-NN-wAB" secondAttribute="centerY" id="KEF-eM-wO0"/>
                                             <constraint firstAttribute="bottom" secondItem="nRl-zL-3du" secondAttribute="bottom" id="cue-Mm-mNM"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="pVg-HR-FsO" id="H93-wf-8lU"/>
+                                            <outlet property="playImageView" destination="T6h-3t-Ekj" id="fsK-Pn-X8b"/>
                                             <outlet property="scrollView" destination="nRl-zL-3du" id="tq2-G7-FEc"/>
                                         </connections>
                                     </collectionViewCell>
@@ -493,6 +503,7 @@
     </scenes>
     <resources>
         <image name="nonSelected" width="1600" height="1600"/>
+        <image name="play" width="512" height="512"/>
         <image name="selected" width="512" height="512"/>
     </resources>
 </document>

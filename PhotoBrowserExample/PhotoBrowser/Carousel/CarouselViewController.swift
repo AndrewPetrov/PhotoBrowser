@@ -108,20 +108,20 @@ class CarouselViewController: UIViewController {
 
     private func toggleFullScreen() {
         isFullScreen = !isFullScreen
-       navigationController?.setNavigationBarHidden(isFullScreen, animated: true)
+        navigationController?.setNavigationBarHidden(isFullScreen, animated: true)
         carouselView.alpha = isFullScreen ? 0 : 1
         toolbar.alpha = isFullScreen ? 0 : 1
 
 
-//        toolbarHeight.constant = isFullScreen ? 0 : 44
+        //        toolbarHeight.constant = isFullScreen ? 0 : 44
 
-//        if isFullScreen {
-//            if let navigationController = navigationController {
-////                toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
-//            }
-//        } else {
-//            toolbarBottomContraint.constant = 0
-//        }
+        //        if isFullScreen {
+        //            if let navigationController = navigationController {
+        ////                toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
+        //            }
+        //        } else {
+        //            toolbarBottomContraint.constant = 0
+        //        }
         setNeedsStatusBarAppearanceUpdate()
     }
 
@@ -162,23 +162,25 @@ class CarouselViewController: UIViewController {
     }
 
     @IBAction func collectionViewDidTap(_ sender: UITapGestureRecognizer) {
-        toggleFullScreen()
+        //        toggleFullScreen()
         if let videoItem = presentationInputOutput.item(at: currentCellIndexPath) as? VideoItem {
-
             let player = AVPlayer(url: videoItem.url)
             let playerController = AVPlayerViewController()
             playerController.player = player
             present(playerController, animated: true) {
                 player.play()
+            }
+        } else {
+            toggleFullScreen()
         }
     }
-    }
+
 
     @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
         delegate.didDoubleTap(self)
     }
 
-    fileprivate func calculateCurrentCellIndexPath(_ contentOffset: CGFloat) {
+    private func calculateCurrentCellIndexPath(_ contentOffset: CGFloat) {
         let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
         let row = Int((contentOffset / cellWidth).rounded())
         currentCellIndexPath = IndexPath(row: row, section: 0)
@@ -194,16 +196,12 @@ extension CarouselViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCollectionViewCell",
                                                       for: indexPath) as! CarouselCollectionViewCell
-//        cell.delegate = self
-//        cell.isForPreviewOnly = isForPreviewOnly
-//        if let network: SocialNetworkEntity = dataSourceArray?[indexPath.row]{
-//            cell.configure(network: network, indexPath:indexPath.row)
-//        }
-        cell.configureCell(image: presentationInputOutput.item(at: indexPath)?.image) {
-//            isFullScreen = !isFullScreen
+        let item = presentationInputOutput.item(at: indexPath)
+        cell.configureCell(image: item?.image, isVideo: item?.type == .video) {
+            //            isFullScreen = !isFullScreen
         }
 
         return cell
@@ -214,7 +212,7 @@ extension CarouselViewController: UICollectionViewDataSource {
 extension CarouselViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        toggleFullScreen()
+        //        toggleFullScreen()
     }
 
 
