@@ -18,17 +18,19 @@ class CarouselViewController: UIViewController {
 
     @IBOutlet weak var carouselView: UIView!
     @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var likeBarButtonItem: UIBarButtonItem!
+
+    var currentCellIndexPath = IndexPath(row: 0, section: 0) {
+        didSet {
+//            print(currentCellIndexPath.row)
+        }
+    }
 
     override var prefersStatusBarHidden: Bool {
         return isFullScreen
     }
 
     private var isFullScreen: Bool = false
-
-
-//    required init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -58,12 +60,9 @@ class CarouselViewController: UIViewController {
 
     private func toggleFullScreen() {
         isFullScreen = !isFullScreen
-        navigationController?.isNavigationBarHidden = isFullScreen
+       navigationController?.setNavigationBarHidden(isFullScreen, animated: true)
         carouselView.alpha = isFullScreen ? 0 : 1
         toolbar.alpha = isFullScreen ? 0 : 1
-//        navigationController?.navigationBar.alpha = isFullScreen ? 0 : 1
-
-        
 
 
 //        toolbarHeight.constant = isFullScreen ? 0 : 44
@@ -85,6 +84,36 @@ class CarouselViewController: UIViewController {
         layout.itemSize = CGSize(width: width, height: height)
     }
 
+    @IBAction func trashButtonDidTap(_ sender: Any) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let deleteForMeAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
+            guard let `self` = self else { return }
+            self.presentationInputOutput.deleteItems(indexPathes: Set([self.currentCellIndexPath]))
+
+        }
+        alertController.addAction(deleteForMeAction)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true, completion: nil)
+
+    }
+
+
+
+    @IBAction func actionButtonDidTap(_ sender: Any) {
+    }
+
+    @IBAction func likeButtonDidTap(_ sender: Any) {
+        let isCellLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
+        presentationInputOutput.setItemAs(isLiked: !isCellLiked, at: currentCellIndexPath)
+    }
+
 }
 
 extension CarouselViewController: UICollectionViewDataSource {
@@ -99,7 +128,7 @@ extension CarouselViewController: UICollectionViewDataSource {
 //        cell.delegate = self
 //        cell.isForPreviewOnly = isForPreviewOnly
 //        if let network: SocialNetworkEntity = dataSourceArray?[indexPath.row]{
-//            cell.configure(network: network, index:indexPath.row)
+//            cell.configure(network: network, indexPath:indexPath.row)
 //        }
         cell.configureCell(image: presentationInputOutput.item(at: indexPath)?.image) {
 //            isFullScreen = !isFullScreen
@@ -113,26 +142,13 @@ extension CarouselViewController: UICollectionViewDataSource {
 extension CarouselViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print("didTap")
         toggleFullScreen()
+    }
 
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
+        let row = Int((scrollView.contentOffset.x / cellWidth).rounded())
+        currentCellIndexPath = IndexPath(row: row, section: 0)
     }
     
 }
-
-//extension CarouselViewController : PresentationOutput {
-//    func deleteItems(indexPathes: Set<IndexPath>) {
-//
-//    }
-//
-//    func setItem(at index: IndexPath, isSelected: Bool) {
-//
-//    }
-//
-//    func setItemAsCurrent(at index: IndexPath) {
-//
-//    }
-//
-//
-//}
-

@@ -215,11 +215,11 @@ extension TableViewController: UITableViewDelegate {
 //    func deleteItems(indexPathes: Set<IndexPath>) {
 //
 //    }
-//    func setItem(at index: IndexPath, isSelected: Bool) {
+//    func setItem(at indexPath: IndexPath, isSelected: Bool) {
 //
 //    }
 //
-//    func setItemAsCurrent(at index: IndexPath) {
+//    func setItemAsCurrent(at indexPath: IndexPath) {
 //
 //    }
 //

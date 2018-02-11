@@ -62,7 +62,7 @@ extension GridViewController: UICollectionViewDataSource {
         //        cell.delegate = self
         //        cell.isForPreviewOnly = isForPreviewOnly
         //        if let network: SocialNetworkEntity = dataSourceArray?[indexPath.row]{
-        //            cell.configure(network: network, index:indexPath.row)
+        //            cell.configure(network: network, indexPath:indexPath.row)
         //        }
         cell.configureCell(image: presentationInputOutput.item(at: indexPath)?.image)
 
@@ -77,11 +77,11 @@ extension GridViewController: UICollectionViewDataSource {
 //    }
 //
 //
-//    func setItem(at index: IndexPath, isSelected: Bool) {
+//    func setItem(at indexPath: IndexPath, isSelected: Bool) {
 //
 //    }
 //
-//    func setItemAsCurrent(at index: IndexPath) {
+//    func setItemAsCurrent(at indexPath: IndexPath) {
 //        
 //    }
 //

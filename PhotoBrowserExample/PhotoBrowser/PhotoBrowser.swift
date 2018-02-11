@@ -36,23 +36,23 @@ import UIKit
 
 protocol PhotoBrowserDelegate: class {
 
-//    func setItem(at index: IndexPath, isSelected: Bool)
-//    func setItemAsCurrent(at index: IndexPath)
+//    func setItem(at indexPath: IndexPath, isSelected: Bool)
+//    func setItemAsCurrent(at indexPath: IndexPath)
 
 
 
 //    - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser;
-//    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index;
+//    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index;
 //
 //    @optional
 //
-//    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index;
-//    - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtIndex:(NSUInteger)index;
-//    - (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtIndex:(NSUInteger)index;
-//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index;
-//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtIndex:(NSUInteger)index;
-//    - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index;
-//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected;
+//    - (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtindexPath:(NSUInteger)index;
+//    - (MWCaptionView *)photoBrowser:(MWPhotoBrowser *)photoBrowser captionViewForPhotoAtindexPath:(NSUInteger)index;
+//    - (NSString *)photoBrowser:(MWPhotoBrowser *)photoBrowser titleForPhotoAtindexPath:(NSUInteger)index;
+//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtindexPath:(NSUInteger)index;
+//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser actionButtonPressedForPhotoAtindexPath:(NSUInteger)index;
+//    - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtindexPath:(NSUInteger)index;
+//    - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtindexPath:(NSUInteger)index selectedChanged:(BOOL)selected;
 //    - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser;
 }
 
@@ -60,7 +60,7 @@ protocol PhotoBrowserDelegate: class {
 protocol PhotoBrowserDataSouce: class {
     func numberOfItems() -> Int
     func currentItemIndex() -> IndexPath
-    func item(at index: IndexPath) -> Item?
+    func item(at indexPath: IndexPath) -> Item?
 }
 
 
@@ -68,16 +68,18 @@ protocol PhotoBrowserDataSouce: class {
 //--------------------
 
 
-typealias PresentationInputOutput = PresentationOutput & PresentationInput
+typealias PresentationInputOutput = PresentationInput & PresentationOutput
 
 protocol PresentationInput: AnyObject {
     func currentItemIndex() -> IndexPath
+    func isItemLiked(at indexPath: IndexPath) -> Bool
     func numberOfItems() -> Int
-    func item(at index: IndexPath) -> Item?
+    func item(at indexPath: IndexPath) -> Item?
 }
 
 protocol PresentationOutput: AnyObject {
-    func setItemAsCurrent(at index: IndexPath)
+    func setItemAsCurrent(at indexPath: IndexPath)
+    func setItemAs(isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(indexPathes: Set<IndexPath>)
 }
 
@@ -136,6 +138,11 @@ class PhotoBrowser: UIViewController {
 }
 
 extension PhotoBrowser: PresentationInput {
+    func isItemLiked(at indexPath: IndexPath) -> Bool {
+         return dataSource?.item(at: indexPath)?.isLiked ?? false
+    }
+
+
     func currentItemIndex() -> IndexPath {
         return IndexPath()
     }
@@ -144,18 +151,22 @@ extension PhotoBrowser: PresentationInput {
         return dataSource?.numberOfItems() ?? 0
     }
 
-    func item(at index: IndexPath) -> Item? {
-        return dataSource?.item(at:index)
+    func item(at indexPath: IndexPath) -> Item? {
+        return dataSource?.item(at: indexPath)
     }
 }
 
 extension PhotoBrowser: PresentationOutput {
+    func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
+         print("like = ", isLiked,  indexPath)
+    }
+
     func deleteItems(indexPathes: Set<IndexPath>) {
         print("delete", indexPathes)
 
     }
 
-    func setItemAsCurrent(at index: IndexPath) {
+    func setItemAsCurrent(at indexPath: IndexPath) {
 
     }
 

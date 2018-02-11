@@ -102,7 +102,23 @@
                                     <constraint firstAttribute="height" constant="44" id="Vhe-Yn-ivN"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Item" id="RPi-Xk-FCd"/>
+                                    <barButtonItem systemItem="action" id="RPi-Xk-FCd">
+                                        <connections>
+                                            <action selector="actionButtonDidTap:" destination="puo-de-Lqy" id="YFI-nn-FAY"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dUR-VT-iYq"/>
+                                    <barButtonItem systemItem="add" id="s3p-qh-xiJ">
+                                        <connections>
+                                            <action selector="likeButtonDidTap:" destination="puo-de-Lqy" id="qoc-AJ-jut"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="he0-eR-k2m"/>
+                                    <barButtonItem systemItem="trash" id="nca-Ei-wVr">
+                                        <connections>
+                                            <action selector="trashButtonDidTap:" destination="puo-de-Lqy" id="ifK-Sg-8qW"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -125,6 +141,7 @@
                         <outlet property="carouselView" destination="fsW-1W-kGR" id="8p1-Le-TGR"/>
                         <outlet property="collectionView" destination="mIi-ln-bNQ" id="Cfx-RO-kWx"/>
                         <outlet property="layout" destination="PiE-eH-ptY" id="LFy-NG-kYS"/>
+                        <outlet property="likeBarButtonItem" destination="s3p-qh-xiJ" id="Etk-al-0bp"/>
                         <outlet property="toolbar" destination="JAY-xU-NgX" id="Z4t-3J-f1m"/>
                     </connections>
                 </viewController>

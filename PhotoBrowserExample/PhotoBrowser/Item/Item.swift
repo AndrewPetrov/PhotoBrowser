@@ -25,7 +25,6 @@ enum DeliveryStatus {
 protocol Item: class {
     var image: UIImage {get}
     var name: String {get}
-//    var isSelected: Bool {get}
     var isLiked: Bool {get}
     var sentTime: Date {get}
     var itemType: ItemType {get}

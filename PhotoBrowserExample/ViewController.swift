@@ -58,19 +58,19 @@ extension ViewController: PhotoBrowserDataSouce {
         return IndexPath(item: 0, section: 0)
     }
 
-    func item(at index: IndexPath) -> Item? {
-        return images?[index.row]
+    func item(at indexPath: IndexPath) -> Item? {
+        return images?[indexPath.row]
     }
 
 
 }
 
 extension ViewController: PhotoBrowserDelegate {
-    func setItem(at index: IndexPath, isSelected: Bool) {
+    func setItem(at indexPath: IndexPath, isSelected: Bool) {
 //        images[index.row].isSelected = isSelected
     }
 
-    func setItemAsCurrent(at index: IndexPath) {
+    func setItemAsCurrent(at indexPath: IndexPath) {
 
     }
 
