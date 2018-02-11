@@ -36,6 +36,9 @@ import UIKit
 
 protocol PhotoBrowserDelegate: class {
 
+    func setItemAs(isLiked: Bool, at indexPath: IndexPath)
+    func deleteItems(indexPathes: Set<IndexPath>)
+
 //    func setItem(at indexPath: IndexPath, isSelected: Bool)
 //    func setItemAsCurrent(at indexPath: IndexPath)
 
@@ -159,6 +162,7 @@ extension PhotoBrowser: PresentationInput {
 extension PhotoBrowser: PresentationOutput {
     func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
          print("like = ", isLiked,  indexPath)
+        delegate?.setItemAs(isLiked: isLiked, at: indexPath)
     }
 
     func deleteItems(indexPathes: Set<IndexPath>) {

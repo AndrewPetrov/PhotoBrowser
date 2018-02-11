@@ -66,12 +66,14 @@ extension ViewController: PhotoBrowserDataSouce {
 }
 
 extension ViewController: PhotoBrowserDelegate {
-    func setItem(at indexPath: IndexPath, isSelected: Bool) {
-//        images[index.row].isSelected = isSelected
+    func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
+        images[indexPath.row].isLiked = isLiked
     }
 
-    func setItemAsCurrent(at indexPath: IndexPath) {
-
+    func deleteItems(indexPathes: Set<IndexPath>) {
+        for indexPath in indexPathes {
+            images.remove(at: indexPath.row)
+        }
     }
 
 

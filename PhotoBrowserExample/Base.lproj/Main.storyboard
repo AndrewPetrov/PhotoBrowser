@@ -107,13 +107,6 @@
                                             <action selector="actionButtonDidTap:" destination="puo-de-Lqy" id="YFI-nn-FAY"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dUR-VT-iYq"/>
-                                    <barButtonItem systemItem="add" id="s3p-qh-xiJ">
-                                        <connections>
-                                            <action selector="likeButtonDidTap:" destination="puo-de-Lqy" id="qoc-AJ-jut"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="he0-eR-k2m"/>
                                     <barButtonItem systemItem="trash" id="nca-Ei-wVr">
                                         <connections>
                                             <action selector="trashButtonDidTap:" destination="puo-de-Lqy" id="ifK-Sg-8qW"/>
@@ -138,10 +131,11 @@
                         <viewLayoutGuide key="safeArea" id="Uat-KJ-jIh"/>
                     </view>
                     <connections>
+                        <outlet property="actionBarButtonItem" destination="RPi-Xk-FCd" id="IjW-uh-gEE"/>
                         <outlet property="carouselView" destination="fsW-1W-kGR" id="8p1-Le-TGR"/>
                         <outlet property="collectionView" destination="mIi-ln-bNQ" id="Cfx-RO-kWx"/>
+                        <outlet property="deleteBarButtonItem" destination="nca-Ei-wVr" id="BUV-1B-KlS"/>
                         <outlet property="layout" destination="PiE-eH-ptY" id="LFy-NG-kYS"/>
-                        <outlet property="likeBarButtonItem" destination="s3p-qh-xiJ" id="Etk-al-0bp"/>
                         <outlet property="toolbar" destination="JAY-xU-NgX" id="Z4t-3J-f1m"/>
                     </connections>
                 </viewController>

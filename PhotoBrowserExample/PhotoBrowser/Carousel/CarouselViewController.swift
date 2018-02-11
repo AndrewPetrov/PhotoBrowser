@@ -18,11 +18,13 @@ class CarouselViewController: UIViewController {
 
     @IBOutlet weak var carouselView: UIView!
     @IBOutlet weak var toolbar: UIToolbar!
-    @IBOutlet weak var likeBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var deleteBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var actionBarButtonItem: UIBarButtonItem!
 
     var currentCellIndexPath = IndexPath(row: 0, section: 0) {
         didSet {
 //            print(currentCellIndexPath.row)
+            setupToolBar()
         }
     }
 
@@ -50,12 +52,30 @@ class CarouselViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        setupToolBar()
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         setupCollectionView()
+    }
+
+    private func setupToolBar() {
+        let isLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
+        let size = CGSize(width: 25, height: 25)
+        let image = isLiked ? #imageLiteral(resourceName: "likedYes") : #imageLiteral(resourceName: "likeNo")
+        let flaxibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let likeBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
+
+        toolbar.items = [actionBarButtonItem, flaxibleSpace, likeBarButtonItem, flaxibleSpace, deleteBarButtonItem]
+    }
+
+    private func imageWithImage(image: UIImage, scaledToSize newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage
     }
 
     private func toggleFullScreen() {
@@ -104,14 +124,13 @@ class CarouselViewController: UIViewController {
 
     }
 
-
-
     @IBAction func actionButtonDidTap(_ sender: Any) {
     }
 
     @IBAction func likeButtonDidTap(_ sender: Any) {
         let isCellLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
         presentationInputOutput.setItemAs(isLiked: !isCellLiked, at: currentCellIndexPath)
+        setupToolBar()
     }
 
 }
