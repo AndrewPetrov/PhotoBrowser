@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         images = [
-            ImageItem(image: UIImage(named: "1")!),
+            ImageItem(image: UIImage(named: "11")!),
             ImageItem(image: UIImage(named: "2")!),
             ImageItem(image: UIImage(named: "3")!),
             ImageItem(image: UIImage(named: "4")!),
@@ -26,7 +26,8 @@ class ViewController: UIViewController {
             ImageItem(image: UIImage(named: "7")!),
             ImageItem(image: UIImage(named: "8")!),
             ImageItem(image: UIImage(named: "9")!),
-            ImageItem(image: UIImage(named: "10")!)
+            ImageItem(image: UIImage(named: "10")!),
+            ImageItem(image: UIImage(named: "1")!)
         ]
         images[2].isLiked = true
         images[4].isLiked = true
@@ -70,7 +71,7 @@ extension ViewController: PhotoBrowserDelegate {
     }
 
     func setItemAsCurrent(at index: IndexPath) {
-        
+
     }
 
 

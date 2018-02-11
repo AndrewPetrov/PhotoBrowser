@@ -11,7 +11,7 @@ import UIKit
 
 class GridViewController: UIViewController {
     
-    private weak var presentationInput: PresentationInput!
+    private weak var presentationInputOutput: PresentationInputOutput!
 
     @IBOutlet private weak var collectionView: UICollectionView!
 
@@ -28,17 +28,12 @@ class GridViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func makeGridViewController(presentationInput: PresentationInput) -> GridViewController {
+    static func makeGridViewController(presentationInputOutput: PresentationInputOutput) -> GridViewController {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GridViewController") as! GridViewController
-        newViewController.presentationInput = presentationInput
+        newViewController.presentationInputOutput = presentationInputOutput
 
         return newViewController
     }
-
-    //
-    //    init(presentationInput: PresentationInput) {
-    ////        super.init(nibName: nil, bundle: nil)
-    //    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +52,7 @@ class GridViewController: UIViewController {
 
 extension GridViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInput.numberOfItems()
+        return presentationInputOutput.numberOfItems()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -69,21 +64,27 @@ extension GridViewController: UICollectionViewDataSource {
         //        if let network: SocialNetworkEntity = dataSourceArray?[indexPath.row]{
         //            cell.configure(network: network, index:indexPath.row)
         //        }
-        cell.configureCell(image: presentationInput.item(at: indexPath)?.image)
+        cell.configureCell(image: presentationInputOutput.item(at: indexPath)?.image)
 
         return cell
     }
 
 }
 
-extension GridViewController : PresentationOutput {
-    func setItem(at index: IndexPath, isSelected: Bool) {
+//extension GridViewController : PresentationOutput {
+//    func deleteItems(indexPathes: Set<IndexPath>) {
+//        print("delete", indexPathes)
+//    }
+//
+//
+//    func setItem(at index: IndexPath, isSelected: Bool) {
+//
+//    }
+//
+//    func setItemAsCurrent(at index: IndexPath) {
+//        
+//    }
+//
+//
+//}
 
-    }
-
-    func setItemAsCurrent(at index: IndexPath) {
-        
-    }
-
-
-}

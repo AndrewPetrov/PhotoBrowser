@@ -9,23 +9,36 @@
 import Foundation
 import UIKit
 
-class TableViewController: UITableViewController {
+class TableViewController: UIViewController {
 
     static var dateFormatter = DateFormatter()
     static let inset: CGFloat = 10
 
-    private weak var presentationInput: PresentationInput!
+    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var selectedCountLabel: UIBarButtonItem!
+
+
+    @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
+    @IBOutlet private weak var tableView: UITableView!
+    private weak var presentationInputOutput: PresentationInputOutput!
+
     private var isSelectionAllowed = false {
         didSet {
             if !isSelectionAllowed {
                 selectedIndexPathes.removeAll()
             }
             setupNavigationBar()
+            updateSelectionTitle()
+            setupToolbar()
         }
     }
     private var selectButton: UIBarButtonItem!
     private var selectAllButton: UIBarButtonItem!
-    private var selectedIndexPathes = Set<IndexPath>()
+    private var selectedIndexPathes = Set<IndexPath>() {
+        didSet {
+            updateSelectionTitle()
+        }
+    }
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -35,9 +48,9 @@ class TableViewController: UITableViewController {
         super.init(coder: aDecoder)
     }
 
-    static func makeTableViewController(presentationInput: PresentationInput) -> TableViewController {
+    static func makeTableViewController(presentationInputOutput: PresentationInputOutput) -> TableViewController {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
-        newViewController.presentationInput = presentationInput
+        newViewController.presentationInputOutput = presentationInputOutput
 
         return newViewController
     }
@@ -47,8 +60,39 @@ class TableViewController: UITableViewController {
 
         TableViewController.dateFormatter.dateStyle = .short
         setupNavigationBar()
+        setupToolbar()
+    }
 
 
+
+    private var BROHeaderY: CGFloat {
+        if let navigationController = navigationController {
+            return navigationController.navigationBar.intrinsicContentSize.height + UIApplication.shared.statusBarFrame.height
+        } else {
+            //default value for evry iPhone but iPhone X
+            return 64.0
+        }
+    }
+
+    private func setupToolbar() {
+        if isSelectionAllowed {
+            toolbarBottomContraint.constant = 0
+        } else {
+            if let navigationController = navigationController {
+                toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
+            }
+        }
+        UIView.animate(withDuration: 0.33) {
+            self.view.layoutIfNeeded()
+        }
+
+    }
+
+    private func updateSelectionTitle() {
+        let type = "Items"
+        //TODO: concider other types
+
+       selectedCountLabel.title = "\(selectedIndexPathes.count) " + type + " Selected"
     }
 
     private func setupNavigationBar() {
@@ -66,15 +110,14 @@ class TableViewController: UITableViewController {
             navigationItem.leftBarButtonItem = nil
         }
 
-
     }
 
     @objc private func toggleSelectAll() {
         //select all
-        if selectedIndexPathes.count < presentationInput.numberOfItems() {
+        if selectedIndexPathes.count < presentationInputOutput.numberOfItems() {
             selectAllButton.title = "Deselect All"
             selectedIndexPathes.removeAll()
-            let count = presentationInput.numberOfItems()
+            let count = presentationInputOutput.numberOfItems()
             for row in 0..<count {
                 selectedIndexPathes.insert(IndexPath(row: row, section: 0))
             }
@@ -95,20 +138,45 @@ class TableViewController: UITableViewController {
     }
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
-        return indexPath.row == presentationInput.numberOfItems() - 1
+        return indexPath.row == presentationInputOutput.numberOfItems() - 1
+    }
+
+    @IBAction func trashButtonDidTap(_ sender: Any) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let deleteForMeAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
+            guard let `self` = self else { return }
+            self.presentationInputOutput.deleteItems(indexPathes: self.selectedIndexPathes)
+
+            }
+        alertController.addAction(deleteForMeAction)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true, completion: nil)
+
+    }
+
+
+
+    @IBAction func actionButtonDidTap(_ sender: Any) {
     }
 
 }
 
-extension TableViewController {
+extension TableViewController: UITableViewDataSource {
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInput.numberOfItems()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return presentationInputOutput.numberOfItems()
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-        if let item = presentationInput.item(at: indexPath) {
+        if let item = presentationInputOutput.item(at: indexPath) {
 
             let isSelected = selectedIndexPathes.contains(indexPath)
 
@@ -129,8 +197,12 @@ extension TableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = presentationInput.item(at: indexPath)?.image else { return 0 }
+}
+
+extension TableViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let image = presentationInputOutput.item(at: indexPath)?.image else { return 0 }
         let proportion = image.size.height / image.size.width
         let height = tableView.frame.width * proportion
 
@@ -139,14 +211,17 @@ extension TableViewController {
 
 }
 
-extension TableViewController : PresentationOutput {
+//extension TableViewController: PresentationOutput {
+//    func deleteItems(indexPathes: Set<IndexPath>) {
+//
+//    }
+//    func setItem(at index: IndexPath, isSelected: Bool) {
+//
+//    }
+//
+//    func setItemAsCurrent(at index: IndexPath) {
+//
+//    }
+//
+//}
 
-    func setItem(at index: IndexPath, isSelected: Bool) {
-
-    }
-
-    func setItemAsCurrent(at index: IndexPath) {
-
-    }
-
-}

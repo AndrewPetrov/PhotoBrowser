@@ -63,16 +63,12 @@ protocol PhotoBrowserDataSouce: class {
     func item(at index: IndexPath) -> Item?
 }
 
-//protocol PhotoBrowserPresentationDataSouce: class {
-//    func numberOfItems() -> Int
-//    func currentItemIndex() -> IndexPath
-//    func item(at index: IndexPath) -> Item?
-//}
 
-protocol PhotoBrowserPresentationDelegate: class {
-    func viewController(viewController: UIViewController, indexPath: IndexPath, selecled: Bool)
 
-}
+//--------------------
+
+
+typealias PresentationInputOutput = PresentationOutput & PresentationInput
 
 protocol PresentationInput: AnyObject {
     func currentItemIndex() -> IndexPath
@@ -81,8 +77,8 @@ protocol PresentationInput: AnyObject {
 }
 
 protocol PresentationOutput: AnyObject {
-    func setItem(at index: IndexPath, isSelected: Bool)
     func setItemAsCurrent(at index: IndexPath)
+    func deleteItems(indexPathes: Set<IndexPath>)
 }
 
 
@@ -102,8 +98,9 @@ class PhotoBrowser: UIViewController {
     private weak var delegate: PhotoBrowserDelegate?
     private weak var dataSource: PhotoBrowserDataSouce?
     private var presentation: Presentation
+    private weak var photoBrowserInput: PresentationOutput!
 
-    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .table) {
+    init(dataSource: PhotoBrowserDataSouce?, delegate: PhotoBrowserDelegate?, presentation: Presentation = .carousel) {
         self.dataSource = dataSource
         self.delegate = delegate
         self.presentation = presentation
@@ -115,9 +112,9 @@ class PhotoBrowser: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private lazy var carouselViewController = CarouselViewController.makeCarouselViewController(presentationInput: self)
-    private lazy var gridViewController = GridViewController.makeGridViewController (presentationInput: self)
-    private lazy var tableViewController = TableViewController.makeTableViewController(presentationInput: self)
+    private lazy var carouselViewController = CarouselViewController.makeCarouselViewController(presentationInputOutput: self)
+    private lazy var gridViewController = GridViewController.makeGridViewController (presentationInputOutput: self)
+    private lazy var tableViewController = TableViewController.makeTableViewController(presentationInputOutput: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,7 +123,6 @@ class PhotoBrowser: UIViewController {
     }
 
     func switchToCurrentPresentation() {
-
         switch presentation {
         case .carousel:
             navigationController?.pushViewController(carouselViewController, animated: true)
@@ -135,12 +131,7 @@ class PhotoBrowser: UIViewController {
         case .table:
             navigationController?.pushViewController(tableViewController, animated: true)
         }
-
     }
-
-
-
-
 
 }
 
@@ -159,11 +150,15 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
-    func setItem(at index: IndexPath, isSelected: Bool) {
-//        delegate?.setItem(at: index, isSelected: isSelected)
+    func deleteItems(indexPathes: Set<IndexPath>) {
+        print("delete", indexPathes)
+
     }
+
     func setItemAsCurrent(at index: IndexPath) {
 
     }
+
 }
+
 

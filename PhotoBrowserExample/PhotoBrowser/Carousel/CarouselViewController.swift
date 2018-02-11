@@ -11,9 +11,19 @@ import UIKit
 
 class CarouselViewController: UIViewController {
 
-    private weak var presentationInput: PresentationInput!
+    private weak var presentationInputOutput: PresentationInputOutput!
+    @IBOutlet private weak var layout: UICollectionViewFlowLayout!
 
     @IBOutlet private weak var collectionView: UICollectionView!
+
+    @IBOutlet weak var carouselView: UIView!
+    @IBOutlet weak var toolbar: UIToolbar!
+
+    override var prefersStatusBarHidden: Bool {
+        return isFullScreen
+    }
+
+    private var isFullScreen: Bool = false
 
 
 //    required init?(coder aDecoder: NSCoder) {
@@ -28,36 +38,58 @@ class CarouselViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func makeCarouselViewController(presentationInput: PresentationInput) -> CarouselViewController {
+    static func makeCarouselViewController(presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CarouselViewController") as! CarouselViewController
-        newViewController.presentationInput = presentationInput
+        newViewController.presentationInputOutput = presentationInputOutput
 
         return newViewController
     }
-
-//
-//    init(presentationInput: PresentationInput) {
-////        super.init(nibName: nil, bundle: nil)
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
 
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        setupCollectionView()
+    }
+
+    private func toggleFullScreen() {
+        isFullScreen = !isFullScreen
+        navigationController?.isNavigationBarHidden = isFullScreen
+        carouselView.alpha = isFullScreen ? 0 : 1
+        toolbar.alpha = isFullScreen ? 0 : 1
+//        navigationController?.navigationBar.alpha = isFullScreen ? 0 : 1
+
+        
+
+
+//        toolbarHeight.constant = isFullScreen ? 0 : 44
+
+//        if isFullScreen {
+//            if let navigationController = navigationController {
+////                toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
+//            }
+//        } else {
+//            toolbarBottomContraint.constant = 0
+//        }
+        setNeedsStatusBarAppearanceUpdate()
+    }
 
     private func setupCollectionView() {
-//        collectionView
-//        collectionView?.register(UINib(nibName: "CarouselCollectionViewCell", bundle: nil),
-//                                 forCellWithReuseIdentifier: "CarouselCollectionViewCell")
+        let width = view.frame.width - layout.minimumLineSpacing
+        let height = view.frame.height + 20
 
+        layout.itemSize = CGSize(width: width, height: height)
     }
 
 }
 
 extension CarouselViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInput.numberOfItems()
+        return presentationInputOutput.numberOfItems()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -69,21 +101,38 @@ extension CarouselViewController: UICollectionViewDataSource {
 //        if let network: SocialNetworkEntity = dataSourceArray?[indexPath.row]{
 //            cell.configure(network: network, index:indexPath.row)
 //        }
-        cell.configureCell(image: presentationInput.item(at: indexPath)?.image)
+        cell.configureCell(image: presentationInputOutput.item(at: indexPath)?.image) {
+//            isFullScreen = !isFullScreen
+        }
 
         return cell
     }
 
 }
 
-extension CarouselViewController : PresentationOutput {
-    func setItem(at index: IndexPath, isSelected: Bool) {
+extension CarouselViewController: UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        print("didTap")
+        toggleFullScreen()
 
     }
-
-    func setItemAsCurrent(at index: IndexPath) {
-        
-    }
-
     
 }
+
+//extension CarouselViewController : PresentationOutput {
+//    func deleteItems(indexPathes: Set<IndexPath>) {
+//
+//    }
+//
+//    func setItem(at index: IndexPath, isSelected: Bool) {
+//
+//    }
+//
+//    func setItemAsCurrent(at index: IndexPath) {
+//
+//    }
+//
+//
+//}
+
