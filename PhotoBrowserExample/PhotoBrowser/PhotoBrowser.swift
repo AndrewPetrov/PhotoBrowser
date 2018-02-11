@@ -29,7 +29,7 @@ protocol PhotoBrowserDataSouce: class {
 
 typealias PresentationInputOutput = PresentationInput & PresentationOutput
 
-protocol PresentationInput: AnyObject {
+protocol PresentationInput: class {
 
     func currentItemIndex() -> IndexPath
     func isItemLiked(at indexPath: IndexPath) -> Bool
@@ -39,7 +39,7 @@ protocol PresentationInput: AnyObject {
     func item(at indexPath: IndexPath) -> Item?
 }
 
-protocol PresentationOutput: AnyObject {
+protocol PresentationOutput: class {
 
     func setItemAsCurrent(at indexPath: IndexPath)
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
@@ -147,6 +147,7 @@ extension PhotoBrowser: PresentationOutput {
 
     func switchTo(presentation: Presentation) {
         self.currentPresentation = presentation
+        switchToCurrentPresentation()
     }
 
     func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
@@ -161,7 +162,6 @@ extension PhotoBrowser: PresentationOutput {
 
     func setItemAsCurrent(at indexPath: IndexPath) {
         currentItemIndexPath = indexPath
-        switchToCurrentPresentation()
     }
 
 }

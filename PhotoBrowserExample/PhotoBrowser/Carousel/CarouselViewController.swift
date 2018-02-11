@@ -62,6 +62,7 @@ class CarouselViewController: UIViewController {
         super.viewDidLoad()
         
         setupToolBar()
+        setupNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,6 +88,11 @@ class CarouselViewController: UIViewController {
             delegate = cell
         }
     }
+
+    private func setupNavigationBar() {
+        let allMediaBarButtonItem = UIBarButtonItem(title: "AllMedia", style: .plain, target: self, action: #selector(switchToContainerPresentation))
+        navigationItem.rightBarButtonItem = allMediaBarButtonItem
+    }
     
     private func setupToolBar() {
         let isLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
@@ -97,6 +103,10 @@ class CarouselViewController: UIViewController {
         let likeBarButtonItem = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
         
         toolbar.items = [actionBarButtonItem, flaxibleSpace, likeBarButtonItem, flaxibleSpace, deleteBarButtonItem]
+    }
+
+    @objc private func switchToContainerPresentation() {
+        presentationInputOutput.switchTo(presentation: .container)
     }
     
     private func imageWithImage(image: UIImage, scaledToSize newSize:CGSize) -> UIImage{
