@@ -10,8 +10,11 @@ import Foundation
 import UIKit
 
 class LinksViewController: UIViewController {
-    private weak var presentationInputOutput: PresentationInputOutput!
 
+    private weak var presentationInputOutput: PresentationInputOutput!
+    private weak var containerInputOutput: ContainerViewControllerInputOutput!
+
+    @IBOutlet private weak var tableView: UITableView!
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -20,9 +23,10 @@ class LinksViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func make(presentationInputOutput: PresentationInputOutput) -> LinksViewController {
+    static func make(presentationInputOutput: PresentationInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> LinksViewController {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LinksViewController") as! LinksViewController
         newViewController.presentationInputOutput = presentationInputOutput
+        newViewController.containerInputOutput = containerInputOutput
 
         return newViewController
     }
@@ -35,6 +39,14 @@ class LinksViewController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
+}
+
+extension LinksViewController: ContainerViewControllerDelegate {
+
+    func reloadUI() {
+        tableView.reloadData()
+    }
+
 }
 
 extension LinksViewController: UITableViewDataSource {

@@ -26,10 +26,22 @@ enum ContainerItemTypes: Int {
     }
 }
 
-class ContainerViewController: SelectableViewController {
+typealias ContainerViewControllerInputOutput = ContainerViewControllerImput & ContainerViewControllerOutput
 
-//    private var selectButton: UIBarButtonItem!
-//    private var selectAllButton: UIBarButtonItem!
+protocol ContainerViewControllerImput: class {
+    func didSetItemAs(isSelected: Bool, at indexPath: IndexPath)
+}
+
+protocol ContainerViewControllerOutput: class {
+    func isSelectionAllowed() -> Bool
+    func selectedIndexPathes() -> Set<IndexPath>
+}
+
+protocol ContainerViewControllerDelegate {
+    func reloadUI()
+}
+
+class ContainerViewController: SelectableViewController {
 
     private var mediaTypesSegmentedControl: UISegmentedControl!
 
@@ -40,6 +52,10 @@ class ContainerViewController: SelectableViewController {
 
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var containerView: UIView!
+    @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
+
+    private var delegate: ContainerViewControllerDelegate?
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -48,11 +64,12 @@ class ContainerViewController: SelectableViewController {
         super.init(coder: aDecoder)
     }
 
-    private lazy var mediaViewController = MediaViewController.make(presentationInputOutput: presentationInputOutput)
-    private lazy var linksViewController = LinksViewController.make(presentationInputOutput: presentationInputOutput)
-    private lazy var docsViewController = DocsViewController.make(presentationInputOutput: presentationInputOutput)
+    private lazy var mediaViewController = MediaViewController.make(presentationInputOutput: presentationInputOutput, containerInputOutput: self)
+    private lazy var linksViewController = LinksViewController.make(presentationInputOutput: presentationInputOutput, containerInputOutput: self)
+    private lazy var docsViewController = DocsViewController.make(presentationInputOutput: presentationInputOutput, containerInputOutput: self)
 
-    private func add(asChildViewController viewController: UIViewController) {
+    private func add(asChildViewController viewController: UIViewController & ContainerViewControllerDelegate) {
+        delegate = viewController
         addChildViewController(viewController)
         containerView.addSubview(viewController.view)
 
@@ -83,16 +100,18 @@ class ContainerViewController: SelectableViewController {
         add(asChildViewController: mediaViewController)
         createBarButtonItems()
         setupToolbar()
+        updateToolbarPosition()
     }
 
     private func createBarButtonItems() {
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
     }
 
-    override func setupToolbar() {
+    internal override func reloadUI() {
+        delegate?.reloadUI()
+    }
 
-
-
+    func setupToolbar() {
         guard let type = ContainerItemTypes(rawValue: mediaTypesSegmentedControl.selectedSegmentIndex) else { return }
 
         switch type {
@@ -102,14 +121,28 @@ class ContainerViewController: SelectableViewController {
         case .links, .docs:
             toolbar.items = [shareButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
         }
-
     }
 
-    internal override func updateToolbar() {
-
+    internal override func updateToolbarPosition() {
+        if isSelectionAllowed {
+            toolbarBottomContraint.constant = 0
+        } else {
+            if let navigationController = navigationController {
+                toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
+            }
+        }
+        UIView.animate(withDuration: 0.33) {
+            self.view.layoutIfNeeded()
+        }
     }
 
-    internal override func setupNavigationBar() {
+    internal override func updateSelectionTitle() {
+        //do nothing for now
+    }
+
+
+
+    private func setupNavigationBar() {
         mediaTypesSegmentedControl = UISegmentedControl(items: [
             ContainerItemTypes.media.title,
             ContainerItemTypes.links.title,
@@ -124,12 +157,17 @@ class ContainerViewController: SelectableViewController {
         navigationItem.rightBarButtonItem = selectButton
 
         selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
+    }
+
+    internal override func updateNavigationBar() {
         navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
         navigationItem.hidesBackButton = isSelectionAllowed
     }
 
     @objc func mediaTypeDidChange(_ sender: UISegmentedControl) {
         removeChildViewControllers()
+        isSelectionAllowed = false
+        delegate?.reloadUI()
         guard let type = ContainerItemTypes(rawValue: sender.selectedSegmentIndex) else { return }
         switch type {
         case .media:
@@ -143,3 +181,29 @@ class ContainerViewController: SelectableViewController {
     }
 
 }
+
+extension ContainerViewController: ContainerViewControllerImput {
+
+    func didSetItemAs(isSelected: Bool, at indexPath: IndexPath) {
+        print(indexPath, " ", isSelected)
+    }
+
+}
+
+extension ContainerViewController: ContainerViewControllerOutput {
+
+    func isSelectionAllowed() -> Bool {
+        return isSelectionAllowed
+    }
+
+    func selectedIndexPathes() -> Set<IndexPath> {
+        return selectedIndexPathes
+    }
+
+}
+
+
+
+
+
+

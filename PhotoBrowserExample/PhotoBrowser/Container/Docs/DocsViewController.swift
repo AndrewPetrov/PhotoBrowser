@@ -12,6 +12,7 @@ import UIKit
 class DocsViewController: UIViewController {
     
     private weak var presentationInputOutput: PresentationInputOutput!
+    private weak var containerInputOutput: ContainerViewControllerInputOutput!
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -21,11 +22,20 @@ class DocsViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func make(presentationInputOutput: PresentationInputOutput) -> DocsViewController {
+    static func make(presentationInputOutput: PresentationInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> DocsViewController {
         let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocsViewController") as! DocsViewController
         newViewController.presentationInputOutput = presentationInputOutput
+        newViewController.containerInputOutput = containerInputOutput
 
         return newViewController
     }
+}
+
+extension DocsViewController: ContainerViewControllerDelegate {
+
+    func reloadUI() {
+//        tableView.reloadData()
+    }
+
 }
 

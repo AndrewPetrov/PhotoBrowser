@@ -11,8 +11,6 @@ import UIKit
 
 class TableViewController: SelectableViewController {
 
-//    private let supportedTypes: [ItemType] = [.image, .video]
-
     static var dateFormatter = DateFormatter()
     static let inset: CGFloat = 10
 
@@ -20,11 +18,6 @@ class TableViewController: SelectableViewController {
     @IBOutlet weak var selectedCountLabel: UIBarButtonItem!
     @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
-
-//    private var selectButton: UIBarButtonItem!
-//    private var selectAllButton: UIBarButtonItem!
-//    private var trashButton: UIBarButtonItem!
-
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -49,7 +42,7 @@ class TableViewController: SelectableViewController {
         setupToolbar()
     }
 
-    internal override func updateToolbar() {
+    internal override func updateToolbarPosition() {
         if isSelectionAllowed {
             toolbarBottomContraint.constant = 0
         } else {
@@ -62,7 +55,7 @@ class TableViewController: SelectableViewController {
         }
     }
 
-    internal override func setupToolbar() {
+    private func setupToolbar() {
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
         toolbar.items?.append(trashButton)
     }
@@ -71,28 +64,21 @@ class TableViewController: SelectableViewController {
         selectedCountLabel.title = super.getSelectionTitle()
     }
 
-    internal override func setupNavigationBar() {
+    override func updateNavigationBar() {
         navigationItem.hidesBackButton = isSelectionAllowed
+        navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
+    }
 
+    private func setupNavigationBar() {
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
         navigationItem.rightBarButtonItem = selectButton
 
         selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
-        navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
     }
 
     internal override func reloadUI() {
         tableView.reloadData()
     }
-
-
-//    @objc private func toggleSelection() {
-//        isSelectionAllowed = !isSelectionAllowed
-//        let title = isSelectionAllowed ? "Calcel" : "Select"
-//        selectButton.title = title
-//
-//        tableView.reloadData()
-//    }
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
         return indexPath.row == presentationInputOutput.numberOfItems() - 1

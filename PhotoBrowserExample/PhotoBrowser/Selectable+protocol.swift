@@ -25,35 +25,33 @@ class SelectableViewController: UIViewController {
         }
     }
 
-    internal var isSelectionAllowed = false {
+    var isSelectionAllowed = false {
         didSet {
             if !isSelectionAllowed {
                 selectedIndexPathes.removeAll()
             }
-            setupNavigationBar()
             updateSelectionTitle()
-            updateToolbar()
+            updateToolbarPosition()
+            updateNavigationBar()
+            updateSelectButtonTitle()
         }
     }
 
-    internal func setupNavigationBar() {
-
+    internal func updateNavigationBar() {
+        fatalError("need to override updateNavigationBar")
     }
 
-    internal func updateToolbar() {
 
-    }
-
-    internal func setupToolbar() {
-
+    internal func updateToolbarPosition() {
+        fatalError("need to override updateToolbarPosition")
     }
 
     internal func updateSelectionTitle() {
-
+        fatalError("need to override updateSelectionTitle")
     }
 
     internal func reloadUI() {
-
+        fatalError("need to override reloadUI")
     }
 
 
@@ -63,11 +61,13 @@ class SelectableViewController: UIViewController {
         return "\(selectedIndexPathes.count) " + type + " Selected"
     }
 
-    @objc internal func toggleSelection() {
-        isSelectionAllowed = !isSelectionAllowed
+    private func updateSelectButtonTitle() {
         let title = isSelectionAllowed ? "Calcel" : "Select"
         selectButton.title = title
+    }
 
+    @objc internal func toggleSelection() {
+        isSelectionAllowed = !isSelectionAllowed
         reloadUI()
     }
 
