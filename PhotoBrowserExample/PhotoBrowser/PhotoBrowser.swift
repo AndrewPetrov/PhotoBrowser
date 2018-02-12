@@ -93,7 +93,7 @@ class PhotoBrowser: UIViewController {
 
     func switchToCurrentPresentation() {
         if navigationController?.viewControllers.last != self {
-            navigationController?.popViewController(animated: true)
+            navigationController?.popViewController(animated: false)
         }
         //TODO: delete 'asyncAfter' when will implement animated transitions
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in

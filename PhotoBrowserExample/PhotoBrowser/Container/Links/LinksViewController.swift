@@ -26,6 +26,14 @@ class LinksViewController: UIViewController {
 
         return newViewController
     }
+
+    private func showWebViewController(url: URL) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+        controller.url = url
+
+        navigationController?.pushViewController(controller, animated: true)
+    }
     
 }
 
@@ -46,9 +54,14 @@ extension LinksViewController: UITableViewDataSource {
         return cell
     }
 
-
 }
 
 extension LinksViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
+            showWebViewController(url: item.url)
+        }
+    }
 
 }

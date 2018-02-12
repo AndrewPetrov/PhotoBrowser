@@ -12,12 +12,16 @@ import AVFoundation
 class ViewController: UIViewController {
 
     var items = [Item]()
-    lazy var photoBrowser: PhotoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .table)
+    private var photoBrowser: PhotoBrowser?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        populateGalleryDataSource()
+    }
 
+    private func populateGalleryDataSource() {
+        //add video
         if let path = Bundle.main.path(forResource: "small", ofType:"mp4") {
             let url = URL(fileURLWithPath: path)
             let videoItem = VideoItem(url: url, thumbnail: nil)
@@ -25,20 +29,33 @@ class ViewController: UIViewController {
         } else {
             debugPrint("small.mp4 not found")
         }
+        //add photo
         items.append(ImageItem(image: UIImage(named: "11")!, deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "3")!, deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "5")!, deliveryStatus: .delivered))
-    }
 
-    override func viewDidAppear(_ animated: Bool) {
-        navigationController?.pushViewController(photoBrowser, animated: true)
+        //add links
+        items.append(LinkItem(url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
+        items.append(LinkItem(url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @IBAction func didTapOnGroupedPhoto(_ sender: Any) {
+        photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .table)
+        if let photoBrowser = photoBrowser {
+            navigationController?.pushViewController(photoBrowser, animated: true)
+        }
+    }
 
+    @IBAction func didTapOnSinglePhoto(_ sender: Any) {
+        photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .carousel)
+        if let photoBrowser = photoBrowser {
+            navigationController?.pushViewController(photoBrowser, animated: true)
+        }
+    }
 
 }
 

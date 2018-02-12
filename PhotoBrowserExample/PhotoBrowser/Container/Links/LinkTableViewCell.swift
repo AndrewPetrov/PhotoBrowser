@@ -24,6 +24,7 @@ class LinkTableViewCell: UITableViewCell {
         mainImageView.image = item.image
         self.goToMessageHandler = goToMessageHandler
         linkLabel.text = item.url.absoluteString
+        descriptionLabel.text = item.name
     }
 
 }
