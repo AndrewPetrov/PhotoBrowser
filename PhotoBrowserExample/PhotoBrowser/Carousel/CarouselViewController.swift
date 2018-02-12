@@ -16,7 +16,8 @@ protocol CarouselViewControllerDelegate {
 }
 
 class CarouselViewController: UIViewController {
-    
+
+    private let supportedTypes: [ItemType] = [.image, .video]
     private weak var presentationInputOutput: PresentationInputOutput!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -188,13 +189,13 @@ class CarouselViewController: UIViewController {
 extension CarouselViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems()
+        return presentationInputOutput.numberOfItems(withType: supportedTypes)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCollectionViewCell",
                                                       for: indexPath) as! CarouselCollectionViewCell
-        let item = presentationInputOutput.item(at: indexPath)
+        let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath)
         cell.configureCell(image: item?.image, isVideo: item?.type == .video)
         
         return cell

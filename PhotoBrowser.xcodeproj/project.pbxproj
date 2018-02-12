@@ -12,6 +12,7 @@
 		7737C75C203078340052F6A2 /* LinksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75B203078340052F6A2 /* LinksViewController.swift */; };
 		7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75D203078460052F6A2 /* DocsViewController.swift */; };
 		7737C760203082B20052F6A2 /* LinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75F203082B20052F6A2 /* LinkTableViewCell.swift */; };
+		773AA7B52031DE8200930D51 /* Selectable+protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773AA7B42031DE8200930D51 /* Selectable+protocol.swift */; };
 		7796303B2030896700EF4861 /* small.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7796303A2030895B00EF4861 /* small.mp4 */; };
 		779A8D80202E282400CCFF26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D7F202E282400CCFF26 /* AppDelegate.swift */; };
 		779A8D82202E282400CCFF26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D81202E282400CCFF26 /* ViewController.swift */; };
@@ -38,6 +39,7 @@
 		7737C75B203078340052F6A2 /* LinksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinksViewController.swift; sourceTree = "<group>"; };
 		7737C75D203078460052F6A2 /* DocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
 		7737C75F203082B20052F6A2 /* LinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTableViewCell.swift; sourceTree = "<group>"; };
+		773AA7B42031DE8200930D51 /* Selectable+protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Selectable+protocol.swift"; sourceTree = "<group>"; };
 		7796303A2030895B00EF4861 /* small.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = small.mp4; sourceTree = "<group>"; };
 		779A8D7C202E282400CCFF26 /* PhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A8D7F202E282400CCFF26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				77A4A4EF202E669D000B73B3 /* Carousel */,
 				77F4CBDC202F0A5C00DED9AF /* Item */,
 				77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */,
+				773AA7B42031DE8200930D51 /* Selectable+protocol.swift */,
 			);
 			path = PhotoBrowser;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				77A4A4EE202E553C000B73B3 /* TableViewCell.swift in Sources */,
 				7737C758203076D90052F6A2 /* ContainerViewController.swift in Sources */,
 				77A4A4EA202E301C000B73B3 /* TableViewController.swift in Sources */,
+				773AA7B52031DE8200930D51 /* Selectable+protocol.swift in Sources */,
 				7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */,
 				77A4A4E8202E2F87000B73B3 /* MediaViewController.swift in Sources */,
 				77A4A4F3202E676D000B73B3 /* CarouselCollectionViewCell.swift in Sources */,

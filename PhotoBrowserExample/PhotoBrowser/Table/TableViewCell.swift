@@ -53,7 +53,7 @@ class TableViewCell: UITableViewCell {
         selectionButton.isSelected = isSelected
     }
 
-    @IBAction func selectButtonTapped(_ sender: UIButton) {
+    @IBAction func selectButtonDidTap(_ sender: UIButton) {
         selectionButton.isSelected = !selectionButton.isSelected
         selectionHandler(selectionButton.isSelected)
     }

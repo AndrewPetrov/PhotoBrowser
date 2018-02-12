@@ -11,7 +11,7 @@ import UIKit
 
 class MediaViewController: UIViewController {
 
-    let supportedTypes: [ItemType] = [.image, .video]
+    private let supportedTypes: [ItemType] = [.image, .video]
     @IBOutlet private weak var collectionView: UICollectionView!
     private weak var presentationInputOutput: PresentationInputOutput!
 

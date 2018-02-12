@@ -11,6 +11,7 @@ import UIKit
 
 class MediaCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var selectionButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
 
     override func prepareForReuse() {
@@ -21,6 +22,11 @@ class MediaCollectionViewCell: UICollectionViewCell {
 
     func configureCell(image: UIImage?) {
         imageView.image = image
+    }
+
+    @IBAction func selectButtonDidTap(_ sender: UIButton) {
+        selectionButton.isSelected = !selectionButton.isSelected
+//        selectionHandler(selectionButton.isSelected)
     }
 
 }
