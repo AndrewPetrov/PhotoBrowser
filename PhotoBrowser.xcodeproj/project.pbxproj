@@ -28,7 +28,6 @@
 		77A97DE12031D06200F79E3C /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A97DE02031D06200F79E3C /* WebViewController.swift */; };
 		77DF1E7E202E2A50003CFA75 /* PhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */; };
 		77F4CBDE202F0A7100DED9AF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4CBDD202F0A7000DED9AF /* Item.swift */; };
-		77F4DE19202E2D99009A6BFA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 77F4DE18202E2D99009A6BFA /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,7 +56,6 @@
 		77A97DE02031D06200F79E3C /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoBrowser.swift; sourceTree = "<group>"; };
 		77F4CBDD202F0A7000DED9AF /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		77F4DE18202E2D99009A6BFA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +119,6 @@
 		779A8D73202E282400CCFF26 = {
 			isa = PBXGroup;
 			children = (
-				77F4DE18202E2D99009A6BFA /* Default-568h@2x.png */,
 				779A8D7E202E282400CCFF26 /* PhotoBrowserExample */,
 				779A8D7D202E282400CCFF26 /* Products */,
 				622E346C3215BB49A9420154 /* Pods */,
@@ -264,7 +261,6 @@
 			files = (
 				7796303B2030896700EF4861 /* small.mp4 in Resources */,
 				779A8D8A202E282400CCFF26 /* LaunchScreen.storyboard in Resources */,
-				77F4DE19202E2D99009A6BFA /* Default-568h@2x.png in Resources */,
 				779A8D87202E282400CCFF26 /* Assets.xcassets in Resources */,
 				779A8D85202E282400CCFF26 /* Main.storyboard in Resources */,
 			);
