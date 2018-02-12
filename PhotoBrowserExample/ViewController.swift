@@ -88,10 +88,19 @@ extension ViewController: PhotoBrowserDataSouce {
         return filteredItems
     }
 
-
 }
 
 extension ViewController: PhotoBrowserDelegate {
+
+    func scrollToMessage(at indexPath: IndexPath) {
+        let alertController = UIAlertController(title: "Scrolled to message", message: "\(indexPath)", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Clear", style: .default) { [weak self] _ in
+             alertController.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
     func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
         if var item = items[indexPath.row] as? Likable {
             item.isLiked = isLiked

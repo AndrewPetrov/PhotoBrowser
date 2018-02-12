@@ -46,8 +46,8 @@ extension LinksViewController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "LinkTableViewCell") as! LinkTableViewCell
         if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
-            cell.configureCell(with: item) {
-                print("go to message")
+            cell.configureCell(with: item) { [weak self] in
+                self?.presentationInputOutput.goToMessage(with: item.messageIndexPath)
             }
         }
 

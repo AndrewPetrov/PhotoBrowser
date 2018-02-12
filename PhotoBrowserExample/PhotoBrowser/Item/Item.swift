@@ -50,6 +50,8 @@ class Item {
     var sentTime: Date = Date()
     var type: ItemType
     var deliveryStatus: DeliveryStatus = .nonDelivered
+    //goes from Chat
+    var messageIndexPath = IndexPath(row: 100500, section: 42)
 
     init(image: UIImage,
          name: String = "",

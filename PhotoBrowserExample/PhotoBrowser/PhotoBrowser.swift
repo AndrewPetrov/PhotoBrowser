@@ -13,9 +13,9 @@ protocol PhotoBrowserDelegate: class {
 
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(indexPathes: Set<IndexPath>)
+    func scrollToMessage(at indexPath: IndexPath)
 
 }
-
 
 protocol PhotoBrowserDataSouce: class {
 
@@ -45,6 +45,7 @@ protocol PresentationOutput: class {
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(indexPathes: Set<IndexPath>)
     func switchTo(presentation: Presentation)
+    func goToMessage(with indexPath: IndexPath)
 
 }
 
@@ -109,6 +110,11 @@ class PhotoBrowser: UIViewController {
         }
     }
 
+    private func openChat(on messageindexPath: IndexPath) {
+        navigationController?.popToRootViewController(animated: false)
+        delegate?.scrollToMessage(at: messageindexPath)
+    }
+
 }
 
 extension PhotoBrowser: PresentationInput {
@@ -144,6 +150,10 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
+
+    func goToMessage(with indexPath: IndexPath) {
+        openChat(on: indexPath)
+    }
 
     func switchTo(presentation: Presentation) {
         self.currentPresentation = presentation
