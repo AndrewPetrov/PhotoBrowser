@@ -46,24 +46,26 @@ enum DeliveryStatus {
 
 class Item {
     var image: UIImage
-    var name = ""
-    var sentTime: Date = Date()
+    var name: String
+    var sentTime: Date
     var type: ItemType
-    var deliveryStatus: DeliveryStatus = .nonDelivered
+    var deliveryStatus: DeliveryStatus
     //goes from Chat
-    var messageIndexPath = IndexPath(row: 100500, section: 42)
+    var messageIndexPath: IndexPath
 
     init(image: UIImage,
          name: String = "",
          sentTime: Date = Date(),
          type: ItemType,
-         deliveryStatus: DeliveryStatus = .nonDelivered) {
+         deliveryStatus: DeliveryStatus = .nonDelivered,
+         messageIndexPath: IndexPath = IndexPath(row: 100500, section: 42)) {
 
         self.image = image
         self.name = name
         self.sentTime = sentTime
         self.type = type
         self.deliveryStatus = deliveryStatus
+        self.messageIndexPath = messageIndexPath
     }
 
 }

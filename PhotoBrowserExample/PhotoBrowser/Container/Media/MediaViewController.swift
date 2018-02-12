@@ -11,6 +11,7 @@ import UIKit
 
 class MediaViewController: UIViewController {
 
+    let supportedTypes: [ItemType] = [.image, .video]
     @IBOutlet private weak var collectionView: UICollectionView!
     private weak var presentationInputOutput: PresentationInputOutput!
 
@@ -36,13 +37,13 @@ class MediaViewController: UIViewController {
 
 extension MediaViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems()
+        return presentationInputOutput.numberOfItems(withType: supportedTypes)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaCollectionViewCell",
                                                       for: indexPath) as! MediaCollectionViewCell
-        cell.configureCell(image: presentationInputOutput.item(at: indexPath)?.image)
+        cell.configureCell(image: presentationInputOutput.item(withType: supportedTypes, at: indexPath)?.image)
 
         return cell
     }
