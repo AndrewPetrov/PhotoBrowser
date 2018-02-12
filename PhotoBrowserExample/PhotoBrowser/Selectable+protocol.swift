@@ -13,6 +13,12 @@ class SelectableViewController: UIViewController {
 
     internal weak var presentationInputOutput: PresentationInputOutput!
 
+    internal var supportedTypes: [ItemType] = [.image, .video]
+
+    var selectButton: UIBarButtonItem!
+    var selectAllButton: UIBarButtonItem!
+    var trashButton: UIBarButtonItem!
+
     internal var selectedIndexPathes = Set<IndexPath>() {
         didSet {
             updateSelectionTitle()
@@ -34,7 +40,7 @@ class SelectableViewController: UIViewController {
 
     }
 
-     internal func updateToolbar() {
+    internal func updateToolbar() {
 
     }
 
@@ -46,19 +52,24 @@ class SelectableViewController: UIViewController {
 
     }
 
+    internal func reloadUI() {
+
+    }
+
+
     internal func getSelectionTitle() -> String {
         //TODO: concider other type combinations
         let type = "Items"
         return "\(selectedIndexPathes.count) " + type + " Selected"
     }
 
-    //    @objc private func toggleSelection() {
-    //        isSelectionAllowed = !isSelectionAllowed
-    //        let title = isSelectionAllowed ? "Calcel" : "Select"
-    //        selectButton.title = title
-    //
-    //        tableView.reloadData()
-    //    }
+    @objc internal func toggleSelection() {
+        isSelectionAllowed = !isSelectionAllowed
+        let title = isSelectionAllowed ? "Calcel" : "Select"
+        selectButton.title = title
+
+        reloadUI()
+    }
 
     @objc internal func trashButtonDidTap(_ sender: Any) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -77,6 +88,23 @@ class SelectableViewController: UIViewController {
         alertController.addAction(cancelAction)
 
         present(alertController, animated: true, completion: nil)
+    }
+
+    @objc internal func toggleSelectAll() {
+        //select all
+        if selectedIndexPathes.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
+            selectAllButton.title = "Deselect All"
+            selectedIndexPathes.removeAll()
+            let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
+            for row in 0..<count {
+                selectedIndexPathes.insert(IndexPath(row: row, section: 0))
+            }
+        } else {
+            //deselect all
+            selectAllButton.title = "Select All"
+            selectedIndexPathes.removeAll()
+        }
+        reloadUI()
     }
 
 }

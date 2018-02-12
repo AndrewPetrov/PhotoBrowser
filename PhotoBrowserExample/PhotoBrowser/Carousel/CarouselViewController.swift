@@ -100,10 +100,10 @@ class CarouselViewController: UIViewController {
         let size = CGSize(width: 25, height: 25)
         let image = isLiked ? #imageLiteral(resourceName: "likedYes") : #imageLiteral(resourceName: "likeNo")
         let sizedImage = imageWithImage(image: image, scaledToSize: size)
-        let flaxibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let likeBarButtonItem = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
         
-        toolbar.items = [actionBarButtonItem, flaxibleSpace, likeBarButtonItem, flaxibleSpace, deleteBarButtonItem]
+        toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem, flexibleSpace, deleteBarButtonItem]
     }
 
     @objc private func switchToContainerPresentation() {

@@ -11,7 +11,7 @@ import UIKit
 
 class TableViewController: SelectableViewController {
 
-    private let supportedTypes: [ItemType] = [.image, .video]
+//    private let supportedTypes: [ItemType] = [.image, .video]
 
     static var dateFormatter = DateFormatter()
     static let inset: CGFloat = 10
@@ -21,9 +21,9 @@ class TableViewController: SelectableViewController {
     @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
 
-    private var selectButton: UIBarButtonItem!
-    private var selectAllButton: UIBarButtonItem!
-    private var trashButton: UIBarButtonItem!
+//    private var selectButton: UIBarButtonItem!
+//    private var selectAllButton: UIBarButtonItem!
+//    private var trashButton: UIBarButtonItem!
 
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -79,56 +79,24 @@ class TableViewController: SelectableViewController {
 
         selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
         navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
-
     }
 
-    @objc private func toggleSelectAll() {
-        //select all
-        if selectedIndexPathes.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
-            selectAllButton.title = "Deselect All"
-            selectedIndexPathes.removeAll()
-            let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
-            for row in 0..<count {
-                selectedIndexPathes.insert(IndexPath(row: row, section: 0))
-            }
-        } else {
-            //deselect all
-            selectAllButton.title = "Select All"
-            selectedIndexPathes.removeAll()
-        }
+    internal override func reloadUI() {
         tableView.reloadData()
     }
 
-    @objc private func toggleSelection() {
-        isSelectionAllowed = !isSelectionAllowed
-        let title = isSelectionAllowed ? "Calcel" : "Select"
-        selectButton.title = title
 
-        tableView.reloadData()
-    }
+//    @objc private func toggleSelection() {
+//        isSelectionAllowed = !isSelectionAllowed
+//        let title = isSelectionAllowed ? "Calcel" : "Select"
+//        selectButton.title = title
+//
+//        tableView.reloadData()
+//    }
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
         return indexPath.row == presentationInputOutput.numberOfItems() - 1
     }
-
-//    @IBAction func trashButtonDidTap(_ sender: Any) {
-//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//
-//        let deleteForMeAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
-//            guard let `self` = self else { return }
-//            self.presentationInputOutput.deleteItems(indexPathes: self.selectedIndexPathes)
-//
-//        }
-//        alertController.addAction(deleteForMeAction)
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
-//            alertController.dismiss(animated: true, completion: nil)
-//        }
-//
-//        alertController.addAction(cancelAction)
-//
-//        present(alertController, animated: true, completion: nil)
-//    }
 
     @IBAction func actionButtonDidTap(_ sender: Any) {
         //TODO: add action here
