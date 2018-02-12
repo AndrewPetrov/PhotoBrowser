@@ -166,6 +166,7 @@ extension PhotoBrowser: PresentationOutput {
     }
 
     func deleteItems(indexPathes: Set<IndexPath>) {
+        //TODO: consider indexes with Types and indexes at all difference
         print("delete", indexPathes)
 
     }

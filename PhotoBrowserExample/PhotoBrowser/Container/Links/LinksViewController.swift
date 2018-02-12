@@ -50,6 +50,7 @@ extension LinksViewController: ContainerViewControllerDelegate {
 }
 
 extension LinksViewController: UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presentationInputOutput.numberOfItems(withType: [.link])
     }
@@ -57,9 +58,14 @@ extension LinksViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "LinkTableViewCell") as! LinkTableViewCell
+        let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
+        let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
         if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
-            cell.configureCell(with: item) { [weak self] in
-                self?.presentationInputOutput.goToMessage(with: item.messageIndexPath)
+            cell.configureCell(
+                with: item,
+                isSelectionAllowed: isSelectionAllowed,
+                isSelected: isSelected) { [weak self] in
+                    self?.presentationInputOutput.goToMessage(with: item.messageIndexPath)
             }
         }
 
@@ -69,11 +75,20 @@ extension LinksViewController: UITableViewDataSource {
 }
 
 extension LinksViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
-            showWebViewController(url: item.url)
+        if containerInputOutput.isSelectionAllowed() {
+            containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
+                showWebViewController(url: item.url)
+            }
         }
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        containerInputOutput.didSetItemAs(isSelected: false, at: indexPath)
     }
 
 }

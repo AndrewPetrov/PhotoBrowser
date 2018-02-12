@@ -30,7 +30,7 @@ class MediaCollectionViewCell: UICollectionViewCell {
         selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
     }
 
-    func configureCell(image: UIImage?,  isSelectionAllowed: Bool, isSelected: Bool) {
+    func configureCell(image: UIImage?, isSelectionAllowed: Bool, isSelected: Bool) {
         imageView.image = image
         selectionImageView.isHidden = !isSelectionAllowed
         updateSelectionImage(isSelected: isSelected)

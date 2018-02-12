@@ -37,6 +37,8 @@ class ViewController: UIViewController {
         //add links
         items.append(LinkItem(url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
         items.append(LinkItem(url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
+
+        //add docs
     }
 
     override func didReceiveMemoryWarning() {
