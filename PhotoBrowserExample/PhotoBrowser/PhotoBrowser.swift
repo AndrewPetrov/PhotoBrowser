@@ -57,12 +57,19 @@ enum Presentation {
 
 }
 
+protocol PresentationViewController {
+
+    var presentation: Presentation { get }
+
+}
+
 class PhotoBrowser: UIViewController {
 
     private weak var delegate: PhotoBrowserDelegate?
     private weak var dataSource: PhotoBrowserDataSouce?
     private var currentPresentation: Presentation
     //for transitions to the same item
+    private var previousPresentation: Presentation?
     private var currentItemIndexPath: IndexPath
 
     init(dataSource: PhotoBrowserDataSouce?,
@@ -88,25 +95,25 @@ class PhotoBrowser: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
 
+        view.backgroundColor = UIColor.white
         switchToCurrentPresentation()
     }
 
+    private func getViewController(by presentation: Presentation) -> PresentationViewController? {
+
+        let presentationViewControllers: [PresentationViewController] = [carouselViewController, containerViewController, tableViewController]
+        return presentationViewControllers.filter { $0.presentation == presentation }.first
+    }
+
     func switchToCurrentPresentation() {
-        if navigationController?.viewControllers.last != self {
-            navigationController?.popViewController(animated: false)
-        }
-        //TODO: delete 'asyncAfter' when will implement animated transitions
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
-            guard let `self` = self else { return }
-            switch self.currentPresentation {
-            case .carousel:
-                self.navigationController?.pushViewController(self.carouselViewController, animated: true)
-            case .container:
-                self.navigationController?.pushViewController(self.containerViewController, animated: true)
-            case .table:
-                self.navigationController?.pushViewController(self.tableViewController, animated: true)
-            }
+        guard let currentPresentationViewController = getViewController(by: currentPresentation) as? UIViewController else { return }
+        
+        if let viewControllers = navigationController?.viewControllers, viewControllers.contains(currentPresentationViewController) {
+            navigationController?.popToViewController(currentPresentationViewController, animated: true)
+        } else {
+            navigationController?.pushViewController(currentPresentationViewController, animated: true)
         }
     }
 
@@ -156,7 +163,8 @@ extension PhotoBrowser: PresentationOutput {
     }
 
     func switchTo(presentation: Presentation) {
-        self.currentPresentation = presentation
+        previousPresentation = currentPresentation
+        currentPresentation = presentation
         switchToCurrentPresentation()
     }
 
@@ -176,3 +184,16 @@ extension PhotoBrowser: PresentationOutput {
     }
 
 }
+
+extension PhotoBrowser: UINavigationControllerDelegate {
+
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+
+        if viewController == self, animated == true {
+            navigationController.popViewController(animated: false)
+        }
+
+    }
+
+}
+

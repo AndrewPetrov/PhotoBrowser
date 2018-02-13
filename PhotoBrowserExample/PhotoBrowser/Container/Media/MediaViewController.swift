@@ -76,13 +76,10 @@ extension MediaViewController: UICollectionViewDelegate {
         if containerInputOutput.isSelectionAllowed() {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
+            collectionView.deselectItem(at: indexPath, animated: false)
             presentationInputOutput.setItemAsCurrent(at: indexPath)
             presentationInputOutput.switchTo(presentation: .carousel)
         }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return containerInputOutput.isSelectionAllowed()
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

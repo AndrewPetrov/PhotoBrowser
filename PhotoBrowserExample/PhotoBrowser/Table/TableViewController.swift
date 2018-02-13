@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
-class TableViewController: SelectableViewController {
+class TableViewController: SelectableViewController, PresentationViewController {
+
+    let presentation: Presentation = .table
 
     static var dateFormatter = DateFormatter()
     static let inset: CGFloat = 10

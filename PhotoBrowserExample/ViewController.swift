@@ -48,14 +48,14 @@ class ViewController: UIViewController {
     @IBAction func didTapOnGroupedPhoto(_ sender: Any) {
         photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .table)
         if let photoBrowser = photoBrowser {
-            navigationController?.pushViewController(photoBrowser, animated: true)
+            navigationController?.pushViewController(photoBrowser, animated: false)
         }
     }
 
     @IBAction func didTapOnSinglePhoto(_ sender: Any) {
         photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .carousel)
         if let photoBrowser = photoBrowser {
-            navigationController?.pushViewController(photoBrowser, animated: true)
+            navigationController?.pushViewController(photoBrowser, animated: false)
         }
     }
 

@@ -41,7 +41,9 @@ protocol ContainerViewControllerDelegate {
     func reloadUI()
 }
 
-class ContainerViewController: SelectableViewController {
+class ContainerViewController: SelectableViewController, PresentationViewController {
+
+    let presentation: Presentation = .container
 
     private var mediaTypesSegmentedControl: UISegmentedControl!
 

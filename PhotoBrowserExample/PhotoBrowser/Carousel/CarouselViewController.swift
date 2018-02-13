@@ -15,8 +15,9 @@ protocol CarouselViewControllerDelegate {
     func didDoubleTap(_: CarouselViewController)
 }
 
-class CarouselViewController: UIViewController {
+class CarouselViewController: UIViewController, PresentationViewController {
 
+    let presentation: Presentation = .carousel
     private let supportedTypes: [ItemType] = [.image, .video]
     private weak var presentationInputOutput: PresentationInputOutput!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
@@ -28,6 +29,8 @@ class CarouselViewController: UIViewController {
     
     @IBOutlet private var doubleTapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet private var singleTapGestureRecognizer: UITapGestureRecognizer!
+
+    var needToScroll = true
     
     private var delegate: CarouselViewControllerDelegate!
     
@@ -65,19 +68,31 @@ class CarouselViewController: UIViewController {
         setupToolBar()
         setupNavigationBar()
     }
-    
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        //crolls only once each time after screen appears
+        needToScroll = true
+        //force viewDidLayoutSubviews always after viewWillAppear
+        view.setNeedsLayout()
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         setupDelegate()
         setupGestureRecognizers()
-        collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         setupCollectionView()
+        if needToScroll {
+            collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false  )
+            needToScroll = false
+        }
     }
     
     private func setupGestureRecognizers() {
