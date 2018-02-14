@@ -54,7 +54,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
 
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var containerView: UIView!
-    @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
+    @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
 
     private var delegate: ContainerViewControllerDelegate?
 
@@ -127,10 +127,10 @@ class ContainerViewController: SelectableViewController, Presentatable {
 
     internal override func updateToolbarPosition() {
         if isSelectionAllowed {
-            toolbarBottomContraint.constant = 0
+            toolbarBottomConstraint.constant = 0
         } else {
             if let navigationController = parent?.navigationController {
-                toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
+                toolbarBottomConstraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
             }
         }
         UIView.animate(withDuration: 0.33) {

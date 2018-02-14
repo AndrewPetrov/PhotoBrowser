@@ -24,6 +24,7 @@ class CarouselViewController: UIViewController, Presentatable {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var carouselControlCollectionView: UICollectionView!
 
+    @IBOutlet private weak var toolbarBottomConstraint: NSLayoutConstraint!
     private var isCollectionScrollingByFinger = false
 
     lazy private var carouselControlAdapter: CarouselControlAdapter =
@@ -156,12 +157,22 @@ class CarouselViewController: UIViewController, Presentatable {
     
     private func toggleFullScreen() {
         isFullScreen = !isFullScreen
+        
         parent?.navigationController?.setNavigationBarHidden(isFullScreen, animated: true)
-        carouselView.alpha = isFullScreen ? 0 : 1
-        toolbar.alpha = isFullScreen ? 0 : 1
         setNeedsStatusBarAppearanceUpdate()
+
+        toolbarBottomConstraint.constant = 0
+        if isFullScreen {
+            if let navigationController = parent?.navigationController {
+                toolbarBottomConstraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height +
+                    carouselControlCollectionView.frame.height)
+            }
+        }
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
-    
+
     private func setupCollectionView() {
         let width = view.frame.width - layout.minimumLineSpacing
         let height = view.frame.height + 20

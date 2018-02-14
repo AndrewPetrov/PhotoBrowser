@@ -247,6 +247,7 @@
                         <outlet property="layout" destination="PiE-eH-ptY" id="LFy-NG-kYS"/>
                         <outlet property="singleTapGestureRecognizer" destination="EtR-rf-0HQ" id="2g5-QM-60c"/>
                         <outlet property="toolbar" destination="JAY-xU-NgX" id="Z4t-3J-f1m"/>
+                        <outlet property="toolbarBottomConstraint" destination="He3-pX-kEi" id="BpV-YL-vgh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ksv-dk-DhK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -423,7 +424,7 @@
                     <connections>
                         <outlet property="containerView" destination="zjb-JV-QuB" id="cvc-3T-ez5"/>
                         <outlet property="toolbar" destination="aa5-o6-GRy" id="WVk-c4-SC7"/>
-                        <outlet property="toolbarBottomContraint" destination="AC1-NL-ysh" id="dmv-dv-F64"/>
+                        <outlet property="toolbarBottomConstraint" destination="AC1-NL-ysh" id="dmv-dv-F64"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mFG-aM-NZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
