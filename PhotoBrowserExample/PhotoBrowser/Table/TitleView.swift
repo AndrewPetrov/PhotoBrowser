@@ -12,7 +12,7 @@ import UIKit
 class TitleView: UIView {
     
     @IBOutlet private weak var senderLabel: UILabel!
-    @IBOutlet private weak var itemsLabel: UILabel!
+    @IBOutlet private weak var infoLabel: UILabel!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,9 +24,9 @@ class TitleView: UIView {
         loadNib()
     }
 
-    func setup(sender: String, items: String) {
+    func setup(sender: String, info: String) {
         senderLabel.text = sender
-        itemsLabel.text = items
+        infoLabel.text = info
     }
 
     fileprivate func loadNib() {

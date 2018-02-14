@@ -65,7 +65,7 @@ class TableViewController: SelectableViewController, Presentatable {
             itemTypes: presentationInputOutput.typesOfItems(),
             count: presentationInputOutput.numberOfItems(withType: supportedTypes)
         )
-        titleView.setup(sender: presentationInputOutput.senderName(), items: itemsTitle)
+        titleView.setup(sender: presentationInputOutput.senderName(), info: itemsTitle)
         parent?.navigationItem.titleView = titleView
     }
 
