@@ -22,6 +22,11 @@ class ViewController: UIViewController {
 
     private func populateGalleryDataSource() {
         //add video
+        func getPastDay(_ by: Int) -> Date {
+            let today = Date()
+            return Calendar.current.date(byAdding: .day, value: -by, to: today)!
+        }
+
         if let path = Bundle.main.path(forResource: "small", ofType:"mp4") {
             let url = URL(fileURLWithPath: path)
             let videoItem = VideoItem(url: url, thumbnail: nil)
@@ -30,17 +35,36 @@ class ViewController: UIViewController {
             debugPrint("small.mp4 not found")
         }
 
-        func getPastDay(_ by: Int) -> Date {
-            let today = Date()
-            return Calendar.current.date(byAdding: .day, value: -by, to: today)!
-        }
         //add photo
         items.append(ImageItem(image: UIImage(named: "11")!, sentTime: getPastDay(1), deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "2")!, sentTime: getPastDay(2), deliveryStatus: .delivered))
+        if let path = Bundle.main.path(forResource: "Cock - 10685", ofType:"mp4") {
+            let url = URL(fileURLWithPath: path)
+            let videoItem = VideoItem(url: url, thumbnail: nil)
+            items.append(videoItem)
+        } else {
+            debugPrint("small.mp4 not found")
+        }
         items.append(ImageItem(image: UIImage(named: "3")!, sentTime: getPastDay(4), deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "4")!, sentTime: getPastDay(5), deliveryStatus: .delivered))
+
+        if let path = Bundle.main.path(forResource: "Roast - 11620", ofType:"mp4") {
+            let url = URL(fileURLWithPath: path)
+            let videoItem = VideoItem(url: url, thumbnail: nil)
+            items.append(videoItem)
+        } else {
+            debugPrint("small.mp4 not found")
+        }
         items.append(ImageItem(image: UIImage(named: "5")!, sentTime: getPastDay(6), deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "6")!, sentTime: getPastDay(7), deliveryStatus: .delivered))
+
+        if let path = Bundle.main.path(forResource: "Runner - 10809", ofType:"mp4") {
+            let url = URL(fileURLWithPath: path)
+            let videoItem = VideoItem(url: url, thumbnail: nil)
+            items.append(videoItem)
+        } else {
+            debugPrint("small.mp4 not found")
+        }
         items.append(ImageItem(image: UIImage(named: "7")!, sentTime: getPastDay(8), deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "8")!, sentTime: getPastDay(9), deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "9")!, sentTime: getPastDay(10), deliveryStatus: .delivered))
@@ -122,7 +146,7 @@ extension ViewController: PhotoBrowserDataSouce {
         }
         return filteredItems
     }
-
+    
 }
 
 extension ViewController: PhotoBrowserDelegate {
@@ -142,12 +166,17 @@ extension ViewController: PhotoBrowserDelegate {
         }
     }
 
-    func deleteItems(indexPathes: Set<IndexPath>) {
+    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+        let indexPathes = Array(indexPathes).sorted()
+        var filtredItemsArray = filtredItems(withTypes: types)
+
         for indexPath in indexPathes {
-            items.remove(at: indexPath.row)
+            let itemForDeletion = filtredItemsArray[indexPath.row]
+            if  let indexForDetetion = items.index(of: itemForDeletion), indexForDetetion >= 0, indexForDetetion < items.count {
+                items.remove(at: indexForDetetion)
+            }
         }
     }
-
 
 }
 

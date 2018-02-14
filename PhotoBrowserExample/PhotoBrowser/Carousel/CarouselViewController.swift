@@ -210,8 +210,9 @@ class CarouselViewController: UIViewController, Presentatable {
         
         let deleteForMeAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
             guard let `self` = self else { return }
-            self.presentationInputOutput.deleteItems(indexPathes: Set([self.currentCellIndexPath]))
-            
+            self.presentationInputOutput.deleteItems(withTypes: self.supportedTypes, indexPathes: Set([self.currentCellIndexPath]))
+            self.collectionView.reloadData()
+            self.carouselControlCollectionView.reloadData()
         }
         alertController.addAction(deleteForMeAction)
         

@@ -14,7 +14,7 @@ import UIKit
 protocol PhotoBrowserDelegate: class {
 
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
-    func deleteItems(indexPathes: Set<IndexPath>)
+    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func scrollToMessage(at indexPath: IndexPath)
 
 }
@@ -22,7 +22,7 @@ protocol PhotoBrowserDelegate: class {
 //relations with someone who has created browser
 protocol PhotoBrowserDataSouce: class {
 
-    func numberOfItems() -> Int
+//    func numberOfItems() -> Int
     func startingItemIndexPath() -> IndexPath
     func item(at indexPath: IndexPath) -> Item?
     func numberOfItems(withTypes types: [ItemType]) -> Int
@@ -56,7 +56,7 @@ protocol PresentationOutput: class {
 
     func setItemAsCurrent(at indexPath: IndexPath)
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
-    func deleteItems(indexPathes: Set<IndexPath>)
+    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
 
@@ -230,10 +230,8 @@ extension PhotoBrowser: PresentationOutput {
         externalDelegate?.setItemAs(isLiked: isLiked, at: indexPath)
     }
 
-    func deleteItems(indexPathes: Set<IndexPath>) {
-        //TODO: consider indexes with Types and indexes at all difference
-        print("delete", indexPathes)
-
+    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+        externalDelegate?.deleteItems(withTypes: types, indexPathes: indexPathes)
     }
 
     func setItemAsCurrent(at indexPath: IndexPath) {

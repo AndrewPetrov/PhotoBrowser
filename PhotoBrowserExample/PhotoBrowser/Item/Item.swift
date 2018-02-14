@@ -57,7 +57,7 @@ enum DeliveryStatus {
     case seen
 }
 
-class Item {
+class Item: Equatable {
     var image: UIImage
     var name: String
     var sentTime: Date
@@ -79,6 +79,10 @@ class Item {
         self.type = type
         self.deliveryStatus = deliveryStatus
         self.messageIndexPath = messageIndexPath
+    }
+
+    static func ==(lhs: Item, rhs: Item) -> Bool {
+        return lhs.image == rhs.image
     }
 
 }
