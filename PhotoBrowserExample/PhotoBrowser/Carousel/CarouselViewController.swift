@@ -262,7 +262,7 @@ extension CarouselViewController: PhotoBrowserInternalDelegate {
     func currentItemIndexDidChange() {
         updateToolBar()
         setupDelegate()
-        if !collectionView.isDragging {
+        if !collectionView.isTracking {
             collectionView.scrollToItem(
                 at: presentationInputOutput.currentItemIndex(),
                 at: .centeredHorizontally,
