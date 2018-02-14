@@ -71,6 +71,7 @@ class CarouselViewController: UIViewController, Presentatable {
         
         setupToolBar()
         setupNavigationBar()
+        setupCarouselControlCollectionView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -79,6 +80,7 @@ class CarouselViewController: UIViewController, Presentatable {
         //crolls only once each time after screen appears
         needToScroll = true
         //force viewDidLayoutSubviews always after viewWillAppear
+//        carouselControlCollectionView.reloadData()
         view.setNeedsLayout()
     }
 
@@ -87,8 +89,6 @@ class CarouselViewController: UIViewController, Presentatable {
 
         setupDelegate()
         setupGestureRecognizers()
-        setupCarouselControlCollectionView()
-        carouselControlCollectionView.reloadData()
     }
 
     override func viewDidLayoutSubviews() {
@@ -131,12 +131,17 @@ class CarouselViewController: UIViewController, Presentatable {
         carouselControlCollectionView.delegate = carouselControlAdapter
         carouselControlCollectionView.dataSource = carouselControlAdapter
 
-        carouselControlCollectionView.collectionViewLayout =
-            CarouselControlCollectionLayout(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
+        let itemSize =  CGSize(width: 30, height: 50)
+        carouselControlAdapter.gapSpace = (view.frame.width - itemSize.width) / 2
+        let layout = CarouselControlCollectionLayout(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
+
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 2
+
+
+
+        carouselControlCollectionView.collectionViewLayout = layout
         carouselControlCollectionView.collectionViewLayout.invalidateLayout()
-
-        carouselControlCollectionView.contentSize = CGSize(width: 200, height: 50)
-
     }
 
     @objc private func switchToContainerPresentation() {

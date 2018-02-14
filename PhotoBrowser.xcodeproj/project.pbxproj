@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		687642B1462281F9D302A4F7 /* Pods_PhotoBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FD59C9CF877DD0AD0CCF761 /* Pods_PhotoBrowser.framework */; };
+		77061D1B2033887D0029E314 /* CarouselControlCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77061D1A2033887D0029E314 /* CarouselControlCollectionLayout.swift */; };
+		772D969320337CA9003903EC /* CarouselControlAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772D969220337CA9003903EC /* CarouselControlAdapter.swift */; };
+		772D969620337EEB003903EC /* CarouselControlCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772D969520337EEB003903EC /* CarouselControlCollectionViewCell.swift */; };
 		7737C758203076D90052F6A2 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C757203076D90052F6A2 /* ContainerViewController.swift */; };
 		7737C75C203078340052F6A2 /* LinksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75B203078340052F6A2 /* LinksViewController.swift */; };
 		7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75D203078460052F6A2 /* DocsViewController.swift */; };
@@ -34,6 +37,9 @@
 		0FD59C9CF877DD0AD0CCF761 /* Pods_PhotoBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PhotoBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B13470561440D3C87A48552 /* Pods-PhotoBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoBrowser/Pods-PhotoBrowser.release.xcconfig"; sourceTree = "<group>"; };
 		67B9524101D1AD597D0BB666 /* Pods-PhotoBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PhotoBrowser/Pods-PhotoBrowser.debug.xcconfig"; sourceTree = "<group>"; };
+		77061D1A2033887D0029E314 /* CarouselControlCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselControlCollectionLayout.swift; sourceTree = "<group>"; };
+		772D969220337CA9003903EC /* CarouselControlAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselControlAdapter.swift; sourceTree = "<group>"; };
+		772D969520337EEB003903EC /* CarouselControlCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselControlCollectionViewCell.swift; sourceTree = "<group>"; };
 		7737C757203076D90052F6A2 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		7737C75B203078340052F6A2 /* LinksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinksViewController.swift; sourceTree = "<group>"; };
 		7737C75D203078460052F6A2 /* DocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +91,16 @@
 				2B13470561440D3C87A48552 /* Pods-PhotoBrowser.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		772D969420337E6E003903EC /* CarouselControlCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				77061D1A2033887D0029E314 /* CarouselControlCollectionLayout.swift */,
+				772D969220337CA9003903EC /* CarouselControlAdapter.swift */,
+				772D969520337EEB003903EC /* CarouselControlCollectionViewCell.swift */,
+			);
+			path = CarouselControlCollectionView;
 			sourceTree = "<group>";
 		};
 		7737C7562030758E0052F6A2 /* Container */ = {
@@ -152,6 +168,7 @@
 		77A4A4EF202E669D000B73B3 /* Carousel */ = {
 			isa = PBXGroup;
 			children = (
+				772D969420337E6E003903EC /* CarouselControlCollectionView */,
 				77A4A4E5202E2F49000B73B3 /* CarouselViewController.swift */,
 				77A4A4F2202E676D000B73B3 /* CarouselCollectionViewCell.swift */,
 			);
@@ -332,6 +349,8 @@
 				77A4A4EE202E553C000B73B3 /* TableViewCell.swift in Sources */,
 				7737C758203076D90052F6A2 /* ContainerViewController.swift in Sources */,
 				77A4A4EA202E301C000B73B3 /* TableViewController.swift in Sources */,
+				772D969320337CA9003903EC /* CarouselControlAdapter.swift in Sources */,
+				772D969620337EEB003903EC /* CarouselControlCollectionViewCell.swift in Sources */,
 				773AA7B52031DE8200930D51 /* Selectable+protocol.swift in Sources */,
 				7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */,
 				77A4A4E8202E2F87000B73B3 /* MediaViewController.swift in Sources */,
@@ -340,6 +359,7 @@
 				7737C75C203078340052F6A2 /* LinksViewController.swift in Sources */,
 				77A4A4EC202E53C6000B73B3 /* MediaCollectionViewCell.swift in Sources */,
 				779A8D80202E282400CCFF26 /* AppDelegate.swift in Sources */,
+				77061D1B2033887D0029E314 /* CarouselControlCollectionLayout.swift in Sources */,
 				7737C760203082B20052F6A2 /* LinkTableViewCell.swift in Sources */,
 				77A97DE12031D06200F79E3C /* WebViewController.swift in Sources */,
 				77DF1E7E202E2A50003CFA75 /* PhotoBrowser.swift in Sources */,
