@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TableViewController: SelectableViewController, PresentationViewController {
+class TableViewController: SelectableViewController, Presentatable {
 
     let presentation: Presentation = .table
 
@@ -48,7 +48,7 @@ class TableViewController: SelectableViewController, PresentationViewController 
         if isSelectionAllowed {
             toolbarBottomContraint.constant = 0
         } else {
-            if let navigationController = navigationController {
+            if let navigationController = parent?.navigationController {
                 toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
             }
         }
@@ -67,13 +67,13 @@ class TableViewController: SelectableViewController, PresentationViewController 
     }
 
     override func updateNavigationBar() {
-        navigationItem.hidesBackButton = isSelectionAllowed
-        navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
+        parent?.navigationItem.hidesBackButton = isSelectionAllowed
+        parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
     }
 
     private func setupNavigationBar() {
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
-        navigationItem.rightBarButtonItem = selectButton
+        parent?.navigationItem.rightBarButtonItem = selectButton
 
         selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
     }
@@ -83,7 +83,7 @@ class TableViewController: SelectableViewController, PresentationViewController 
     }
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
-        return indexPath.row == presentationInputOutput.numberOfItems() - 1
+        return indexPath.row == presentationInputOutput.numberOfItems(withType: supportedTypes) - 1
     }
 
     @IBAction func actionButtonDidTap(_ sender: Any) {

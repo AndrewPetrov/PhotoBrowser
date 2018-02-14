@@ -41,7 +41,7 @@ protocol ContainerViewControllerDelegate {
     func reloadUI()
 }
 
-class ContainerViewController: SelectableViewController, PresentationViewController {
+class ContainerViewController: SelectableViewController, Presentatable {
 
     let presentation: Presentation = .container
 
@@ -129,7 +129,7 @@ class ContainerViewController: SelectableViewController, PresentationViewControl
         if isSelectionAllowed {
             toolbarBottomContraint.constant = 0
         } else {
-            if let navigationController = navigationController {
+            if let navigationController = parent?.navigationController {
                 toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
             }
         }
@@ -142,8 +142,6 @@ class ContainerViewController: SelectableViewController, PresentationViewControl
         //do nothing for now
     }
 
-
-
     private func setupNavigationBar() {
         mediaTypesSegmentedControl = UISegmentedControl(items: [
             ContainerItemTypes.media.title,
@@ -153,17 +151,17 @@ class ContainerViewController: SelectableViewController, PresentationViewControl
 
         mediaTypesSegmentedControl.selectedSegmentIndex = 0;
         mediaTypesSegmentedControl.addTarget(self, action: #selector(mediaTypeDidChange(_:)), for: .valueChanged)
-        navigationItem.titleView = mediaTypesSegmentedControl
+        parent?.navigationItem.titleView = mediaTypesSegmentedControl
 
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
-        navigationItem.rightBarButtonItem = selectButton
+        parent?.navigationItem.rightBarButtonItem = selectButton
 
         selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
     }
 
     internal override func updateNavigationBar() {
-        navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
-        navigationItem.hidesBackButton = isSelectionAllowed
+        parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
+        parent?.navigationItem.hidesBackButton = isSelectionAllowed
     }
 
     @objc func mediaTypeDidChange(_ sender: UISegmentedControl) {

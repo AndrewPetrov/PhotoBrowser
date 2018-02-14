@@ -33,6 +33,21 @@ class ViewController: UIViewController {
         items.append(ImageItem(image: UIImage(named: "11")!, deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "3")!, deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "5")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "11")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "3")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "5")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "11")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "3")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "5")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "11")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "3")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "5")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "11")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "3")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "5")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "11")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "3")!, deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "5")!, deliveryStatus: .delivered))
 
         //add links
         items.append(LinkItem(url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
@@ -48,14 +63,14 @@ class ViewController: UIViewController {
     @IBAction func didTapOnGroupedPhoto(_ sender: Any) {
         photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .table)
         if let photoBrowser = photoBrowser {
-            navigationController?.pushViewController(photoBrowser, animated: false)
+            navigationController?.pushViewController(photoBrowser, animated: true)
         }
     }
 
     @IBAction func didTapOnSinglePhoto(_ sender: Any) {
         photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .carousel)
         if let photoBrowser = photoBrowser {
-            navigationController?.pushViewController(photoBrowser, animated: false)
+            navigationController?.pushViewController(photoBrowser, animated: true)
         }
     }
 

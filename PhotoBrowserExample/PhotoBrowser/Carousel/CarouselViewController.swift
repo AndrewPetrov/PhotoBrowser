@@ -15,13 +15,17 @@ protocol CarouselViewControllerDelegate {
     func didDoubleTap(_: CarouselViewController)
 }
 
-class CarouselViewController: UIViewController, PresentationViewController {
+class CarouselViewController: UIViewController, Presentatable {
 
     let presentation: Presentation = .carousel
     private let supportedTypes: [ItemType] = [.image, .video]
     private weak var presentationInputOutput: PresentationInputOutput!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var carouselControlCollectionView: UICollectionView!
+
+    lazy private var carouselControlAdapter: CarouselControlAdapter =
+        CarouselControlAdapter(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
     @IBOutlet private weak var carouselView: UIView!
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var deleteBarButtonItem: UIBarButtonItem!
@@ -83,6 +87,8 @@ class CarouselViewController: UIViewController, PresentationViewController {
 
         setupDelegate()
         setupGestureRecognizers()
+        setupCarouselControlCollectionView()
+        carouselControlCollectionView.reloadData()
     }
 
     override func viewDidLayoutSubviews() {
@@ -107,7 +113,7 @@ class CarouselViewController: UIViewController, PresentationViewController {
 
     private func setupNavigationBar() {
         let allMediaBarButtonItem = UIBarButtonItem(title: "AllMedia", style: .plain, target: self, action: #selector(switchToContainerPresentation))
-        navigationItem.rightBarButtonItem = allMediaBarButtonItem
+        parent?.navigationItem.rightBarButtonItem = allMediaBarButtonItem
     }
     
     private func setupToolBar() {
@@ -119,6 +125,18 @@ class CarouselViewController: UIViewController, PresentationViewController {
         let likeBarButtonItem = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
         
         toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem, flexibleSpace, deleteBarButtonItem]
+    }
+
+    private func setupCarouselControlCollectionView() {
+        carouselControlCollectionView.delegate = carouselControlAdapter
+        carouselControlCollectionView.dataSource = carouselControlAdapter
+
+        carouselControlCollectionView.collectionViewLayout =
+            CarouselControlCollectionLayout(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
+        carouselControlCollectionView.collectionViewLayout.invalidateLayout()
+
+        carouselControlCollectionView.contentSize = CGSize(width: 200, height: 50)
+
     }
 
     @objc private func switchToContainerPresentation() {
@@ -135,7 +153,7 @@ class CarouselViewController: UIViewController, PresentationViewController {
     
     private func toggleFullScreen() {
         isFullScreen = !isFullScreen
-        navigationController?.setNavigationBarHidden(isFullScreen, animated: true)
+        parent?.navigationController?.setNavigationBarHidden(isFullScreen, animated: true)
         carouselView.alpha = isFullScreen ? 0 : 1
         toolbar.alpha = isFullScreen ? 0 : 1
         setNeedsStatusBarAppearanceUpdate()
@@ -177,7 +195,7 @@ class CarouselViewController: UIViewController, PresentationViewController {
     }
     
     @IBAction func collectionViewDidTap(_ sender: UITapGestureRecognizer) {
-        if let videoItem = presentationInputOutput.item(at: currentCellIndexPath) as? VideoItem {
+        if let videoItem = presentationInputOutput.item(withType: supportedTypes, at: currentCellIndexPath) as? VideoItem {
             let player = AVPlayer(url: videoItem.url)
             let playerController = AVPlayerViewController()
             playerController.player = player

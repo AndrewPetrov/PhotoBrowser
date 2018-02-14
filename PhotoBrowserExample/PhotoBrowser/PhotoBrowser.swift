@@ -33,10 +33,9 @@ protocol PresentationInput: class {
 
     func currentItemIndex() -> IndexPath
     func isItemLiked(at indexPath: IndexPath) -> Bool
-    func numberOfItems() -> Int
     func numberOfItems(withType types: [ItemType]) -> Int
     func item(withType types: [ItemType], at indexPath: IndexPath) -> Item?
-    func item(at indexPath: IndexPath) -> Item?
+
 }
 
 protocol PresentationOutput: class {
@@ -57,7 +56,9 @@ enum Presentation {
 
 }
 
-protocol PresentationViewController {
+typealias PresentationViewController = Presentatable & UIViewController
+
+protocol Presentatable where Self: UIViewController {
 
     var presentation: Presentation { get }
 
@@ -95,9 +96,7 @@ class PhotoBrowser: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.delegate = self
 
-        view.backgroundColor = UIColor.white
         switchToCurrentPresentation()
     }
 
@@ -108,12 +107,55 @@ class PhotoBrowser: UIViewController {
     }
 
     func switchToCurrentPresentation() {
-        guard let currentPresentationViewController = getViewController(by: currentPresentation) as? UIViewController else { return }
-        
-        if let viewControllers = navigationController?.viewControllers, viewControllers.contains(currentPresentationViewController) {
-            navigationController?.popToViewController(currentPresentationViewController, animated: true)
+        guard let currentPresentationViewController = getViewController(by: currentPresentation) else { return }
+        if let previousPresentation = previousPresentation, let previousPresentationViewController = getViewController(by: previousPresentation) {
+            previousPresentationViewController.willMove(toParentViewController: nil)
+            addChildViewController(currentPresentationViewController)
+
+            previousPresentationViewController.view.alpha = 1
+            currentPresentationViewController.view.alpha = 0
+            transition(
+                from: previousPresentationViewController,
+                to: currentPresentationViewController,
+                duration: 0.33,
+                options: .curveEaseInOut,
+                animations: {
+                    previousPresentationViewController.view.alpha = 0
+                    currentPresentationViewController.view.alpha = 1
+            }, completion: { _ in
+                previousPresentationViewController.removeFromParentViewController()
+                currentPresentationViewController.didMove(toParentViewController: self)
+            })
+
         } else {
-            navigationController?.pushViewController(currentPresentationViewController, animated: true)
+            add(asChildViewController: currentPresentationViewController)
+        }
+
+        return
+
+        // variant without animation
+        if childViewControllers.count != 0 {
+            removeChildViewControllers()
+        }
+
+        add(asChildViewController: currentPresentationViewController)
+    }
+
+    private func add(asChildViewController viewController: UIViewController) {
+
+        addChildViewController(viewController)
+        view.addSubview(viewController.view)
+
+        viewController.view.frame = view.bounds
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        viewController.didMove(toParentViewController: self)
+    }
+
+    private func removeChildViewControllers() {
+        for childViewController in childViewControllers {
+            childViewController.willMove(toParentViewController: nil)
+            childViewController.view.removeFromSuperview()
+            childViewController.removeFromParentViewController()
         }
     }
 
@@ -141,17 +183,8 @@ extension PhotoBrowser: PresentationInput {
         return false
     }
 
-
     func currentItemIndex() -> IndexPath {
         return currentItemIndexPath
-    }
-
-    func numberOfItems() -> Int {
-        return dataSource?.numberOfItems() ?? 0
-    }
-
-    func item(at indexPath: IndexPath) -> Item? {
-        return dataSource?.item(at: indexPath)
     }
 
 }
@@ -181,18 +214,6 @@ extension PhotoBrowser: PresentationOutput {
 
     func setItemAsCurrent(at indexPath: IndexPath) {
         currentItemIndexPath = indexPath
-    }
-
-}
-
-extension PhotoBrowser: UINavigationControllerDelegate {
-
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-
-        if viewController == self, animated == true {
-            navigationController.popViewController(animated: false)
-        }
-
     }
 
 }
