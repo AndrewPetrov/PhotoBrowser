@@ -80,6 +80,17 @@ class ViewController: UIViewController {
 
 extension ViewController: PhotoBrowserDataSouce {
 
+    func typesOfItems() -> [ItemType] {
+        var itemTypes = Set<ItemType>()
+        _ = items.map { itemTypes.insert($0.type) }
+
+        return Array(itemTypes)
+    }
+
+    func senderName() -> String {
+        return "Some your friend"
+    }
+
     func numberOfItems(withTypes types: [ItemType]) -> Int {
         return filtredItems(withTypes: types).count
     }

@@ -27,6 +27,8 @@ protocol PhotoBrowserDataSouce: class {
     func item(at indexPath: IndexPath) -> Item?
     func numberOfItems(withTypes types: [ItemType]) -> Int
     func item(withTypes types: [ItemType], at indexPath: IndexPath) -> Item?
+    func senderName() -> String
+    func typesOfItems() -> [ItemType]
 
 }
 
@@ -45,6 +47,8 @@ protocol PresentationInput: class {
     func isItemLiked(at indexPath: IndexPath) -> Bool
     func numberOfItems(withType types: [ItemType]) -> Int
     func item(withType types: [ItemType], at indexPath: IndexPath) -> Item?
+    func senderName() -> String
+    func typesOfItems() -> [ItemType]
 
 }
 
@@ -179,6 +183,14 @@ class PhotoBrowser: UIViewController {
 }
 
 extension PhotoBrowser: PresentationInput {
+
+    func typesOfItems() -> [ItemType] {
+        return dataSource?.typesOfItems() ?? [ItemType]()
+    }
+
+    func senderName() -> String {
+        return dataSource?.senderName() ?? ""
+    }
 
     func item(withType types: [ItemType], at indexPath: IndexPath) -> Item? {
         return dataSource?.item(withTypes: types, at: indexPath)

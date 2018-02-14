@@ -36,6 +36,19 @@ enum ItemType: Equatable {
         }
     }
 
+    func description(isPlural: Bool) -> String {
+        switch self {
+        case .image:
+            return isPlural ? "Images" : "Image"
+        case .video:
+            return isPlural ? "Videos" : "Video"
+        case .link:
+            return isPlural ? "Links" : "Link"
+        case .document:
+            return isPlural ? "Documents" : "Document"
+        }
+    }
+
 }
 
 enum DeliveryStatus {

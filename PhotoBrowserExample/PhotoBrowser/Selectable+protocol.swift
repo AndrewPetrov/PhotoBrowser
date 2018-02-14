@@ -54,11 +54,17 @@ class SelectableViewController: UIViewController {
         fatalError("need to override reloadUI")
     }
 
-
     internal func getSelectionTitle() -> String {
-        //TODO: concider other type combinations
-        let type = "Items"
-        return "\(selectedIndexPathes.count) " + type + " Selected"
+
+        var itemTypes = Set<ItemType>()
+        for indexPath in selectedIndexPathes {
+            if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
+                itemTypes.insert(item.type)
+            }
+        }
+        return ItemsSelectionHelper.getSelectionTitle(
+            itemTypes: Array(itemTypes),
+            count: selectedIndexPathes.count)
     }
 
     private func updateSelectButtonTitle() {
@@ -89,7 +95,7 @@ class SelectableViewController: UIViewController {
 
         present(alertController, animated: true, completion: nil)
     }
-
+// FIXME fix selection all
     @objc internal func toggleSelectAll() {
         //select all
         if selectedIndexPathes.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {

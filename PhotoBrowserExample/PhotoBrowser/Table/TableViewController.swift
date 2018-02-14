@@ -21,6 +21,8 @@ class TableViewController: SelectableViewController, Presentatable {
     @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
 
+    // MARK: - Life cycle
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -42,24 +44,47 @@ class TableViewController: SelectableViewController, Presentatable {
         TableViewController.dateFormatter.dateStyle = .short
         setupNavigationBar()
         setupToolbar()
+        updateToolbarPosition()
     }
+
+    // MARK: - Setup controls
+
+    private func setupToolbar() {
+        trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
+        toolbar.items?.append(trashButton)
+    }
+
+    private func setupNavigationBar() {
+        selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
+        parent?.navigationItem.rightBarButtonItem = selectButton
+
+        selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
+
+        let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+        let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
+            itemTypes: presentationInputOutput.typesOfItems(),
+            count: presentationInputOutput.numberOfItems(withType: supportedTypes)
+        )
+        titleView.setup(sender: presentationInputOutput.senderName(), items: itemsTitle)
+        parent?.navigationItem.titleView = titleView
+    }
+
+    // MARK: - Update controls
 
     internal override func updateToolbarPosition() {
         if isSelectionAllowed {
             toolbarBottomContraint.constant = 0
         } else {
-            if let navigationController = parent?.navigationController {
-                toolbarBottomContraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
+            toolbarBottomContraint.constant = -toolbar.frame.height
+            //consider extra padding point for iPhone X
+            if #available(iOS 11.0, *), let window = UIApplication.shared.keyWindow {
+                let bottomPadding = window.safeAreaInsets.bottom
+                toolbarBottomContraint.constant -= bottomPadding
             }
         }
         UIView.animate(withDuration: 0.33) {
             self.view.layoutIfNeeded()
         }
-    }
-
-    private func setupToolbar() {
-        trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
-        toolbar.items?.append(trashButton)
     }
 
     internal override func updateSelectionTitle() {
@@ -71,13 +96,6 @@ class TableViewController: SelectableViewController, Presentatable {
         parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
     }
 
-    private func setupNavigationBar() {
-        selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
-        parent?.navigationItem.rightBarButtonItem = selectButton
-
-        selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
-    }
-
     internal override func reloadUI() {
         tableView.reloadData()
     }
@@ -85,6 +103,8 @@ class TableViewController: SelectableViewController, Presentatable {
     private func isLastCell(indexPath: IndexPath) -> Bool {
         return indexPath.row == presentationInputOutput.numberOfItems(withType: supportedTypes) - 1
     }
+
+    // MARK: - User actions
 
     @IBAction func actionButtonDidTap(_ sender: Any) {
         //TODO: add action here

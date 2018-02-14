@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TitleView" customModule="PhotoBrowser" customModuleProvider="target">
+            <connections>
+                <outlet property="itemsLabel" destination="M94-58-LmD" id="41f-Ju-E2A"/>
+                <outlet property="senderLabel" destination="pqo-eT-uHn" id="Vh9-xv-6Nv"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="271" height="48"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqo-eT-uHn">
+                    <rect key="frame" x="0.0" y="3" width="271" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="ibq-ix-XQX"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M94-58-LmD">
+                    <rect key="frame" x="0.0" y="26" width="271" height="19"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pqo-eT-uHn" secondAttribute="trailing" id="F6e-8f-Sx0"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="M94-58-LmD" secondAttribute="trailing" id="hoU-8v-Wiq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="M94-58-LmD" secondAttribute="bottom" constant="3" id="jVl-Rt-bAR"/>
+                <constraint firstItem="M94-58-LmD" firstAttribute="top" secondItem="pqo-eT-uHn" secondAttribute="bottom" constant="3" id="lYG-D4-716"/>
+                <constraint firstItem="pqo-eT-uHn" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="3" id="lf0-Ow-oV1"/>
+                <constraint firstItem="pqo-eT-uHn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="pac-LO-yp1"/>
+                <constraint firstItem="M94-58-LmD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="zCM-jJ-19N"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="85.5" y="-256"/>
+        </view>
+    </objects>
+</document>
