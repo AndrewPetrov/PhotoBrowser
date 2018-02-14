@@ -13,13 +13,16 @@ class CarouselControlAdapter: NSObject {
 
     private let supportedTypes: [ItemType]
 
-    var gapSpace: CGFloat = 0
+    private weak var collectionView: UICollectionView!
+    private var gapSpace: CGFloat {
+        return (collectionView.frame.width - itemSize.width) / 2
+    }
     let itemSize = CGSize(width: 30, height: 50)
-//    var stopContentOffsets: Set<CGFloat>
 
     private weak var presentationInputOutput: PresentationInputOutput!
 
-    init(presentationInputOutput: PresentationInputOutput, supportedTypes: [ItemType]) {
+    init(collectionView: UICollectionView, presentationInputOutput: PresentationInputOutput, supportedTypes: [ItemType]) {
+        self.collectionView = collectionView
         self.presentationInputOutput = presentationInputOutput
         self.supportedTypes = supportedTypes
     }
@@ -30,10 +33,6 @@ class CarouselControlAdapter: NSObject {
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
         return indexPath.row == presentationInputOutput.numberOfItems(withType: supportedTypes) - 1
-    }
-
-    private func populateStopContentOffsets() {
-//        for cell in 0..<presentationInputOutput.numberOfItems(withType: supportedTypes)
     }
 
 }
@@ -58,67 +57,50 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
             cell.configureCell(image: item.image, leftOffset: leftOffset, rightOffset: rightOffset)
         }
 
-
-
         return cell
     }
+
+    private func updateCurrentCellIndexPath(_ contentOffset: CGFloat) {
+        let centerPoint = CGPoint(x: collectionView.frame.width / 2 , y: 0)
+        let convertedPoint = collectionView.convert(centerPoint, from: collectionView.backgroundView)
+        if let currentIndex = collectionView.indexPathForItem(at: CGPoint(x: convertedPoint.x, y: 0)) {
+            presentationInputOutput.setItemAsCurrent(at: currentIndex)
+        }
+    }
+    
 }
 
 extension CarouselControlAdapter: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
+        if scrollView.isDragging {
+            updateCurrentCellIndexPath(scrollView.contentOffset.x)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         presentationInputOutput.setItemAsCurrent(at: indexPath)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: true)
+    }
 
-
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: true)
+    }
 
 }
 
 extension CarouselControlAdapter: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var itemWidth = itemSize.width
         if isFirstCell(indexPath: indexPath) || isLastCell(indexPath: indexPath) {
-            return CGSize(width: itemSize.width + gapSpace, height: itemSize.height)
-//            stopContentOffsets.insert(itemSize.width / 2 + gapSpace)
-        } else {
-            return CGSize(width: itemSize.width, height: itemSize.height)
-//            stopContentOffsets.insert(<#T##newMember: CGFloat##CGFloat#>)
+            itemWidth += gapSpace
         }
 
+        return CGSize(width: itemWidth, height: itemSize.height)
     }
 
 }
-
-
-
-//extension CarouselControlAdapter: UICollectionViewDelegateFlowLayout {
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        if indexPath == presentationInputOutput.currentItemIndex() {
-//            return CGSize(width: 100, height: 50)
-//        }
-//        return CGSize(width: 50, height: 50)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        if indexPath == presentationInputOutput.currentItemIndex() {
-//            return 10
-//        }
-//        return 0
-//
-//    }
-//
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//    }
-//
-//}
-
-

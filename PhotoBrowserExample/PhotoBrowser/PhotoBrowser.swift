@@ -225,8 +225,10 @@ extension PhotoBrowser: PresentationOutput {
     }
 
     func setItemAsCurrent(at indexPath: IndexPath) {
-        currentItemIndexPath = indexPath
-        internalDelegate?.currentItemIndexDidChange()
+        if currentItemIndexPath != indexPath {
+            currentItemIndexPath = indexPath
+            internalDelegate?.currentItemIndexDidChange()
+        }
     }
 
 }

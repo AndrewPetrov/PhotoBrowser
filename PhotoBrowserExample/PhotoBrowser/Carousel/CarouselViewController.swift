@@ -24,8 +24,10 @@ class CarouselViewController: UIViewController, Presentatable {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var carouselControlCollectionView: UICollectionView!
 
+    private var isCollectionScrollingByFinger = false
+
     lazy private var carouselControlAdapter: CarouselControlAdapter =
-        CarouselControlAdapter(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
+        CarouselControlAdapter(collectionView: carouselControlCollectionView, presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
     @IBOutlet private weak var carouselView: UIView!
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var deleteBarButtonItem: UIBarButtonItem!
@@ -34,17 +36,21 @@ class CarouselViewController: UIViewController, Presentatable {
     @IBOutlet private var doubleTapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet private var singleTapGestureRecognizer: UITapGestureRecognizer!
 
+    //caching scaled images
+    private let uiBarButtonImageSize = CGSize(width: 25, height: 25)
+    private lazy var likedYesSizedImage = imageWithImage(image: #imageLiteral(resourceName: "likedYes"), scaledToSize: uiBarButtonImageSize)
+    private lazy var likedNoSizedImage = imageWithImage(image: #imageLiteral(resourceName: "likeNo"), scaledToSize: uiBarButtonImageSize)
+    private lazy var flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+
+
     var needToScroll = true
     
     private var delegate: CarouselViewControllerDelegate!
     
-    private var currentCellIndexPath = IndexPath(row: 0, section: 0) {
-        didSet {
-            setupToolBar()
-            setupDelegate()
-        }
+    private var currentCellIndexPath : IndexPath {
+        return presentationInputOutput.currentItemIndex()
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return isFullScreen
     }
@@ -69,7 +75,7 @@ class CarouselViewController: UIViewController, Presentatable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupToolBar()
+        updateToolBar()
         setupNavigationBar()
         setupCarouselControlCollectionView()
     }
@@ -80,7 +86,6 @@ class CarouselViewController: UIViewController, Presentatable {
         //crolls only once each time after screen appears
         needToScroll = true
         //force viewDidLayoutSubviews always after viewWillAppear
-//        carouselControlCollectionView.reloadData()
         carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
         view.setNeedsLayout()
     }
@@ -117,30 +122,21 @@ class CarouselViewController: UIViewController, Presentatable {
         let allMediaBarButtonItem = UIBarButtonItem(title: "AllMedia", style: .plain, target: self, action: #selector(switchToContainerPresentation))
         parent?.navigationItem.rightBarButtonItem = allMediaBarButtonItem
     }
-    
-    private func setupToolBar() {
+
+    private func updateToolBar() {
         let isLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
-        let size = CGSize(width: 25, height: 25)
-        let image = isLiked ? #imageLiteral(resourceName: "likedYes") : #imageLiteral(resourceName: "likeNo")
-        let sizedImage = imageWithImage(image: image, scaledToSize: size)
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let sizedImage = isLiked ? likedYesSizedImage : likedNoSizedImage
         let likeBarButtonItem = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
-        
         toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem, flexibleSpace, deleteBarButtonItem]
     }
 
     private func setupCarouselControlCollectionView() {
         carouselControlCollectionView.delegate = carouselControlAdapter
         carouselControlCollectionView.dataSource = carouselControlAdapter
-
-        let itemSize =  CGSize(width: 30, height: 50)
-        carouselControlAdapter.gapSpace = (view.frame.width - itemSize.width) / 2
         let layout = CarouselControlCollectionLayout(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
 
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-
-
 
         carouselControlCollectionView.collectionViewLayout = layout
         carouselControlCollectionView.collectionViewLayout.invalidateLayout()
@@ -198,7 +194,7 @@ class CarouselViewController: UIViewController, Presentatable {
     @objc func likeButtonDidTap(_ sender: Any) {
         let isCellLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
         presentationInputOutput.setItemAs(isLiked: !isCellLiked, at: currentCellIndexPath)
-        setupToolBar()
+        updateToolBar()
     }
     
     @IBAction func collectionViewDidTap(_ sender: UITapGestureRecognizer) {
@@ -218,10 +214,10 @@ class CarouselViewController: UIViewController, Presentatable {
         delegate.didDoubleTap(self)
     }
     
-    private func calculateCurrentCellIndexPath(_ contentOffset: CGFloat) {
+    private func updateCurrentCellIndexPath(_ contentOffset: CGFloat) {
         let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
         let row = Int((contentOffset / cellWidth).rounded())
-        currentCellIndexPath = IndexPath(row: row, section: 0)
+        presentationInputOutput.setItemAsCurrent(at: IndexPath(row: row, section: 0))
     }
     
 }
@@ -246,7 +242,17 @@ extension CarouselViewController: UICollectionViewDataSource {
 extension CarouselViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        calculateCurrentCellIndexPath(scrollView.contentOffset.x)
+        if collectionView.isDragging {
+            updateCurrentCellIndexPath(scrollView.contentOffset.x)
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+
+    }
+
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+
     }
     
 }
@@ -254,8 +260,20 @@ extension CarouselViewController: UICollectionViewDelegate {
 extension CarouselViewController: PhotoBrowserInternalDelegate {
 
     func currentItemIndexDidChange() {
-        carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: true)
-        collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: true)
+        updateToolBar()
+        setupDelegate()
+        if !collectionView.isDragging {
+            collectionView.scrollToItem(
+                at: presentationInputOutput.currentItemIndex(),
+                at: .centeredHorizontally,
+                animated: true)
+        }
+        if !(carouselControlCollectionView.isTracking || carouselControlCollectionView.isDecelerating) {
+            carouselControlCollectionView.scrollToItem(
+                at: presentationInputOutput.currentItemIndex(),
+                at: .centeredHorizontally,
+                animated: true)
+        }
     }
 
 }
