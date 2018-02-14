@@ -11,12 +11,6 @@ import UIKit
 
 class LinkTableViewCell: UITableViewCell {
 
-    override var isSelected: Bool {
-        didSet{
-            updateSelectionImage(isSelected: isSelected)
-        }
-    }
-
     @IBOutlet private weak var mainImageView: UIImageView!
     @IBOutlet private weak var linkLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
@@ -34,7 +28,7 @@ class LinkTableViewCell: UITableViewCell {
         descriptionLabel.text = item.name
 
         selectionImageView.isHidden = !isSelectionAllowed
-        updateSelectionImage(isSelected: isSelected)
+        self.isSelected = isSelected
     }
 
     override func prepareForReuse() {
@@ -42,9 +36,10 @@ class LinkTableViewCell: UITableViewCell {
 
         mainImageView.image = nil
     }
-    //FIXME: fix the bug with selection
-    private func updateSelectionImage(isSelected: Bool) {
-        print(self, isSelected)
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
         selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
     }
 
