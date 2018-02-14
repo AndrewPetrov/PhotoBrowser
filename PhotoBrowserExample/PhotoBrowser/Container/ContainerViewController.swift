@@ -202,7 +202,13 @@ extension ContainerViewController: ContainerViewControllerOutput {
 
 }
 
+extension ContainerViewController: PhotoBrowserInternalDelegate {
 
+    func currentItemIndexDidChange() {
+        
+    }
+
+}
 
 
 

@@ -81,6 +81,7 @@ class CarouselViewController: UIViewController, Presentatable {
         needToScroll = true
         //force viewDidLayoutSubviews always after viewWillAppear
 //        carouselControlCollectionView.reloadData()
+        carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
         view.setNeedsLayout()
     }
 
@@ -89,6 +90,7 @@ class CarouselViewController: UIViewController, Presentatable {
 
         setupDelegate()
         setupGestureRecognizers()
+
     }
 
     override func viewDidLayoutSubviews() {
@@ -96,7 +98,7 @@ class CarouselViewController: UIViewController, Presentatable {
 
         setupCollectionView()
         if needToScroll {
-            collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false  )
+            collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
             needToScroll = false
         }
     }
@@ -136,7 +138,7 @@ class CarouselViewController: UIViewController, Presentatable {
         let layout = CarouselControlCollectionLayout(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
 
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 2
+        layout.minimumInteritemSpacing = 0
 
 
 
@@ -247,4 +249,13 @@ extension CarouselViewController: UICollectionViewDelegate {
         calculateCurrentCellIndexPath(scrollView.contentOffset.x)
     }
     
+}
+
+extension CarouselViewController: PhotoBrowserInternalDelegate {
+
+    func currentItemIndexDidChange() {
+        carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: true)
+    }
+
 }

@@ -172,9 +172,9 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nEy-r1-gjO">
-                                                            <rect key="frame" x="20" y="0.0" width="30" height="50"/>
+                                                            <rect key="frame" x="22" y="0.0" width="28" height="50"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="30" id="tXd-Hg-PtS"/>
+                                                                <constraint firstAttribute="width" constant="28" id="tXd-Hg-PtS"/>
                                                             </constraints>
                                                         </imageView>
                                                     </subviews>

@@ -144,3 +144,11 @@ extension TableViewController: UITableViewDelegate {
     }
 
 }
+
+extension TableViewController: PhotoBrowserInternalDelegate {
+
+    func currentItemIndexDidChange() {
+
+    }
+
+}

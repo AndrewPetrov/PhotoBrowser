@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+
+//relations with someone who has created browser
 protocol PhotoBrowserDelegate: class {
 
     func setItemAs(isLiked: Bool, at indexPath: IndexPath)
@@ -17,6 +19,7 @@ protocol PhotoBrowserDelegate: class {
 
 }
 
+//relations with someone who has created browser
 protocol PhotoBrowserDataSouce: class {
 
     func numberOfItems() -> Int
@@ -24,6 +27,13 @@ protocol PhotoBrowserDataSouce: class {
     func item(at indexPath: IndexPath) -> Item?
     func numberOfItems(withTypes types: [ItemType]) -> Int
     func item(withTypes types: [ItemType], at indexPath: IndexPath) -> Item?
+
+}
+
+//relations with presentations
+protocol PhotoBrowserInternalDelegate: class {
+
+    func currentItemIndexDidChange()
 
 }
 
@@ -56,7 +66,7 @@ enum Presentation {
 
 }
 
-typealias PresentationViewController = Presentatable & UIViewController
+typealias PresentationViewController = Presentatable & PhotoBrowserInternalDelegate & UIViewController
 
 protocol Presentatable where Self: UIViewController {
 
@@ -66,7 +76,8 @@ protocol Presentatable where Self: UIViewController {
 
 class PhotoBrowser: UIViewController {
 
-    private weak var delegate: PhotoBrowserDelegate?
+    private weak var externalDelegate: PhotoBrowserDelegate?
+    private weak var internalDelegate: PhotoBrowserInternalDelegate?
     private weak var dataSource: PhotoBrowserDataSouce?
     private var currentPresentation: Presentation
     //for transitions to the same item
@@ -79,7 +90,7 @@ class PhotoBrowser: UIViewController {
          starIndex: IndexPath = IndexPath(row: 0, section: 0)) {
 
         self.dataSource = dataSource
-        self.delegate = delegate
+        self.externalDelegate = delegate
         self.currentPresentation = presentation
         currentItemIndexPath = starIndex
 
@@ -108,6 +119,7 @@ class PhotoBrowser: UIViewController {
 
     func switchToCurrentPresentation() {
         guard let currentPresentationViewController = getViewController(by: currentPresentation) else { return }
+        internalDelegate = currentPresentationViewController
         if let previousPresentation = previousPresentation, let previousPresentationViewController = getViewController(by: previousPresentation) {
             previousPresentationViewController.willMove(toParentViewController: nil)
             addChildViewController(currentPresentationViewController)
@@ -161,7 +173,7 @@ class PhotoBrowser: UIViewController {
 
     private func openChat(on messageindexPath: IndexPath) {
         navigationController?.popToRootViewController(animated: false)
-        delegate?.scrollToMessage(at: messageindexPath)
+        externalDelegate?.scrollToMessage(at: messageindexPath)
     }
 
 }
@@ -203,7 +215,7 @@ extension PhotoBrowser: PresentationOutput {
 
     func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
         print("like = ", isLiked,  indexPath)
-        delegate?.setItemAs(isLiked: isLiked, at: indexPath)
+        externalDelegate?.setItemAs(isLiked: isLiked, at: indexPath)
     }
 
     func deleteItems(indexPathes: Set<IndexPath>) {
@@ -214,6 +226,7 @@ extension PhotoBrowser: PresentationOutput {
 
     func setItemAsCurrent(at indexPath: IndexPath) {
         currentItemIndexPath = indexPath
+        internalDelegate?.currentItemIndexDidChange()
     }
 
 }

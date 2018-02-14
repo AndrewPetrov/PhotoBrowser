@@ -14,7 +14,9 @@ class CarouselControlAdapter: NSObject {
     private let supportedTypes: [ItemType]
 
     var gapSpace: CGFloat = 0
-    
+    let itemSize = CGSize(width: 30, height: 50)
+//    var stopContentOffsets: Set<CGFloat>
+
     private weak var presentationInputOutput: PresentationInputOutput!
 
     init(presentationInputOutput: PresentationInputOutput, supportedTypes: [ItemType]) {
@@ -28,6 +30,10 @@ class CarouselControlAdapter: NSObject {
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
         return indexPath.row == presentationInputOutput.numberOfItems(withType: supportedTypes) - 1
+    }
+
+    private func populateStopContentOffsets() {
+//        for cell in 0..<presentationInputOutput.numberOfItems(withType: supportedTypes)
     }
 
 }
@@ -52,6 +58,8 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
             cell.configureCell(image: item.image, leftOffset: leftOffset, rightOffset: rightOffset)
         }
 
+
+
         return cell
     }
 }
@@ -59,7 +67,12 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
 extension CarouselControlAdapter: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
+
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presentationInputOutput.setItemAsCurrent(at: indexPath)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 
 
@@ -71,9 +84,11 @@ extension CarouselControlAdapter: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isFirstCell(indexPath: indexPath) || isLastCell(indexPath: indexPath) {
-            return CGSize(width: 30 + gapSpace, height: 50)
+            return CGSize(width: itemSize.width + gapSpace, height: itemSize.height)
+//            stopContentOffsets.insert(itemSize.width / 2 + gapSpace)
         } else {
-            return CGSize(width: 30, height: 50)
+            return CGSize(width: itemSize.width, height: itemSize.height)
+//            stopContentOffsets.insert(<#T##newMember: CGFloat##CGFloat#>)
         }
 
     }
