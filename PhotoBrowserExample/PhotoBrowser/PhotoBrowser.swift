@@ -13,7 +13,8 @@ import UIKit
 //relations with someone who has created browser
 protocol PhotoBrowserDelegate: class {
 
-    func setItemAs(isLiked: Bool, at indexPath: IndexPath)
+    // types is necessary for calculation unfiltred index path in all Items
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func scrollToMessage(at indexPath: IndexPath)
 
@@ -22,7 +23,6 @@ protocol PhotoBrowserDelegate: class {
 //relations with someone who has created browser
 protocol PhotoBrowserDataSouce: class {
 
-//    func numberOfItems() -> Int
     func startingItemIndexPath() -> IndexPath
     func item(at indexPath: IndexPath) -> Item?
     func numberOfItems(withTypes types: [ItemType]) -> Int
@@ -44,7 +44,7 @@ typealias PresentationInputOutput = PresentationInput & PresentationOutput
 protocol PresentationInput: class {
 
     func currentItemIndex() -> IndexPath
-    func isItemLiked(at indexPath: IndexPath) -> Bool
+    func isItemLiked(withTypes types: [ItemType], at indexPath: IndexPath) -> Bool
     func numberOfItems(withType types: [ItemType]) -> Int
     func item(withType types: [ItemType], at indexPath: IndexPath) -> Item?
     func senderName() -> String
@@ -55,7 +55,7 @@ protocol PresentationInput: class {
 protocol PresentationOutput: class {
 
     func setItemAsCurrent(at indexPath: IndexPath)
-    func setItemAs(isLiked: Bool, at indexPath: IndexPath)
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
@@ -183,6 +183,13 @@ class PhotoBrowser: UIViewController {
 }
 
 extension PhotoBrowser: PresentationInput {
+    func isItemLiked(withTypes types: [ItemType], at indexPath: IndexPath) -> Bool {
+        if let item = dataSource?.item(at: indexPath) as? Likable {
+            return item.isLiked
+        }
+        return false
+    }
+
 
     func typesOfItems() -> [ItemType] {
         return dataSource?.typesOfItems() ?? [ItemType]()
@@ -200,12 +207,6 @@ extension PhotoBrowser: PresentationInput {
         return dataSource?.numberOfItems(withTypes: types) ?? 0
     }
 
-    func isItemLiked(at indexPath: IndexPath) -> Bool {
-        if let item = dataSource?.item(at: indexPath) as? Likable {
-            return item.isLiked
-        }
-        return false
-    }
 
     func currentItemIndex() -> IndexPath {
         return currentItemIndexPath
@@ -214,6 +215,11 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath) {
+        print("like = ", isLiked,  indexPath)
+        externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPath)
+    }
+
 
     func goToMessage(with indexPath: IndexPath) {
         openChat(on: indexPath)
@@ -223,11 +229,6 @@ extension PhotoBrowser: PresentationOutput {
         previousPresentation = currentPresentation
         currentPresentation = presentation
         switchToCurrentPresentation()
-    }
-
-    func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
-        print("like = ", isLiked,  indexPath)
-        externalDelegate?.setItemAs(isLiked: isLiked, at: indexPath)
     }
 
     func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {

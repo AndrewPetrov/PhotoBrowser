@@ -83,7 +83,7 @@ class SelectableViewController: UIViewController {
         let deleteForMeAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
             guard let `self` = self else { return }
             self.presentationInputOutput.deleteItems(withTypes: self.supportedTypes, indexPathes: self.selectedIndexPathes)
-
+            self.reloadUI()
         }
         alertController.addAction(deleteForMeAction)
 

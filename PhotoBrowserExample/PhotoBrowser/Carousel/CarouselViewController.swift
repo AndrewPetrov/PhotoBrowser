@@ -161,7 +161,7 @@ class CarouselViewController: UIViewController, Presentatable {
     // MARK: - Update controls
 
     private func updateToolBar() {
-        let isLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
+        let isLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: currentCellIndexPath)
         let sizedImage = isLiked ? likedYesSizedImage : likedNoSizedImage
         let likeBarButtonItem = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
         toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem, flexibleSpace, deleteBarButtonItem]
@@ -229,8 +229,8 @@ class CarouselViewController: UIViewController, Presentatable {
     }
     
     @objc func likeButtonDidTap(_ sender: Any) {
-        let isCellLiked = presentationInputOutput.isItemLiked(at: currentCellIndexPath)
-        presentationInputOutput.setItemAs(isLiked: !isCellLiked, at: currentCellIndexPath)
+        let isCellLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: currentCellIndexPath)
+        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isCellLiked, at: currentCellIndexPath)
         updateToolBar()
     }
     

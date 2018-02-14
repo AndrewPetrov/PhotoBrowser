@@ -154,15 +154,19 @@ extension ViewController: PhotoBrowserDelegate {
     func scrollToMessage(at indexPath: IndexPath) {
         let alertController = UIAlertController(title: "Scrolled to message", message: "\(indexPath)", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Clear", style: .default) { [weak self] _ in
-             alertController.dismiss(animated: true, completion: nil)
+            alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
 
-    func setItemAs(isLiked: Bool, at indexPath: IndexPath) {
-        if var item = items[indexPath.row] as? Likable {
-            item.isLiked = isLiked
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath) {
+        var filtredItemsArray = filtredItems(withTypes: types)
+        let itemForLike = filtredItemsArray[indexPath.row]
+        if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
+            if var item = items[indexPath.row] as? Likable {
+                item.isLiked = isLiked
+            }
         }
     }
 
@@ -172,7 +176,7 @@ extension ViewController: PhotoBrowserDelegate {
 
         for indexPath in indexPathes {
             let itemForDeletion = filtredItemsArray[indexPath.row]
-            if  let indexForDetetion = items.index(of: itemForDeletion), indexForDetetion >= 0, indexForDetetion < items.count {
+            if let indexForDetetion = items.index(of: itemForDeletion), indexForDetetion >= 0, indexForDetetion < items.count {
                 items.remove(at: indexForDetetion)
             }
         }
