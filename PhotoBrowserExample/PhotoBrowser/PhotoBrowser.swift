@@ -17,6 +17,10 @@ protocol PhotoBrowserDelegate: class {
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func scrollToMessage(at indexPath: IndexPath)
+    func saveItem(with id: String)
+    func forwardItem(with id: String)
+    func shareItem(with id: String)
+    func setAsMyProfilePhoto(with id: String)
 
 }
 
@@ -60,6 +64,10 @@ protocol PresentationOutput: class {
     func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
+    func saveItem(with id: String)
+    func forwardItem(with id: String)
+    func shareItem(with id: String)
+    func setAsMyProfilePhoto(with id: String)
 
 }
 
@@ -222,6 +230,21 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
+    func saveItem(with id: String) {
+        externalDelegate?.saveItem(with: id)
+    }
+
+    func forwardItem(with id: String) {
+        externalDelegate?.forwardItem(with: id)
+    }
+
+    func shareItem(with id: String) {
+        externalDelegate?.shareItem(with: id)
+    }
+
+    func setAsMyProfilePhoto(with id: String) {
+        setAsMyProfilePhoto(with: id)
+    }
 
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath) {
         print("like = ", isLiked,  indexPath)

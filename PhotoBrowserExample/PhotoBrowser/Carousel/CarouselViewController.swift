@@ -225,6 +225,27 @@ class CarouselViewController: UIViewController, Presentatable {
     }
     
     @IBAction private func actionButtonDidTap(_ sender: Any) {
+//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//
+//        let saveAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
+//            guard let `self` = self else { return }
+//            self.presentationInputOutput.saveItem(with: presentationInputOutput.currentItemIndex())
+//            self.collectionView.reloadData()
+//            self.carouselControlCollectionView.reloadData()
+//        }
+//        alertController.addAction(deleteForMeAction)
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+//            alertController.dismiss(animated: true, completion: nil)
+//        }
+//        alertController.addAction(cancelAction)
+//
+//        present(alertController, animated: true, completion: nil)
+
+
+
+
+
         //TODO: add action here
     }
     

@@ -150,6 +150,22 @@ extension ViewController: PhotoBrowserDataSouce {
 }
 
 extension ViewController: PhotoBrowserDelegate {
+    func saveItem(with id: String) {
+        print("saved item with id = \(id)")
+    }
+
+    func forwardItem(with id: String) {
+        print("forward item with id = \(id)")
+    }
+
+    func shareItem(with id: String) {
+        print("shared item with id = \(id)")
+    }
+
+    func setAsMyProfilePhoto(with id: String) {
+        print("set As My Profile Photo item with id = \(id)")
+    }
+
 
     func scrollToMessage(at indexPath: IndexPath) {
         let alertController = UIAlertController(title: "Scrolled to message", message: "\(indexPath)", preferredStyle: .alert)

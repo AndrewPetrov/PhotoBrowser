@@ -286,6 +286,13 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="s8W-aN-Hjk">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="326.5"/>
                                                 </imageView>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play" translatesAutoresizingMaskIntoConstraints="NO" id="hZL-Dr-GD1">
+                                                    <rect key="frame" x="162.5" y="143.5" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="UlI-7F-xpr"/>
+                                                        <constraint firstAttribute="height" constant="50" id="YU9-TB-sKG"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bMp-gO-xBj">
                                                     <rect key="frame" x="283" y="295.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -318,6 +325,8 @@
                                                 <constraint firstItem="PaZ-jd-ATh" firstAttribute="top" secondItem="Tw4-k7-32C" secondAttribute="top" constant="10" id="1Kd-6T-rfa"/>
                                                 <constraint firstItem="e2I-Yz-7ro" firstAttribute="bottom" secondItem="bMp-gO-xBj" secondAttribute="bottom" id="5LE-Jm-dUt"/>
                                                 <constraint firstItem="4jJ-Qf-qAn" firstAttribute="leading" secondItem="bMp-gO-xBj" secondAttribute="trailing" constant="10" id="ASM-9Z-yhQ"/>
+                                                <constraint firstItem="hZL-Dr-GD1" firstAttribute="centerY" secondItem="Tw4-k7-32C" secondAttribute="centerY" id="LAN-qG-DVB"/>
+                                                <constraint firstItem="hZL-Dr-GD1" firstAttribute="centerX" secondItem="Tw4-k7-32C" secondAttribute="centerX" id="NAu-fd-r7j"/>
                                                 <constraint firstItem="bMp-gO-xBj" firstAttribute="leading" secondItem="e2I-Yz-7ro" secondAttribute="trailing" constant="43" id="Tz8-zj-skh"/>
                                                 <constraint firstAttribute="bottom" secondItem="s8W-aN-Hjk" secondAttribute="bottom" constant="10" id="epd-C6-Uk3"/>
                                                 <constraint firstItem="bMp-gO-xBj" firstAttribute="bottom" secondItem="4jJ-Qf-qAn" secondAttribute="bottom" id="heM-T9-Fz9"/>
@@ -335,6 +344,7 @@
                                             <outlet property="deliveryStatusImageView" destination="4jJ-Qf-qAn" id="pNm-1W-sY0"/>
                                             <outlet property="likeImageView" destination="e2I-Yz-7ro" id="k7Z-bP-hC3"/>
                                             <outlet property="mainImageView" destination="s8W-aN-Hjk" id="BzF-2C-CNl"/>
+                                            <outlet property="playImageView" destination="hZL-Dr-GD1" id="wcg-5n-7q6"/>
                                             <outlet property="selectionImageView" destination="PaZ-jd-ATh" id="ZFm-fw-vmd"/>
                                         </connections>
                                     </tableViewCell>

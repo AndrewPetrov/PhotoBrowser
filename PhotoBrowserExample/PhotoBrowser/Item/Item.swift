@@ -58,6 +58,9 @@ enum DeliveryStatus {
 }
 
 class Item: Equatable {
+
+    //Discuss what will be ID
+    var id: String
     var image: UIImage
     var name: String
     var sentTime: Date
@@ -66,13 +69,15 @@ class Item: Equatable {
     //goes from Chat
     var messageIndexPath: IndexPath
 
-    init(image: UIImage,
+    init(id: String = "",
+         image: UIImage,
          name: String = "",
          sentTime: Date = Date(),
          type: ItemType,
          deliveryStatus: DeliveryStatus = .nonDelivered,
          messageIndexPath: IndexPath = IndexPath(row: 100500, section: 42)) {
 
+        self.id = id
         self.image = image
         self.name = name
         self.sentTime = sentTime
@@ -82,7 +87,10 @@ class Item: Equatable {
     }
 
     static func ==(lhs: Item, rhs: Item) -> Bool {
+
+//for testing
         return lhs.image == rhs.image
+//        return lhs.id == rhs.id
     }
 
 }

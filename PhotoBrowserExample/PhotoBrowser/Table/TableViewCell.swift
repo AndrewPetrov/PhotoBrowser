@@ -17,6 +17,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var deliveryStatusImageView: UIImageView!
     @IBOutlet private weak var selectionImageView: UIImageView!
+    @IBOutlet weak var playImageView: UIImageView!
 
     private weak var item: Item!
 
@@ -49,6 +50,7 @@ class TableViewCell: UITableViewCell {
 
         selectionImageView.isHidden = !isSelectionAllowed
         self.isSelected = isSelected
+        playImageView.isHidden = item.type != .video
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
