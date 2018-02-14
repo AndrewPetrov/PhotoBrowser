@@ -62,7 +62,7 @@ class TableViewController: SelectableViewController, Presentatable {
 
         let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
         let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
-            itemTypes: presentationInputOutput.typesOfItems(),
+            itemTypes: presentationInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
             count: presentationInputOutput.numberOfItems(withType: supportedTypes)
         )
         titleView.setup(sender: presentationInputOutput.senderName(), info: itemsTitle)

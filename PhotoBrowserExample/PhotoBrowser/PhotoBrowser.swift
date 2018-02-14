@@ -48,7 +48,8 @@ protocol PresentationInput: class {
     func numberOfItems(withType types: [ItemType]) -> Int
     func item(withType types: [ItemType], at indexPath: IndexPath) -> Item?
     func senderName() -> String
-    func typesOfItems() -> [ItemType]
+    //in example gallery gives 3 types, but this Presentation can take only 2 types, result will be logical AND
+    func intersectionOfBrowserOutputTypes(inputTypes: [ItemType]) -> [ItemType]
 
 }
 
@@ -183,16 +184,22 @@ class PhotoBrowser: UIViewController {
 }
 
 extension PhotoBrowser: PresentationInput {
+
+    func intersectionOfBrowserOutputTypes( inputTypes: [ItemType]) -> [ItemType] {
+        if let ouputTypes = dataSource?.typesOfItems() {
+            let ouputTypesSet: Set<ItemType> = Set(ouputTypes)
+            let inputTypesSet: Set<ItemType> = Set(inputTypes)
+            return Array(ouputTypesSet.intersection(inputTypesSet))
+        }
+
+        return [ItemType]()
+    }
+
     func isItemLiked(withTypes types: [ItemType], at indexPath: IndexPath) -> Bool {
         if let item = dataSource?.item(at: indexPath) as? Likable {
             return item.isLiked
         }
         return false
-    }
-
-
-    func typesOfItems() -> [ItemType] {
-        return dataSource?.typesOfItems() ?? [ItemType]()
     }
 
     func senderName() -> String {
@@ -215,11 +222,11 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
+
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath) {
         print("like = ", isLiked,  indexPath)
         externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPath)
     }
-
 
     func goToMessage(with indexPath: IndexPath) {
         openChat(on: indexPath)
