@@ -108,14 +108,7 @@ extension TableViewController: UITableViewDataSource {
                 item: item,
                 hasInset: !isLastCell(indexPath: indexPath),
                 isSelectionAllowed: isSelectionAllowed,
-                isSelected: isSelected) { [weak self]  isSelected in
-                    guard let `self` = self else { return }
-                    if isSelected {
-                        self.selectedIndexPathes.insert(indexPath)
-                    } else {
-                        self.selectedIndexPathes.remove(indexPath)
-                    }
-            }
+                isSelected: isSelected)
         }
 
         return cell
@@ -139,8 +132,17 @@ extension TableViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presentationInputOutput.setItemAsCurrent(at: indexPath)
-        presentationInputOutput.switchTo(presentation: .carousel)
+        if isSelectionAllowed {
+            selectedIndexPathes.insert(indexPath)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+            presentationInputOutput.setItemAsCurrent(at: indexPath)
+            presentationInputOutput.switchTo(presentation: .carousel)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        selectedIndexPathes.remove(indexPath)
     }
 
 }

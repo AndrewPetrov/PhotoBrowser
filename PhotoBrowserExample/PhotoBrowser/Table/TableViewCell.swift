@@ -13,11 +13,10 @@ class TableViewCell: UITableViewCell {
 
     @IBOutlet private weak var mainImageView: UIImageView!
     @IBOutlet private weak var buttomInset: NSLayoutConstraint!
-    @IBOutlet private weak var selectionButton: UIButton!
     @IBOutlet private weak var likeImageView: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var deliveryStatusImageView: UIImageView!
-    private var selectionHandler: ((Bool) -> ())!
+    @IBOutlet private weak var selectionImageView: UIImageView!
 
     private weak var item: Item!
 
@@ -26,10 +25,10 @@ class TableViewCell: UITableViewCell {
 
         mainImageView.image = nil
         likeImageView.image = nil
-        selectionButton.isSelected = false
+        isSelected = false
     }
 
-    func configureCell(item: Item & Likable, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool, selectionHandler: @escaping (Bool) -> ()) {
+    func configureCell(item: Item & Likable, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool) {
         self.item = item
 
         buttomInset.constant = hasInset ? TableViewController.inset : 0
@@ -44,18 +43,18 @@ class TableViewCell: UITableViewCell {
             break
         }
         deliveryStatusImageView.image = image
-        self.selectionHandler = selectionHandler
 
         dateLabel.text = TableViewController.dateFormatter.string(from: item.sentTime)
         likeImageView.image = item.isLiked ? #imageLiteral(resourceName: "star") : nil
 
-        selectionButton.isHidden = !isSelectionAllowed
-        selectionButton.isSelected = isSelected
+        selectionImageView.isHidden = !isSelectionAllowed
+        self.isSelected = isSelected
     }
 
-    @IBAction func selectButtonDidTap(_ sender: UIButton) {
-        selectionButton.isSelected = !selectionButton.isSelected
-        selectionHandler(selectionButton.isSelected)
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        selectionImageView.image = selected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
     }
 
 }

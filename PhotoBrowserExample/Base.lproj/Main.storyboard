@@ -272,7 +272,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vFl-Pi-cz8">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vFl-Pi-cz8">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -306,30 +306,25 @@
                                                         <constraint firstAttribute="width" constant="30" id="Yrd-IY-Dgu"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vRa-5g-Pdh">
-                                                    <rect key="frame" x="305" y="20" width="50" height="50"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PaZ-jd-ATh">
+                                                    <rect key="frame" x="10" y="10" width="30" height="30"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="50" id="0wd-Ia-61j"/>
-                                                        <constraint firstAttribute="width" constant="50" id="eEY-JH-Cua"/>
+                                                        <constraint firstAttribute="width" constant="30" id="hl6-c2-bdp"/>
+                                                        <constraint firstAttribute="height" constant="30" id="vQz-Y8-D0n"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button" image="nonSelected"/>
-                                                    <state key="selected" image="selected"/>
-                                                    <connections>
-                                                        <action selector="selectButtonDidTap:" destination="CZs-Lh-jQd" eventType="touchUpInside" id="N2E-1g-ERB"/>
-                                                    </connections>
-                                                </button>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="vRa-5g-Pdh" firstAttribute="top" secondItem="Tw4-k7-32C" secondAttribute="top" constant="20" id="36e-fP-GIk"/>
+                                                <constraint firstItem="PaZ-jd-ATh" firstAttribute="top" secondItem="Tw4-k7-32C" secondAttribute="top" constant="10" id="1Kd-6T-rfa"/>
                                                 <constraint firstItem="e2I-Yz-7ro" firstAttribute="bottom" secondItem="bMp-gO-xBj" secondAttribute="bottom" id="5LE-Jm-dUt"/>
                                                 <constraint firstItem="4jJ-Qf-qAn" firstAttribute="leading" secondItem="bMp-gO-xBj" secondAttribute="trailing" constant="10" id="ASM-9Z-yhQ"/>
                                                 <constraint firstItem="bMp-gO-xBj" firstAttribute="leading" secondItem="e2I-Yz-7ro" secondAttribute="trailing" constant="43" id="Tz8-zj-skh"/>
                                                 <constraint firstAttribute="bottom" secondItem="s8W-aN-Hjk" secondAttribute="bottom" constant="10" id="epd-C6-Uk3"/>
-                                                <constraint firstAttribute="trailing" secondItem="vRa-5g-Pdh" secondAttribute="trailing" constant="20" id="hRI-V8-Uv3"/>
                                                 <constraint firstItem="bMp-gO-xBj" firstAttribute="bottom" secondItem="4jJ-Qf-qAn" secondAttribute="bottom" id="heM-T9-Fz9"/>
                                                 <constraint firstItem="s8W-aN-Hjk" firstAttribute="top" secondItem="Tw4-k7-32C" secondAttribute="top" id="lPg-KN-maO"/>
                                                 <constraint firstAttribute="trailing" secondItem="4jJ-Qf-qAn" secondAttribute="trailing" constant="10" id="lg0-FD-Ewg"/>
                                                 <constraint firstAttribute="trailing" secondItem="s8W-aN-Hjk" secondAttribute="trailing" id="lqB-bK-M6E"/>
+                                                <constraint firstItem="PaZ-jd-ATh" firstAttribute="leading" secondItem="Tw4-k7-32C" secondAttribute="leading" constant="10" id="xA2-4u-0R6"/>
                                                 <constraint firstItem="4jJ-Qf-qAn" firstAttribute="bottom" secondItem="s8W-aN-Hjk" secondAttribute="bottom" constant="-10" id="yER-nc-ePa"/>
                                                 <constraint firstItem="s8W-aN-Hjk" firstAttribute="leading" secondItem="Tw4-k7-32C" secondAttribute="leading" id="yrP-Ru-e2h"/>
                                             </constraints>
@@ -340,7 +335,7 @@
                                             <outlet property="deliveryStatusImageView" destination="4jJ-Qf-qAn" id="pNm-1W-sY0"/>
                                             <outlet property="likeImageView" destination="e2I-Yz-7ro" id="k7Z-bP-hC3"/>
                                             <outlet property="mainImageView" destination="s8W-aN-Hjk" id="BzF-2C-CNl"/>
-                                            <outlet property="selectionButton" destination="vRa-5g-Pdh" id="rM4-Na-dbn"/>
+                                            <outlet property="selectionImageView" destination="PaZ-jd-ATh" id="ZFm-fw-vmd"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -661,8 +656,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="nonSelected" width="1600" height="1600"/>
         <image name="play" width="512" height="512"/>
-        <image name="selected" width="512" height="512"/>
     </resources>
 </document>

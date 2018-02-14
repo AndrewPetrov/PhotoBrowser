@@ -108,6 +108,12 @@ class CarouselViewController: UIViewController, Presentatable {
             needToScroll = false
         }
     }
+
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
+
+        setupNavigationBar()
+    }
     
     private func setupGestureRecognizers() {
         singleTapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)

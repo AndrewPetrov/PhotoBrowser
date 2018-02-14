@@ -113,6 +113,27 @@ class ContainerViewController: SelectableViewController, Presentatable {
         delegate?.reloadUI()
     }
 
+    override func removeFromParentViewController() {
+        clearNavigationBar()
+
+        super.removeFromParentViewController()
+    }
+
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+
+        setupNavigationBar()
+    }
+
+    func clearNavigationBar() {
+        UIView.animate(withDuration: 0.1,
+                       animations: { [weak self] in
+                        self?.parent?.navigationItem.titleView?.alpha = 0
+        }) { [weak self] _ in
+            self?.parent?.navigationItem.titleView = nil
+        }
+    }
+
     func setupToolbar() {
         guard let type = ContainerItemTypes(rawValue: mediaTypesSegmentedControl.selectedSegmentIndex) else { return }
 
@@ -152,6 +173,11 @@ class ContainerViewController: SelectableViewController, Presentatable {
         mediaTypesSegmentedControl.selectedSegmentIndex = 0;
         mediaTypesSegmentedControl.addTarget(self, action: #selector(mediaTypeDidChange(_:)), for: .valueChanged)
         parent?.navigationItem.titleView = mediaTypesSegmentedControl
+        parent?.navigationItem.titleView?.alpha = 0
+        UIView.animate(withDuration: 0.1,
+                       animations: { [weak self] in
+                        self?.parent?.navigationItem.titleView?.alpha = 1
+        })
 
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
         parent?.navigationItem.rightBarButtonItem = selectButton
