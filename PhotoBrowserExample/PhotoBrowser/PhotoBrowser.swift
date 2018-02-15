@@ -15,11 +15,11 @@ protocol PhotoBrowserDelegate: class {
 
     // types is necessary for calculation unfiltred index path in all Items
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
-    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath])
     func scrollToMessage(at indexPath: IndexPath)
-    func saveItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
-    func forwardItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
-    func shareItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath])
     func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
 
 }
@@ -61,12 +61,12 @@ protocol PresentationOutput: class {
 
     func setItemAsCurrent(at indexPath: IndexPath)
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
-    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath])
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
-    func saveItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
-    func forwardItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
-    func shareItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath])
     func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
 
 }
@@ -230,15 +230,15 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
-    func saveItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         externalDelegate?.saveItem(withTypes: types, indexPathes: indexPathes)
     }
 
-    func forwardItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         externalDelegate?.forwardItem(withTypes: types, indexPathes: indexPathes)
     }
 
-    func shareItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         externalDelegate?.shareItem(withTypes: types, indexPathes: indexPathes)
     }
 
@@ -261,7 +261,7 @@ extension PhotoBrowser: PresentationOutput {
         switchToCurrentPresentation()
     }
 
-    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         externalDelegate?.deleteItems(withTypes: types, indexPathes: indexPathes)
     }
 

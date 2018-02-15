@@ -210,7 +210,10 @@ class CarouselViewController: UIViewController, Presentatable {
         
         let deleteForMeAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
             guard let `self` = self else { return }
-            self.presentationInputOutput.deleteItems(withTypes: self.supportedTypes, indexPathes: Set([self.currentCellIndexPath]))
+            self.presentationInputOutput.deleteItems(
+                withTypes: self.supportedTypes,
+                indexPathes: [self.currentCellIndexPath]
+            )
             self.collectionView.reloadData()
             self.carouselControlCollectionView.reloadData()
         }
@@ -225,28 +228,50 @@ class CarouselViewController: UIViewController, Presentatable {
     }
     
     @IBAction private func actionButtonDidTap(_ sender: Any) {
-//        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//
-//        let saveAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
-//            guard let `self` = self else { return }
-//            self.presentationInputOutput.saveItem(with: presentationInputOutput.currentItemIndex())
-//            self.collectionView.reloadData()
-//            self.carouselControlCollectionView.reloadData()
-//        }
-//        alertController.addAction(deleteForMeAction)
-//
-//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
-//            alertController.dismiss(animated: true, completion: nil)
-//        }
-//        alertController.addAction(cancelAction)
-//
-//        present(alertController, animated: true, completion: nil)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
+        let saveAction = UIAlertAction(title: "Save", style: .default) { [weak self] _ in
+            guard let `self` = self else { return }
+            self.presentationInputOutput.saveItem(
+                withTypes: self.supportedTypes,
+                indexPathes: [self.presentationInputOutput.currentItemIndex()]
+            )
+        }
+        alertController.addAction(saveAction)
 
+        let forwardAction = UIAlertAction(title: "Forward", style: .default) { [weak self] _ in
+            guard let `self` = self else { return }
+            self.presentationInputOutput.forwardItem(
+                withTypes: self.supportedTypes,
+                indexPathes: [self.presentationInputOutput.currentItemIndex()]
+            )
+        }
+        alertController.addAction(forwardAction)
 
+        let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+            guard let `self` = self else { return }
+            self.presentationInputOutput.shareItem(
+                withTypes: self.supportedTypes,
+                indexPathes: [self.presentationInputOutput.currentItemIndex()]
+            )
+        }
+        alertController.addAction(shareAction)
 
+        let setAsProfilePictureAction = UIAlertAction(title: "Set As Profile Picture", style: .default) { [weak self] _ in
+            guard let `self` = self else { return }
+            self.presentationInputOutput.setAsMyProfilePhoto(
+                withTypes: self.supportedTypes,
+                indexPath: self.presentationInputOutput.currentItemIndex()
+            )
+        }
+        alertController.addAction(setAsProfilePictureAction)
 
-        //TODO: add action here
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func likeButtonDidTap(_ sender: Any) {

@@ -150,15 +150,16 @@ extension ViewController: PhotoBrowserDataSouce {
 }
 
 extension ViewController: PhotoBrowserDelegate {
-    func saveItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+
+    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         print("saved item with indexPath = \(indexPathes)")
     }
 
-    func forwardItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         print("forward item with indexPath = \(indexPathes)")
     }
 
-    func shareItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         print("shared item with indexPath = \(indexPathes)")
     }
 
@@ -185,7 +186,7 @@ extension ViewController: PhotoBrowserDelegate {
         }
     }
 
-    func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath]) {
         let indexPathes = Array(indexPathes).sorted()
         var filtredItemsArray = filtredItems(withTypes: types)
 
