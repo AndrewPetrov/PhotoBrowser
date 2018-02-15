@@ -11,7 +11,7 @@ import UIKit
 
 class MediaViewController: UIViewController {
 
-    private let supportedTypes: [ItemType] = [.image, .video]
+//    private let supportedTypes: [ItemType] = [.image, .video]
     @IBOutlet private weak var collectionView: UICollectionView!
     private weak var presentationInputOutput: PresentationInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
@@ -65,7 +65,7 @@ extension MediaViewController: ContainerViewControllerDelegate {
 
 extension MediaViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems(withType: supportedTypes)
+        return presentationInputOutput.numberOfItems(withType: containerInputOutput.currentlySupportedTypes())
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -73,14 +73,14 @@ extension MediaViewController: UICollectionViewDataSource {
                                                       for: indexPath) as! MediaCollectionViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
         let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
-        if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
+        if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) {
             var videoDuration = ""
             if let item = item as? VideoItem {
                 //TODO: calculate duration
                 videoDuration = "1:02"
             }
         cell.configureCell(
-            image: presentationInputOutput.item(withType: supportedTypes, at: indexPath)?.image,
+            image: presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath)?.image,
             isSelectionAllowed: isSelectionAllowed,
             isSelected: isSelected,
             isVideo: item.type == .video,

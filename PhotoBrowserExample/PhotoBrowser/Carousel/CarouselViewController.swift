@@ -39,8 +39,8 @@ class CarouselViewController: UIViewController, Presentatable {
 
     //caching scaled images
     private let uiBarButtonImageSize = CGSize(width: 25, height: 25)
-    private lazy var likedYesSizedImage = imageWithImage(image: #imageLiteral(resourceName: "likedYes"), scaledToSize: uiBarButtonImageSize)
-    private lazy var likedNoSizedImage = imageWithImage(image: #imageLiteral(resourceName: "likeNo"), scaledToSize: uiBarButtonImageSize)
+    private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likedYes"), scaledToSize: uiBarButtonImageSize)
+    private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likeNo"), scaledToSize: uiBarButtonImageSize)
     private lazy var flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
 
@@ -302,15 +302,6 @@ class CarouselViewController: UIViewController, Presentatable {
         let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
         let row = Int((contentOffset / cellWidth).rounded())
         presentationInputOutput.setItemAsCurrent(at: IndexPath(row: row, section: 0))
-    }
-
-    //temporal helper due there are real icons
-    private func imageWithImage(image: UIImage, scaledToSize newSize:CGSize) -> UIImage{
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
-        image.draw(in: CGRect(origin: CGPoint.zero, size: CGSize(width: newSize.width, height: newSize.height)))
-        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return newImage
     }
     
 }

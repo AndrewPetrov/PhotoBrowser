@@ -16,10 +16,10 @@ class MediaCollectionViewCell: UICollectionViewCell {
             updateSelectionImage(isSelected: isSelected)
         }
     }
-    @IBOutlet weak var selectionImagView: UIImageView!
-    @IBOutlet weak var videoImagView: UIImageView!
-    @IBOutlet weak var videoDurationLabel: UILabel!
-    @IBOutlet weak var likedImageView: UIImageView!
+    @IBOutlet private weak var selectionImagView: UIImageView!
+    @IBOutlet private weak var videoImagView: UIImageView!
+    @IBOutlet private weak var videoDurationLabel: UILabel!
+    @IBOutlet private weak var likedImageView: UIImageView!
 
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var selectionImageView: UIImageView!

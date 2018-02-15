@@ -52,7 +52,7 @@ extension LinksViewController: ContainerViewControllerDelegate {
 extension LinksViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems(withType: [.link])
+        return presentationInputOutput.numberOfItems(withType: containerInputOutput.currentlySupportedTypes())
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,11 +60,12 @@ extension LinksViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LinkTableViewCell") as! LinkTableViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
         let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
-        if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
+        if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
             cell.configureCell(
                 with: item,
                 isSelectionAllowed: isSelectionAllowed,
-                isSelected: isSelected) { [weak self] in
+                isSelected: isSelected,
+                isLiked: item.isLiked) { [weak self] in
                     self?.presentationInputOutput.goToMessage(with: item.messageIndexPath)
             }
         }
@@ -81,7 +82,7 @@ extension LinksViewController: UITableViewDelegate {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
-            if let item = presentationInputOutput.item(withType: [.link], at: indexPath) as? LinkItem {
+            if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
                 showWebViewController(url: item.url)
             }
         }

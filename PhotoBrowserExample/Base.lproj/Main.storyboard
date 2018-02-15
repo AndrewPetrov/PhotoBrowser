@@ -497,10 +497,18 @@
                                                         <constraint firstItem="unN-T9-Aia" firstAttribute="centerX" secondItem="HdS-Bw-1h6" secondAttribute="centerX" id="yV3-dQ-t28"/>
                                                     </constraints>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="likedYes" translatesAutoresizingMaskIntoConstraints="NO" id="tFP-QR-n89">
+                                                    <rect key="frame" x="384" y="10" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="YXs-va-C56"/>
+                                                        <constraint firstAttribute="height" constant="20" id="sat-cI-8Fh"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="iTh-qE-zsK" firstAttribute="top" secondItem="jg8-8J-4Vs" secondAttribute="bottom" constant="10" id="1Ag-on-kKN"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="HdS-Bw-1h6" secondAttribute="bottom" id="4LF-3G-O3v"/>
+                                                <constraint firstItem="tFP-QR-n89" firstAttribute="top" secondItem="9zs-cR-hbS" secondAttribute="top" constant="10" id="6XL-3L-rNO"/>
                                                 <constraint firstItem="HdS-Bw-1h6" firstAttribute="leading" secondItem="9zs-cR-hbS" secondAttribute="leadingMargin" id="CbT-TK-WYc"/>
                                                 <constraint firstItem="HH8-2c-5Nt" firstAttribute="top" secondItem="9zs-cR-hbS" secondAttribute="topMargin" id="Iwe-ZK-IoX"/>
                                                 <constraint firstItem="iTh-qE-zsK" firstAttribute="top" secondItem="jRh-zt-tr6" secondAttribute="bottom" id="UlV-6b-GcL"/>
@@ -511,14 +519,15 @@
                                                 <constraint firstItem="jRh-zt-tr6" firstAttribute="top" secondItem="9zs-cR-hbS" secondAttribute="top" id="Yu7-Od-s6r"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="HH8-2c-5Nt" secondAttribute="trailing" id="c7Y-sr-8k9"/>
                                                 <constraint firstItem="HdS-Bw-1h6" firstAttribute="top" secondItem="9zs-cR-hbS" secondAttribute="topMargin" id="fhg-lm-0P3"/>
-                                                <constraint firstItem="iTh-qE-zsK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9zs-cR-hbS" secondAttribute="leadingMargin" id="nVz-K5-H0Q"/>
                                                 <constraint firstItem="jg8-8J-4Vs" firstAttribute="top" secondItem="HH8-2c-5Nt" secondAttribute="bottom" id="oDQ-JN-VG9"/>
                                                 <constraint firstItem="jRh-zt-tr6" firstAttribute="leading" secondItem="HdS-Bw-1h6" secondAttribute="trailing" id="oJ3-FW-wb6"/>
                                                 <constraint firstItem="HH8-2c-5Nt" firstAttribute="leading" secondItem="jRh-zt-tr6" secondAttribute="trailing" constant="10" id="oKm-AC-p9f"/>
+                                                <constraint firstAttribute="trailing" secondItem="tFP-QR-n89" secondAttribute="trailing" constant="10" id="tZR-We-Shi"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="HH8-2c-5Nt" id="waE-5S-dHn"/>
+                                            <outlet property="likedImageView" destination="tFP-QR-n89" id="ZDl-Sk-aVA"/>
                                             <outlet property="linkLabel" destination="jg8-8J-4Vs" id="kZy-j6-VxX"/>
                                             <outlet property="mainImageView" destination="jRh-zt-tr6" id="e2d-7e-E7y"/>
                                             <outlet property="selectionImageView" destination="unN-T9-Aia" id="HqW-Rr-I3s"/>

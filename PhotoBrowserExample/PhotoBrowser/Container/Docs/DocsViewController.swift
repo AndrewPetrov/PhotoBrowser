@@ -43,7 +43,7 @@ extension DocsViewController: ContainerViewControllerDelegate {
 extension DocsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems(withType: [.document])
+        return presentationInputOutput.numberOfItems(withType: containerInputOutput.currentlySupportedTypes())
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -51,12 +51,14 @@ extension DocsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocsTableViewCell") as! DocsTableViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
         let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
-        if let item = presentationInputOutput.item(withType: [.document], at: indexPath) as? DocumentItem {
+        if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? DocumentItem {
             cell.configureCell(
                 with: item,
                 size: "100500",
                 extensionText: "jpg",
-                isSelectionAllowed: isSelectionAllowed, isSelected: isSelected
+                isSelectionAllowed: isSelectionAllowed,
+                isSelected: isSelected,
+                isLiked: item.isLiked
             )
         }
 
@@ -72,7 +74,7 @@ extension DocsViewController: UITableViewDelegate {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
-            if let item = presentationInputOutput.item(withType: [.document], at: indexPath) as? LinkItem {
+            if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
                 //TODO: somhow open the document fom item
             }
         }

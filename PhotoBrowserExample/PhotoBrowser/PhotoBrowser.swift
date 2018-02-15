@@ -204,7 +204,7 @@ extension PhotoBrowser: PresentationInput {
     }
 
     func isItemLiked(withTypes types: [ItemType], at indexPath: IndexPath) -> Bool {
-        if let item = dataSource?.item(at: indexPath) {
+        if let item = dataSource?.item(withTypes: types, at: indexPath) {
             return item.isLiked
         }
         return false

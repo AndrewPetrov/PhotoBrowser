@@ -15,11 +15,11 @@ class SelectableViewController: UIViewController {
 
     internal var supportedTypes: [ItemType] = [.image, .video]
 
-    var selectButton: UIBarButtonItem!
-    var selectAllButton: UIBarButtonItem!
-    var trashButton: UIBarButtonItem!
-    var actionButton: UIBarButtonItem!
-    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    internal var selectButton: UIBarButtonItem!
+    internal var selectAllButton: UIBarButtonItem!
+    internal var trashButton: UIBarButtonItem!
+    internal var actionButton: UIBarButtonItem!
+    internal let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

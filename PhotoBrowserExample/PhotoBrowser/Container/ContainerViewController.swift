@@ -35,6 +35,7 @@ protocol ContainerViewControllerImput: class {
 protocol ContainerViewControllerOutput: class {
     func isSelectionAllowed() -> Bool
     func selectedIndexPathes() -> Set<IndexPath>
+    func currentlySupportedTypes() -> [ItemType]
 }
 
 protocol ContainerViewControllerDelegate {
@@ -46,13 +47,16 @@ class ContainerViewController: SelectableViewController, Presentatable {
     let presentation: Presentation = .container
 
     private var mediaTypesSegmentedControl: UISegmentedControl!
-
-    var likeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(trashButtonDidTap))
+    
     var shareButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(trashButtonDidTap))
 
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
+
+    private let uiBarButtonImageSize = CGSize(width: 25, height: 25)
+    private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likedYes"), scaledToSize: uiBarButtonImageSize)
+    private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likeNo"), scaledToSize: uiBarButtonImageSize)
 
     private var delegate: ContainerViewControllerDelegate?
 
@@ -133,7 +137,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
             toolbar.items = [actionButton, flexibleSpace, trashButton]
 
         case .links, .docs:
-            toolbar.items = [shareButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
+            updateToolbarButtons()
         }
     }
 
@@ -166,10 +170,15 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
 
     internal override func updateToolbarButtons() {
+        let sizedImage = isGroupLiked() ? likedYesSizedImage : likedNoSizedImage
+        let likeButton = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
+
         actionButton.isEnabled = selectedIndexPathes.count != 0
         trashButton.isEnabled = selectedIndexPathes.count != 0
         likeButton.isEnabled = selectedIndexPathes.count != 0
         shareButton.isEnabled = selectedIndexPathes.count != 0
+
+        toolbar.items = [shareButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
     }
 
     private func clearNavigationBar() {
@@ -210,13 +219,36 @@ class ContainerViewController: SelectableViewController, Presentatable {
         guard let type = ContainerItemType(rawValue: sender.selectedSegmentIndex) else { return }
         switch type {
         case .media:
+            supportedTypes = [.image, .video]
             add(asChildViewController: mediaViewController)
         case .links:
+            supportedTypes = [.link]
             add(asChildViewController: linksViewController)
         case .docs:
+            supportedTypes = [.document]
             add(asChildViewController: docsViewController)
         }
         setupToolbar()
+    }
+
+    @objc private func likeButtonDidTap(_ sender: Any) {
+        print(supportedTypes)
+        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isGroupLiked(), at: Array(selectedIndexPathes()).sorted())
+        selectedIndexPathes.removeAll()
+        isSelectionAllowed = false
+        delegate?.reloadUI()
+    }
+
+    private func isGroupLiked() -> Bool {
+        var isGroupLiked = !selectedIndexPathes.isEmpty
+        for selectedIndexPath in selectedIndexPathes {
+            let isItemLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: selectedIndexPath)
+            if !isItemLiked {
+                isGroupLiked = false
+                break
+            }
+        }
+        return isGroupLiked
     }
 
 }
@@ -234,6 +266,10 @@ extension ContainerViewController: ContainerViewControllerImput {
 }
 
 extension ContainerViewController: ContainerViewControllerOutput {
+
+    func currentlySupportedTypes() -> [ItemType] {
+        return supportedTypes
+    }
 
     func isSelectionAllowed() -> Bool {
         return isSelectionAllowed
