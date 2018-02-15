@@ -117,7 +117,7 @@ class TableViewController: SelectableViewController, Presentatable {
     // MARK: - User actions
 
     @objc internal func actionButtonDidTap(_ sender: Any) {
-        //TODO: add action here
+        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPathes: Array(selectedIndexPathes).sorted())
     }
 
 }

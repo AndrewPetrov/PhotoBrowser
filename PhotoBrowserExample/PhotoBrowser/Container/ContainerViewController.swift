@@ -239,7 +239,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
 
     @objc private func actionButtonDidTap(_ sender: Any) {
-        //TODO: action here
+        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPathes: Array(selectedIndexPathes()).sorted())
         selectedIndexPathes.removeAll()
         isSelectionAllowed = false
         delegate?.reloadUI()
