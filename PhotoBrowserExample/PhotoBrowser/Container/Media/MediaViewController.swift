@@ -15,6 +15,7 @@ class MediaViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     private weak var presentationInputOutput: PresentationInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
+    @IBOutlet private weak var layout: UICollectionViewFlowLayout!
 
     // MARK: - Life cycle
 
@@ -34,8 +35,8 @@ class MediaViewController: UIViewController {
         return newViewController
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
         setupCollectionView()
     }
@@ -44,6 +45,12 @@ class MediaViewController: UIViewController {
 
     private func setupCollectionView() {
         collectionView.allowsMultipleSelection = true
+            let minSize = min(collectionView.frame.width / 4, collectionView.frame.height / 4)
+            print(view.frame, minSize)
+            layout.itemSize = CGSize(width: minSize, height: minSize)
+            layout.minimumLineSpacing = 0
+            layout.minimumInteritemSpacing = 0
+            layout.invalidateLayout()
     }
 
 }

@@ -21,6 +21,12 @@ class SelectableViewController: UIViewController {
     var actionButton: UIBarButtonItem!
     let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        reloadUI()
+    }
+
     internal var selectedIndexPathes = Set<IndexPath>() {
         didSet {
             updateSelectionTitle()
@@ -93,11 +99,12 @@ class SelectableViewController: UIViewController {
                 withTypes: self.supportedTypes,
                 indexPathes: Array(self.selectedIndexPathes).sorted()
             )
+            self.selectedIndexPathes.removeAll()
             self.reloadUI()
         }
         alertController.addAction(deleteForMeAction)
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
 

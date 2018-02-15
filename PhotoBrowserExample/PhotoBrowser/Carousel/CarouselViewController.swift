@@ -86,7 +86,8 @@ class CarouselViewController: UIViewController, Presentatable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        carouselControlCollectionView.reloadData()
+        collectionView.reloadData()
         //crolls only once each time after screen appears
         needToScroll = true
         //force viewDidLayoutSubviews always after viewWillAppear

@@ -84,10 +84,10 @@ class ContainerViewController: SelectableViewController, Presentatable {
     private func add(asChildViewController viewController: UIViewController & ContainerViewControllerDelegate) {
         delegate = viewController
         addChildViewController(viewController)
-        containerView.addSubview(viewController.view)
 
-        viewController.view.frame = view.bounds
+        viewController.view.frame = containerView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        containerView.addSubview(viewController.view)
         viewController.didMove(toParentViewController: self)
     }
 
