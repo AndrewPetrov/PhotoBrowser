@@ -99,6 +99,12 @@ class ViewController: UIViewController {
         items.append(LinkItem(url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
 
         //add docs
+
+        let fm = FileManager.default
+        let docsurl = try! fm.url(for:.documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let myurl = docsurl.appendingPathComponent("small.mp4")
+
+        items.append(DocumentItem(url: myurl, name: "Doc 1", sentTime: getPastDay(18), deliveryStatus: .seen))
     }
 
     override func didReceiveMemoryWarning() {

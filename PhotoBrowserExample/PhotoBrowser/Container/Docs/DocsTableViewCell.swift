@@ -16,15 +16,22 @@ class DocsTableViewCell: UITableViewCell {
     @IBOutlet private weak var sizeLabel: UILabel!
     @IBOutlet private weak var extensionLabel: UILabel!
     @IBOutlet private weak var selectionImageView: UIImageView!
+    @IBOutlet private weak var selectionViewWidth: NSLayoutConstraint!
 
     func configureCell(with item: DocumentItem, size: String, extensionText: String, isSelectionAllowed: Bool, isSelected: Bool) {
         mainImageView.image = item.image
         nameLabel.text = item.name
         sizeLabel.text = size
         extensionLabel.text = extensionText
-
-        selectionImageView.isHidden = !isSelectionAllowed
         self.isSelected = isSelected
+
+        selectionImageView.alpha = !isSelectionAllowed ? 1 : 0
+        selectionViewWidth.constant = isSelectionAllowed ? 50 : 0
+        self.isSelected = isSelected
+        UIView.animate(withDuration: 0.33) {
+            self.selectionImageView.alpha = isSelectionAllowed ? 1 : 0
+            self.layoutIfNeeded()
+        }
     }
 
     override func prepareForReuse() {
@@ -39,5 +46,4 @@ class DocsTableViewCell: UITableViewCell {
         selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
     }
 
-    
 }
