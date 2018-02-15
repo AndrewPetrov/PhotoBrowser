@@ -247,7 +247,6 @@ extension PhotoBrowser: PresentationOutput {
     }
 
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath]) {
-        print("like = ", isLiked,  indexPathes)
         externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPathes)
     }
 

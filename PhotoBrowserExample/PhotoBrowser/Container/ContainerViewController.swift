@@ -47,8 +47,8 @@ class ContainerViewController: SelectableViewController, Presentatable {
     let presentation: Presentation = .container
 
     private var mediaTypesSegmentedControl: UISegmentedControl!
-    
-    var shareButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(trashButtonDidTap))
+
+    var forwardButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(forwardButtonDidTap))
 
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var containerView: UIView!
@@ -126,7 +126,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
 
     private func createBarButtonItems() {
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
-        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(trashButtonDidTap))
+        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonDidTap))
     }
 
     private func setupToolbar() {
@@ -176,9 +176,9 @@ class ContainerViewController: SelectableViewController, Presentatable {
         actionButton.isEnabled = selectedIndexPathes.count != 0
         trashButton.isEnabled = selectedIndexPathes.count != 0
         likeButton.isEnabled = selectedIndexPathes.count != 0
-        shareButton.isEnabled = selectedIndexPathes.count != 0
+        forwardButton.isEnabled = selectedIndexPathes.count != 0
 
-        toolbar.items = [shareButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
+        toolbar.items = [forwardButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
     }
 
     private func clearNavigationBar() {
@@ -232,8 +232,21 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
 
     @objc private func likeButtonDidTap(_ sender: Any) {
-        print(supportedTypes)
         presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isGroupLiked(), at: Array(selectedIndexPathes()).sorted())
+        selectedIndexPathes.removeAll()
+        isSelectionAllowed = false
+        delegate?.reloadUI()
+    }
+
+    @objc private func actionButtonDidTap(_ sender: Any) {
+        //TODO: action here
+        selectedIndexPathes.removeAll()
+        isSelectionAllowed = false
+        delegate?.reloadUI()
+    }
+
+    @objc private func forwardButtonDidTap(_ sender: Any) {
+        presentationInputOutput.forwardItem(withTypes: supportedTypes, indexPathes: Array(selectedIndexPathes()).sorted())
         selectedIndexPathes.removeAll()
         isSelectionAllowed = false
         delegate?.reloadUI()

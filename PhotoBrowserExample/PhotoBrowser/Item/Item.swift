@@ -173,8 +173,6 @@ class DocumentItem: Item {
     }
 
     private static func getThumbnailFrom(url: URL) -> UIImage {
-        print(url, url.deletingPathExtension().lastPathComponent)
-
         switch url.deletingPathExtension().lastPathComponent {
         case "jpg":
             return #imageLiteral(resourceName: "docPicture")
