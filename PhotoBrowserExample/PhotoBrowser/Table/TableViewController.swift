@@ -17,7 +17,7 @@ class TableViewController: SelectableViewController, Presentatable {
     static let inset: CGFloat = 10
 
     @IBOutlet weak var toolbar: UIToolbar!
-    @IBOutlet weak var selectedCountLabel: UIBarButtonItem!
+    private var selectedCountLabel: UIBarButtonItem!
     @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
 
@@ -44,14 +44,19 @@ class TableViewController: SelectableViewController, Presentatable {
         TableViewController.dateFormatter.dateStyle = .short
         setupNavigationBar()
         setupToolbar()
+        updateButtons()
+        updateSelectionTitle()
         updateToolbarPosition()
     }
 
     // MARK: - Setup controls
 
     private func setupToolbar() {
+        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonDidTap))
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
-        toolbar.items?.append(trashButton)
+        selectedCountLabel = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
+        toolbar.items? = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace, trashButton]
     }
 
     private func setupNavigationBar() {
@@ -91,9 +96,14 @@ class TableViewController: SelectableViewController, Presentatable {
         selectedCountLabel.title = super.getSelectionTitle()
     }
 
-    override func updateNavigationBar() {
+    internal override func updateNavigationBar() {
         parent?.navigationItem.hidesBackButton = isSelectionAllowed
         parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
+    }
+
+    internal override func updateButtons() {
+        actionButton.isEnabled = selectedIndexPathes.count != 0
+        trashButton.isEnabled = selectedIndexPathes.count != 0
     }
 
     internal override func reloadUI() {
@@ -106,7 +116,7 @@ class TableViewController: SelectableViewController, Presentatable {
 
     // MARK: - User actions
 
-    @IBAction func actionButtonDidTap(_ sender: Any) {
+    @objc internal func actionButtonDidTap(_ sender: Any) {
         //TODO: add action here
     }
 

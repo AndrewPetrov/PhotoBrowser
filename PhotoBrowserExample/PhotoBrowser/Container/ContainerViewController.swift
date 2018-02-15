@@ -48,9 +48,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
     private var mediaTypesSegmentedControl: UISegmentedControl!
 
     var likeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(trashButtonDidTap))
-    var actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(trashButtonDidTap))
     var shareButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(trashButtonDidTap))
-    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var containerView: UIView!
@@ -107,10 +105,15 @@ class ContainerViewController: SelectableViewController, Presentatable {
 
     private func createBarButtonItems() {
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
+        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(trashButtonDidTap))
     }
 
     internal override func reloadUI() {
         delegate?.reloadUI()
+    }
+
+    internal override func updateButtons() {
+        
     }
 
     override func removeFromParentViewController() {

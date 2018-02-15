@@ -18,10 +18,13 @@ class SelectableViewController: UIViewController {
     var selectButton: UIBarButtonItem!
     var selectAllButton: UIBarButtonItem!
     var trashButton: UIBarButtonItem!
+    var actionButton: UIBarButtonItem!
+    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
     internal var selectedIndexPathes = Set<IndexPath>() {
         didSet {
             updateSelectionTitle()
+            updateButtons() 
         }
     }
 
@@ -51,6 +54,10 @@ class SelectableViewController: UIViewController {
     }
 
     internal func reloadUI() {
+        fatalError("need to override reloadUI")
+    }
+
+    internal func updateButtons() {
         fatalError("need to override reloadUI")
     }
 

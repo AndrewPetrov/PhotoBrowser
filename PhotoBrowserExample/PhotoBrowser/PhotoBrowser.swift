@@ -17,10 +17,10 @@ protocol PhotoBrowserDelegate: class {
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
     func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func scrollToMessage(at indexPath: IndexPath)
-    func saveItem(with id: String)
-    func forwardItem(with id: String)
-    func shareItem(with id: String)
-    func setAsMyProfilePhoto(with id: String)
+    func saveItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func forwardItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func shareItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
 
 }
 
@@ -64,10 +64,10 @@ protocol PresentationOutput: class {
     func deleteItems(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
-    func saveItem(with id: String)
-    func forwardItem(with id: String)
-    func shareItem(with id: String)
-    func setAsMyProfilePhoto(with id: String)
+    func saveItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func forwardItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func shareItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>)
+    func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
 
 }
 
@@ -230,20 +230,20 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
-    func saveItem(with id: String) {
-        externalDelegate?.saveItem(with: id)
+    func saveItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+        externalDelegate?.saveItem(withTypes: types, indexPathes: indexPathes)
     }
 
-    func forwardItem(with id: String) {
-        externalDelegate?.forwardItem(with: id)
+    func forwardItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+        externalDelegate?.forwardItem(withTypes: types, indexPathes: indexPathes)
     }
 
-    func shareItem(with id: String) {
-        externalDelegate?.shareItem(with: id)
+    func shareItem(withTypes types: [ItemType], indexPathes: Set<IndexPath>) {
+        externalDelegate?.shareItem(withTypes: types, indexPathes: indexPathes)
     }
 
-    func setAsMyProfilePhoto(with id: String) {
-        setAsMyProfilePhoto(with: id)
+    func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath) {
+        externalDelegate?.setAsMyProfilePhoto(withTypes: types, indexPath: indexPath)
     }
 
     func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath) {
