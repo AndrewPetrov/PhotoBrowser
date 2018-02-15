@@ -24,7 +24,7 @@ class SelectableViewController: UIViewController {
     internal var selectedIndexPathes = Set<IndexPath>() {
         didSet {
             updateSelectionTitle()
-            updateButtons() 
+            updateToolbarButtons() 
         }
     }
 
@@ -57,7 +57,7 @@ class SelectableViewController: UIViewController {
         fatalError("need to override reloadUI")
     }
 
-    internal func updateButtons() {
+    internal func updateToolbarButtons() {
         fatalError("need to override reloadUI")
     }
 

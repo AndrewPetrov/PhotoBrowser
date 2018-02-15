@@ -44,7 +44,7 @@ class TableViewController: SelectableViewController, Presentatable {
         TableViewController.dateFormatter.dateStyle = .short
         setupNavigationBar()
         setupToolbar()
-        updateButtons()
+        updateToolbarButtons()
         updateSelectionTitle()
         updateToolbarPosition()
     }
@@ -101,7 +101,7 @@ class TableViewController: SelectableViewController, Presentatable {
         parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
     }
 
-    internal override func updateButtons() {
+    internal override func updateToolbarButtons() {
         actionButton.isEnabled = selectedIndexPathes.count != 0
         trashButton.isEnabled = selectedIndexPathes.count != 0
     }

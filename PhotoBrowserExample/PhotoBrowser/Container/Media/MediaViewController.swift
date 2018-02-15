@@ -16,6 +16,8 @@ class MediaViewController: UIViewController {
     private weak var presentationInputOutput: PresentationInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
 
+    // MARK: - Life cycle
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -31,11 +33,14 @@ class MediaViewController: UIViewController {
 
         return newViewController
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupCollectionView()
     }
+
+    // MARK: - Setup controls
 
     private func setupCollectionView() {
         collectionView.allowsMultipleSelection = true

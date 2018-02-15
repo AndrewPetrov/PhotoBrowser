@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-enum ContainerItemTypes: Int {
+enum ContainerItemType: Int {
     case media
     case links
     case docs
@@ -56,12 +56,25 @@ class ContainerViewController: SelectableViewController, Presentatable {
 
     private var delegate: ContainerViewControllerDelegate?
 
+    // MARK: - Life cycle
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupNavigationBar()
+        add(asChildViewController: mediaViewController)
+        createBarButtonItems()
+        setupToolbar()
+        updateToolbarButtons()
+        updateToolbarPosition()
     }
 
     private lazy var mediaViewController = MediaViewController.make(presentationInputOutput: presentationInputOutput, containerInputOutput: self)
@@ -86,36 +99,6 @@ class ContainerViewController: SelectableViewController, Presentatable {
         }
     }
 
-    static func make(presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
-        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
-        newViewController.presentationInputOutput = presentationInputOutput
-
-        return newViewController
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupNavigationBar()
-        add(asChildViewController: mediaViewController)
-        createBarButtonItems()
-        setupToolbar()
-        updateToolbarPosition()
-    }
-
-    private func createBarButtonItems() {
-        trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
-        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(trashButtonDidTap))
-    }
-
-    internal override func reloadUI() {
-        delegate?.reloadUI()
-    }
-
-    internal override func updateButtons() {
-        
-    }
-
     override func removeFromParentViewController() {
         clearNavigationBar()
 
@@ -128,17 +111,22 @@ class ContainerViewController: SelectableViewController, Presentatable {
         setupNavigationBar()
     }
 
-    func clearNavigationBar() {
-        UIView.animate(withDuration: 0.1,
-                       animations: { [weak self] in
-                        self?.parent?.navigationItem.titleView?.alpha = 0
-        }) { [weak self] _ in
-            self?.parent?.navigationItem.titleView = nil
-        }
+    static func make(presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
+        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
+        newViewController.presentationInputOutput = presentationInputOutput
+
+        return newViewController
     }
 
-    func setupToolbar() {
-        guard let type = ContainerItemTypes(rawValue: mediaTypesSegmentedControl.selectedSegmentIndex) else { return }
+    // MARK: - Setup controls
+
+    private func createBarButtonItems() {
+        trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
+        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(trashButtonDidTap))
+    }
+
+    private func setupToolbar() {
+        guard let type = ContainerItemType(rawValue: mediaTypesSegmentedControl.selectedSegmentIndex) else { return }
 
         switch type {
         case .media:
@@ -146,6 +134,50 @@ class ContainerViewController: SelectableViewController, Presentatable {
 
         case .links, .docs:
             toolbar.items = [shareButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
+        }
+    }
+
+    private func setupNavigationBar() {
+        mediaTypesSegmentedControl = UISegmentedControl(items: [
+            ContainerItemType.media.title,
+            ContainerItemType.links.title,
+            ContainerItemType.docs.title
+            ])
+
+        mediaTypesSegmentedControl.selectedSegmentIndex = 0;
+        mediaTypesSegmentedControl.addTarget(self, action: #selector(mediaTypeDidChange(_:)), for: .valueChanged)
+        parent?.navigationItem.titleView = mediaTypesSegmentedControl
+        parent?.navigationItem.titleView?.alpha = 0
+        UIView.animate(withDuration: 0.1,
+                       animations: { [weak self] in
+                        self?.parent?.navigationItem.titleView?.alpha = 1
+        })
+
+        selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
+        parent?.navigationItem.rightBarButtonItem = selectButton
+
+        selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
+    }
+
+    // MARK: - Update controls
+
+    internal override func reloadUI() {
+        delegate?.reloadUI()
+    }
+
+    internal override func updateToolbarButtons() {
+        actionButton.isEnabled = selectedIndexPathes.count != 0
+        trashButton.isEnabled = selectedIndexPathes.count != 0
+        likeButton.isEnabled = selectedIndexPathes.count != 0
+        shareButton.isEnabled = selectedIndexPathes.count != 0
+    }
+
+    private func clearNavigationBar() {
+        UIView.animate(withDuration: 0.1,
+                       animations: { [weak self] in
+                        self?.parent?.navigationItem.titleView?.alpha = 0
+        }) { [weak self] _ in
+            self?.parent?.navigationItem.titleView = nil
         }
     }
 
@@ -166,28 +198,6 @@ class ContainerViewController: SelectableViewController, Presentatable {
         //do nothing for now
     }
 
-    private func setupNavigationBar() {
-        mediaTypesSegmentedControl = UISegmentedControl(items: [
-            ContainerItemTypes.media.title,
-            ContainerItemTypes.links.title,
-            ContainerItemTypes.docs.title
-            ])
-
-        mediaTypesSegmentedControl.selectedSegmentIndex = 0;
-        mediaTypesSegmentedControl.addTarget(self, action: #selector(mediaTypeDidChange(_:)), for: .valueChanged)
-        parent?.navigationItem.titleView = mediaTypesSegmentedControl
-        parent?.navigationItem.titleView?.alpha = 0
-        UIView.animate(withDuration: 0.1,
-                       animations: { [weak self] in
-                        self?.parent?.navigationItem.titleView?.alpha = 1
-        })
-
-        selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
-        parent?.navigationItem.rightBarButtonItem = selectButton
-
-        selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
-    }
-
     internal override func updateNavigationBar() {
         parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
         parent?.navigationItem.hidesBackButton = isSelectionAllowed
@@ -197,7 +207,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
         removeChildViewControllers()
         isSelectionAllowed = false
         delegate?.reloadUI()
-        guard let type = ContainerItemTypes(rawValue: sender.selectedSegmentIndex) else { return }
+        guard let type = ContainerItemType(rawValue: sender.selectedSegmentIndex) else { return }
         switch type {
         case .media:
             add(asChildViewController: mediaViewController)
@@ -214,7 +224,11 @@ class ContainerViewController: SelectableViewController, Presentatable {
 extension ContainerViewController: ContainerViewControllerImput {
 
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath) {
-        print(indexPath, " ", isSelected)
+        if isSelected {
+            selectedIndexPathes.insert(indexPath)
+        } else {
+            selectedIndexPathes.remove(indexPath)
+        }
     }
 
 }

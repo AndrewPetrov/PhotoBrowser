@@ -219,7 +219,7 @@ class CarouselViewController: UIViewController, Presentatable {
         }
         alertController.addAction(deleteForMeAction)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
@@ -266,7 +266,7 @@ class CarouselViewController: UIViewController, Presentatable {
         }
         alertController.addAction(setAsProfilePictureAction)
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             alertController.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
