@@ -16,6 +16,10 @@ class MediaCollectionViewCell: UICollectionViewCell {
             updateSelectionImage(isSelected: isSelected)
         }
     }
+    @IBOutlet weak var selectionImagView: UIImageView!
+    @IBOutlet weak var videoImagView: UIImageView!
+    @IBOutlet weak var videoDurationLabel: UILabel!
+    @IBOutlet weak var likedImageView: UIImageView!
 
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var selectionImageView: UIImageView!
@@ -30,10 +34,13 @@ class MediaCollectionViewCell: UICollectionViewCell {
         selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
     }
 
-    func configureCell(image: UIImage?, isSelectionAllowed: Bool, isSelected: Bool) {
+    func configureCell(image: UIImage?, isSelectionAllowed: Bool, isSelected: Bool, isVideo: Bool, videoDuration: String = "", isLiked: Bool) {
         imageView.image = image
         selectionImageView.isHidden = !isSelectionAllowed
         updateSelectionImage(isSelected: isSelected)
+        videoImagView.isHidden = !isVideo
+        videoDurationLabel.text = videoDuration
+        likedImageView.isHidden = !isLiked
     }
 
 }

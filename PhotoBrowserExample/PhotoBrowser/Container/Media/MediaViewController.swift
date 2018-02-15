@@ -73,10 +73,21 @@ extension MediaViewController: UICollectionViewDataSource {
                                                       for: indexPath) as! MediaCollectionViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
         let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
+        if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) as? Item & Likable {
+            var videoDuration = ""
+            if let item = item as? VideoItem {
+                //TODO: calculate duration
+                videoDuration = "1:02"
+            }
         cell.configureCell(
             image: presentationInputOutput.item(withType: supportedTypes, at: indexPath)?.image,
             isSelectionAllowed: isSelectionAllowed,
-            isSelected: isSelected)
+            isSelected: isSelected,
+            isVideo: item.type == .video,
+            videoDuration: videoDuration,
+            isLiked: item.isLiked
+            )
+        }
 
         return cell
     }
