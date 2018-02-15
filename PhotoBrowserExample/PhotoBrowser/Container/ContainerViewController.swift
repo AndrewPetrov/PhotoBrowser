@@ -52,7 +52,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
 
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var containerView: UIView!
-    @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var toolbarBottomConstraint: NSLayoutConstraint!
 
     private let uiBarButtonImageSize = CGSize(width: 25, height: 25)
     private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likedYes"), scaledToSize: uiBarButtonImageSize)
@@ -170,7 +170,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
 
     internal override func updateToolbarButtons() {
-        let sizedImage = isGroupLiked() ? likedYesSizedImage : likedNoSizedImage
+        let sizedImage = isAllItemsLiked() ? likedYesSizedImage : likedNoSizedImage
         let likeButton = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
 
         actionButton.isEnabled = selectedIndexPathes.count != 0
@@ -232,7 +232,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
 
     @objc private func likeButtonDidTap(_ sender: Any) {
-        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isGroupLiked(), at: Array(selectedIndexPathes()).sorted())
+        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isAllItemsLiked(), at: Array(selectedIndexPathes()).sorted())
         selectedIndexPathes.removeAll()
         isSelectionAllowed = false
         delegate?.reloadUI()
@@ -252,17 +252,17 @@ class ContainerViewController: SelectableViewController, Presentatable {
         delegate?.reloadUI()
     }
 
-    private func isGroupLiked() -> Bool {
-        var isGroupLiked = !selectedIndexPathes.isEmpty
-        for selectedIndexPath in selectedIndexPathes {
-            let isItemLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: selectedIndexPath)
-            if !isItemLiked {
-                isGroupLiked = false
-                break
-            }
-        }
-        return isGroupLiked
-    }
+//    private func isAllItemsLiked() -> Bool {
+//        var isAllItemsLiked = !selectedIndexPathes.isEmpty
+//        for selectedIndexPath in selectedIndexPathes {
+//            let isItemLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: selectedIndexPath)
+//            if !isItemLiked {
+//                isAllItemsLiked = false
+//                break
+//            }
+//        }
+//        return isAllItemsLiked
+//    }
 
 }
 

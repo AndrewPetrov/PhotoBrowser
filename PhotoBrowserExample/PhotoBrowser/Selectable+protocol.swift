@@ -29,8 +29,10 @@ class SelectableViewController: UIViewController {
 
     internal var selectedIndexPathes = Set<IndexPath>() {
         didSet {
+            reloadUI()
             updateSelectionTitle()
-            updateToolbarButtons() 
+            updateToolbarButtons()
+            updateSelectAllTitle()
         }
     }
 
@@ -112,11 +114,10 @@ class SelectableViewController: UIViewController {
 
         present(alertController, animated: true, completion: nil)
     }
-// FIXME fix selection all
+
     @objc internal func toggleSelectAll() {
         //select all
         if selectedIndexPathes.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
-            selectAllButton.title = "Deselect All"
             selectedIndexPathes.removeAll()
             let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
             for row in 0..<count {
@@ -124,10 +125,29 @@ class SelectableViewController: UIViewController {
             }
         } else {
             //deselect all
-            selectAllButton.title = "Select All"
             selectedIndexPathes.removeAll()
         }
         reloadUI()
+    }
+
+    internal func updateSelectAllTitle() {
+        if selectedIndexPathes.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
+            selectAllButton.title = "Select All"
+        } else {
+            selectAllButton.title = "Deselect All"
+        }
+    }
+
+    internal func isAllItemsLiked() -> Bool {
+        var isAllItemsLiked = !selectedIndexPathes.isEmpty
+        for selectedIndexPath in selectedIndexPathes {
+            let isItemLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: selectedIndexPath)
+            if !isItemLiked {
+                isAllItemsLiked = false
+                break
+            }
+        }
+        return isAllItemsLiked
     }
 
 }

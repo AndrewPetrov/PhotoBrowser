@@ -11,10 +11,10 @@ import UIKit
 
 class CarouselCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var playImageView: UIImageView!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var playImageView: UIImageView!
 
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var scrollView: UIScrollView!
 
     //TODO: calculate related on real resolution
     let minScale: CGFloat = 1

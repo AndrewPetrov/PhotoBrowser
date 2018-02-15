@@ -17,7 +17,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var deliveryStatusImageView: UIImageView!
     @IBOutlet private weak var selectionImageView: UIImageView!
-    @IBOutlet weak var playImageView: UIImageView!
+    @IBOutlet private weak var playImageView: UIImageView!
 
     private weak var item: Item!
 
@@ -26,7 +26,8 @@ class TableViewCell: UITableViewCell {
 
         mainImageView.image = nil
         likeImageView.image = nil
-        isSelected = false
+
+        selectionImageView.image = #imageLiteral(resourceName: "nonSelected")
     }
 
     func configureCell(item: Item, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool) {
@@ -48,15 +49,9 @@ class TableViewCell: UITableViewCell {
         dateLabel.text = TableViewController.dateFormatter.string(from: item.sentTime)
         likeImageView.image = item.isLiked ? #imageLiteral(resourceName: "star") : nil
 
-        selectionImageView.isHidden = !isSelectionAllowed
-        self.isSelected = isSelected
-        playImageView.isHidden = item.type != .video
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
         selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
+        selectionImageView.isHidden = !isSelectionAllowed
+        playImageView.isHidden = item.type != .video
     }
 
 }

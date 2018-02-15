@@ -16,9 +16,9 @@ class TableViewController: SelectableViewController, Presentatable {
     static var dateFormatter = DateFormatter()
     static let inset: CGFloat = 10
 
-    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet private weak var toolbar: UIToolbar!
     private var selectedCountLabel: UIBarButtonItem!
-    @IBOutlet weak var toolbarBottomContraint: NSLayoutConstraint!
+    @IBOutlet private weak var toolbarBottomContraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
 
     // MARK: - Life cycle
@@ -132,7 +132,6 @@ extension TableViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
         if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
             let isSelected = selectedIndexPathes.contains(indexPath)
-
             cell.configureCell(
                 item: item,
                 hasInset: !isLastCell(indexPath: indexPath),
@@ -157,7 +156,7 @@ extension TableViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         //fix jumping after reloadData()
-        return 1000
+        return 10000
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
