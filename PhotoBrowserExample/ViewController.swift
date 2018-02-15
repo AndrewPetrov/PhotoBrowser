@@ -203,9 +203,7 @@ extension ViewController: PhotoBrowserDelegate {
         for indexPath in indexPathes {
             let itemForLike = filtredItemsArray[indexPath.row]
             if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
-                if var item = items[indexForLike] as? Likable {
-                    item.isLiked = isLiked
-                }
+                items[indexForLike].isLiked = isLiked
             }
         }
     }

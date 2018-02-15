@@ -10,10 +10,6 @@ import Foundation
 import UIKit
 import AVFoundation
 
-protocol Likable {
-    var isLiked: Bool { get set }
-}
-
 enum ItemType: Equatable {
     case image
     case video
@@ -66,6 +62,7 @@ class Item: Equatable {
     var sentTime: Date
     var type: ItemType
     var deliveryStatus: DeliveryStatus
+    var isLiked: Bool
     //goes from Chat
     var messageIndexPath: IndexPath
 
@@ -75,6 +72,7 @@ class Item: Equatable {
          sentTime: Date = Date(),
          type: ItemType,
          deliveryStatus: DeliveryStatus = .nonDelivered,
+         isLiked: Bool = false,
          messageIndexPath: IndexPath = IndexPath(row: 100500, section: 42)) {
 
         self.id = id
@@ -83,6 +81,7 @@ class Item: Equatable {
         self.sentTime = sentTime
         self.type = type
         self.deliveryStatus = deliveryStatus
+        self.isLiked = isLiked
         self.messageIndexPath = messageIndexPath
     }
 
@@ -95,16 +94,15 @@ class Item: Equatable {
 
 }
 
-class ImageItem: Item, Likable {
-    var isLiked: Bool = false
+class ImageItem: Item {
 
     init(image: UIImage, name: String = "", sentTime: Date = Date(), deliveryStatus: DeliveryStatus = .nonDelivered) {
         super.init(image: image, name: name, sentTime: sentTime, type: .image, deliveryStatus: deliveryStatus)
     }
 }
 
-class VideoItem: Item, Likable {
-    var isLiked: Bool = false
+class VideoItem: Item {
+
     let url: URL
 
     init(url: URL,

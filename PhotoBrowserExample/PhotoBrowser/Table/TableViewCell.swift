@@ -29,7 +29,7 @@ class TableViewCell: UITableViewCell {
         isSelected = false
     }
 
-    func configureCell(item: Item & Likable, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool) {
+    func configureCell(item: Item, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool) {
         self.item = item
 
         buttomInset.constant = hasInset ? TableViewController.inset : 0

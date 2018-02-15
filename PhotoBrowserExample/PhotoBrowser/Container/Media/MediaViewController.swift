@@ -73,7 +73,7 @@ extension MediaViewController: UICollectionViewDataSource {
                                                       for: indexPath) as! MediaCollectionViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
         let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
-        if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) as? Item & Likable {
+        if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
             var videoDuration = ""
             if let item = item as? VideoItem {
                 //TODO: calculate duration
