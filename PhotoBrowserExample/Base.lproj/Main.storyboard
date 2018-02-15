@@ -608,13 +608,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XgS-pB-Pxx">
-                                                    <rect key="frame" x="0.0" y="0.0" width="32.666666666666664" height="43.666666666666664"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="37.333333333333336" height="49.666666666666664"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="XgS-pB-Pxx" secondAttribute="height" multiplier="3:4" id="BYD-Ei-eZj"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sKo-qa-kHa">
-                                                    <rect key="frame" x="37.666666666666657" y="3" width="371.33333333333337" height="20"/>
+                                                    <rect key="frame" x="42.333333333333343" y="3" width="366.66666666666663" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="abD-zu-awC"/>
                                                     </constraints>
@@ -637,10 +637,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TXL-9C-GSh">
-                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="43.666666666666664"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="49.666666666666664"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ggA-7B-38a">
-                                                            <rect key="frame" x="-10" y="12" width="20" height="20"/>
+                                                            <rect key="frame" x="-10" y="15" width="20" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="Udv-yz-TjF"/>
                                                                 <constraint firstAttribute="height" constant="20" id="uxf-p3-sCa"/>
@@ -654,8 +654,17 @@
                                                         <constraint firstItem="ggA-7B-38a" firstAttribute="centerY" secondItem="TXL-9C-GSh" secondAttribute="centerY" id="gRe-Fj-FEY"/>
                                                     </constraints>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="likedYes" translatesAutoresizingMaskIntoConstraints="NO" id="9TT-gr-rxC">
+                                                    <rect key="frame" x="384" y="10" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Ibt-AU-ZEH"/>
+                                                        <constraint firstAttribute="width" constant="20" id="NBN-dg-sif"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="9TT-gr-rxC" firstAttribute="top" secondItem="qt2-w3-O5B" secondAttribute="top" constant="10" id="8UI-Ih-8YY"/>
+                                                <constraint firstAttribute="trailing" secondItem="9TT-gr-rxC" secondAttribute="trailing" constant="10" id="AkU-ym-QAj"/>
                                                 <constraint firstItem="XgS-pB-Pxx" firstAttribute="top" secondItem="qt2-w3-O5B" secondAttribute="top" id="GYh-XM-lVq"/>
                                                 <constraint firstAttribute="bottom" secondItem="TXL-9C-GSh" secondAttribute="bottom" id="Gcu-if-QHq"/>
                                                 <constraint firstAttribute="trailing" secondItem="sKo-qa-kHa" secondAttribute="trailing" constant="5" id="L0E-mR-Vwj"/>
@@ -669,6 +678,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="extensionLabel" destination="frr-4Y-YH4" id="QNO-k4-7gE"/>
+                                            <outlet property="likedImageView" destination="9TT-gr-rxC" id="VBm-sL-ZMy"/>
                                             <outlet property="mainImageView" destination="XgS-pB-Pxx" id="8Af-Jx-Sqh"/>
                                             <outlet property="nameLabel" destination="sKo-qa-kHa" id="3xl-pl-Ig2"/>
                                             <outlet property="selectionImageView" destination="ggA-7B-38a" id="mWE-zl-4ra"/>
