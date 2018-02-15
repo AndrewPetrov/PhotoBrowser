@@ -161,8 +161,8 @@ extension ViewController: PhotoBrowserDataSouce {
     }
 
     private func filtredItems(withTypes types: [ItemType]) -> [Item] {
-        let filteredItems = items.filter { imageItem -> Bool in
-            types.contains { $0 == imageItem.type }
+        let filteredItems = items.filter { item -> Bool in
+            types.contains { $0 == item.type }
         }
         return filteredItems
     }
@@ -196,18 +196,22 @@ extension ViewController: PhotoBrowserDelegate {
         present(alertController, animated: true, completion: nil)
     }
 
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath) {
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath]) {
+        let indexPathes = indexPathes.sorted()
         var filtredItemsArray = filtredItems(withTypes: types)
-        let itemForLike = filtredItemsArray[indexPath.row]
-        if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
-            if var item = items[indexPath.row] as? Likable {
-                item.isLiked = isLiked
+
+        for indexPath in indexPathes {
+            let itemForLike = filtredItemsArray[indexPath.row]
+            if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
+                if var item = items[indexForLike] as? Likable {
+                    item.isLiked = isLiked
+                }
             }
         }
     }
 
     func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        let indexPathes = Array(indexPathes).sorted()
+        let indexPathes = indexPathes.sorted()
         var filtredItemsArray = filtredItems(withTypes: types)
 
         for indexPath in indexPathes {

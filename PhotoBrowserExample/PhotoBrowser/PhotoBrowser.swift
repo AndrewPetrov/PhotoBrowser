@@ -14,7 +14,7 @@ import UIKit
 protocol PhotoBrowserDelegate: class {
 
     // types is necessary for calculation unfiltred index path in all Items
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath])
     func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath])
     func scrollToMessage(at indexPath: IndexPath)
     func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath])
@@ -60,7 +60,7 @@ protocol PresentationInput: class {
 protocol PresentationOutput: class {
 
     func setItemAsCurrent(at indexPath: IndexPath)
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath)
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath])
     func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath])
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
@@ -246,9 +246,9 @@ extension PhotoBrowser: PresentationOutput {
         externalDelegate?.setAsMyProfilePhoto(withTypes: types, indexPath: indexPath)
     }
 
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPath: IndexPath) {
-        print("like = ", isLiked,  indexPath)
-        externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPath)
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath]) {
+        print("like = ", isLiked,  indexPathes)
+        externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPathes)
     }
 
     func goToMessage(with indexPath: IndexPath) {

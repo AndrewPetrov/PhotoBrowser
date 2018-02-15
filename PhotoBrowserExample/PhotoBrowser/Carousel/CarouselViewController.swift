@@ -277,7 +277,7 @@ class CarouselViewController: UIViewController, Presentatable {
     
     @objc func likeButtonDidTap(_ sender: Any) {
         let isCellLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: currentCellIndexPath)
-        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isCellLiked, at: currentCellIndexPath)
+        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isCellLiked, at: [currentCellIndexPath])
         updateToolBar()
     }
     
