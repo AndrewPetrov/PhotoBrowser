@@ -17,10 +17,12 @@ protocol CarouselViewControllerDelegate {
 
 class CarouselViewController: UIViewController, Presentatable {
 
+
     private static var dateFormatter = DateFormatter()
     let presentation: Presentation = .carousel
     private let supportedTypes: [ItemType] = [.image, .video]
     private weak var presentationInputOutput: PresentationInputOutput!
+    @IBOutlet private weak var imageViewOnTopOfCollectionView: UIImageView!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var carouselControlCollectionView: UICollectionView!
@@ -117,6 +119,36 @@ class CarouselViewController: UIViewController, Presentatable {
         super.didMove(toParentViewController: parent)
 
         setupNavigationBar()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        imageViewOnTopOfCollectionView.image = presentationInputOutput.item(withType: supportedTypes, at: presentationInputOutput.currentItemIndex())?.image
+        imageViewOnTopOfCollectionView.isHidden = false
+        collectionView.isHidden = true
+
+        coordinator.animate(alongsideTransition: { [weak self] (context) -> Void in
+            guard let `self` = self else { return }
+            self.carouselControlAdapter.collectionViewSize = size
+            self.carouselControlCollectionView.reloadData()
+            self.carouselControlCollectionView.scrollToItem(
+                at: self.presentationInputOutput.currentItemIndex(),
+                at: .centeredHorizontally,
+                animated: true)
+            self.imageViewOnTopOfCollectionView.frame.size = size
+            }, completion: { [weak self] (context) -> Void in
+                guard let `self` = self else { return }
+
+                self.collectionView.reloadData()
+                self.collectionView.layoutIfNeeded()
+                self.collectionView.scrollToItem(
+                    at: self.presentationInputOutput.currentItemIndex(),
+                    at: .centeredHorizontally,
+                    animated: false)
+                self.collectionView.isHidden = false
+                self.imageViewOnTopOfCollectionView.isHidden = true
+        })
     }
 
     // MARK: - Setup controls
@@ -351,7 +383,7 @@ extension CarouselViewController: PhotoBrowserInternalDelegate {
             collectionView.scrollToItem(
                 at: presentationInputOutput.currentItemIndex(),
                 at: .centeredHorizontally,
-                animated: true)
+                animated: false)
         }
         if !(carouselControlCollectionView.isTracking || carouselControlCollectionView.isDecelerating) {
             carouselControlCollectionView.scrollToItem(

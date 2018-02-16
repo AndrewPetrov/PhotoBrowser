@@ -12,10 +12,11 @@ import UIKit
 class CarouselControlAdapter: NSObject {
 
     private let supportedTypes: [ItemType]
+    var collectionViewSize: CGSize
 
     private weak var collectionView: UICollectionView!
     private var gapSpace: CGFloat {
-        return (collectionView.frame.width - itemSize.width) / 2
+        return (collectionViewSize.width - itemSize.width) / 2
     }
     let itemSize = CGSize(width: 30, height: 50)
 
@@ -25,6 +26,7 @@ class CarouselControlAdapter: NSObject {
         self.collectionView = collectionView
         self.presentationInputOutput = presentationInputOutput
         self.supportedTypes = supportedTypes
+        collectionViewSize = collectionView.frame.size
     }
 
     private func isFirstCell(indexPath: IndexPath) -> Bool {

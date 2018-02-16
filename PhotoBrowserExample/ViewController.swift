@@ -94,6 +94,35 @@ class ViewController: UIViewController {
         items.append(ImageItem(image: UIImage(named: "9")!, sentTime: getPastDay(20), deliveryStatus: .delivered))
         items.append(ImageItem(image: UIImage(named: "10")!, sentTime: getPastDay(21), deliveryStatus: .delivered))
 
+        items.append(ImageItem(image: UIImage(named: "7")!, sentTime: getPastDay(8), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "8")!, sentTime: getPastDay(9), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "9")!, sentTime: getPastDay(10), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "10")!, sentTime: getPastDay(11), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "1")!, sentTime: getPastDay(12), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "2")!, sentTime: getPastDay(13), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "3")!, sentTime: getPastDay(14), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "4")!, sentTime: getPastDay(15), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "5")!, sentTime: getPastDay(16), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "6")!, sentTime: getPastDay(17), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "7")!, sentTime: getPastDay(18), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "8")!, sentTime: getPastDay(19), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "9")!, sentTime: getPastDay(20), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "10")!, sentTime: getPastDay(21), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "7")!, sentTime: getPastDay(8), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "8")!, sentTime: getPastDay(9), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "9")!, sentTime: getPastDay(10), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "10")!, sentTime: getPastDay(11), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "1")!, sentTime: getPastDay(12), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "2")!, sentTime: getPastDay(13), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "3")!, sentTime: getPastDay(14), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "4")!, sentTime: getPastDay(15), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "5")!, sentTime: getPastDay(16), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "6")!, sentTime: getPastDay(17), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "7")!, sentTime: getPastDay(18), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "8")!, sentTime: getPastDay(19), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "9")!, sentTime: getPastDay(20), deliveryStatus: .delivered))
+        items.append(ImageItem(image: UIImage(named: "10")!, sentTime: getPastDay(21), deliveryStatus: .delivered))
+        
         //add links
         items.append(LinkItem(url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
         items.append(LinkItem(url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
@@ -105,6 +134,10 @@ class ViewController: UIViewController {
         let myurl = docsurl.appendingPathComponent("small.mp4")
 
         items.append(DocumentItem(url: myurl, name: "Doc 1", sentTime: getPastDay(18), deliveryStatus: .seen))
+        items.append(DocumentItem(url: myurl, name: "Doc 2", sentTime: getPastDay(2), deliveryStatus: .seen))
+        items.append(DocumentItem(url: myurl, name: "Doc 3", sentTime: getPastDay(4), deliveryStatus: .seen))
+        items.append(DocumentItem(url: myurl, name: "Doc 4", sentTime: getPastDay(6), deliveryStatus: .seen))
+        items.append(DocumentItem(url: myurl, name: "Doc 5", sentTime: getPastDay(9), deliveryStatus: .seen))
     }
 
     override func didReceiveMemoryWarning() {
@@ -145,7 +178,10 @@ extension ViewController: PhotoBrowserDataSouce {
     }
 
     func item(withTypes types: [ItemType], at indexPath: IndexPath) -> Item? {
-        return filtredItems(withTypes: types)[indexPath.row]
+        if indexPath.row < filtredItems(withTypes: types).count {
+            return filtredItems(withTypes: types)[indexPath.row]
+        }
+        return nil
     }
 
     func numberOfItems() -> Int {
