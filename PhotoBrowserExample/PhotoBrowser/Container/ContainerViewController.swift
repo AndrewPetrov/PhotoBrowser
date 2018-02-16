@@ -34,7 +34,7 @@ protocol ContainerViewControllerImput: class {
 
 protocol ContainerViewControllerOutput: class {
     func isSelectionAllowed() -> Bool
-    func selectedIndexPathes() -> Set<IndexPath>
+    func selectedIndexPaths() -> Set<IndexPath>
     func currentlySupportedTypes() -> [ItemType]
 }
 
@@ -174,10 +174,10 @@ class ContainerViewController: SelectableViewController, Presentatable {
         let sizedImage = isAllItemsLiked() ? likedYesSizedImage : likedNoSizedImage
         let likeButton = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
 
-        actionButton.isEnabled = selectedIndexPathes.count != 0
-        trashButton.isEnabled = selectedIndexPathes.count != 0
-        likeButton.isEnabled = selectedIndexPathes.count != 0
-        forwardButton.isEnabled = selectedIndexPathes.count != 0
+        actionButton.isEnabled = selectedIndexPaths.count != 0
+        trashButton.isEnabled = selectedIndexPaths.count != 0
+        likeButton.isEnabled = selectedIndexPaths.count != 0
+        forwardButton.isEnabled = selectedIndexPaths.count != 0
 
         toolbar.items = [forwardButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
     }
@@ -237,22 +237,22 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
 
     @objc private func likeButtonDidTap(_ sender: Any) {
-        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isAllItemsLiked(), at: Array(selectedIndexPathes()).sorted())
-        selectedIndexPathes.removeAll()
+        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isAllItemsLiked(), at: Array(selectedIndexPaths()).sorted())
+        selectedIndexPaths.removeAll()
         isSelectionAllowed = false
         delegate?.reloadUI()
     }
 
     @objc private func actionButtonDidTap(_ sender: Any) {
-        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPathes: Array(selectedIndexPathes()).sorted())
-        selectedIndexPathes.removeAll()
+        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
+        selectedIndexPaths.removeAll()
         isSelectionAllowed = false
         delegate?.reloadUI()
     }
 
     @objc private func forwardButtonDidTap(_ sender: Any) {
-        presentationInputOutput.forwardItem(withTypes: supportedTypes, indexPathes: Array(selectedIndexPathes()).sorted())
-        selectedIndexPathes.removeAll()
+        presentationInputOutput.forwardItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
+        selectedIndexPaths.removeAll()
         isSelectionAllowed = false
         delegate?.reloadUI()
     }
@@ -263,9 +263,9 @@ extension ContainerViewController: ContainerViewControllerImput {
 
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath) {
         if isSelected {
-            selectedIndexPathes.insert(indexPath)
+            selectedIndexPaths.insert(indexPath)
         } else {
-            selectedIndexPathes.remove(indexPath)
+            selectedIndexPaths.remove(indexPath)
         }
     }
 
@@ -281,8 +281,8 @@ extension ContainerViewController: ContainerViewControllerOutput {
         return isSelectionAllowed
     }
 
-    func selectedIndexPathes() -> Set<IndexPath> {
-        return selectedIndexPathes
+    func selectedIndexPaths() -> Set<IndexPath> {
+        return selectedIndexPaths
     }
 
 }

@@ -373,13 +373,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="centerX" secondItem="hlF-eg-hvh" secondAttribute="centerX" id="07A-mz-gq2"/>
                             <constraint firstItem="vFl-Pi-cz8" firstAttribute="bottom" secondItem="QJY-jQ-yyB" secondAttribute="top" id="FRc-TN-8U9"/>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="trailing" secondItem="4Wq-EN-Cro" secondAttribute="trailing" priority="750" id="R97-rc-hlI"/>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="leading" secondItem="4Wq-EN-Cro" secondAttribute="leading" priority="750" id="VeR-cx-e1U"/>
                             <constraint firstItem="QJY-jQ-yyB" firstAttribute="leading" secondItem="4Wq-EN-Cro" secondAttribute="leading" id="Y7A-l0-nMr"/>
                             <constraint firstItem="4Wq-EN-Cro" firstAttribute="bottom" secondItem="QJY-jQ-yyB" secondAttribute="bottom" id="ZPp-v7-xRi"/>
                             <constraint firstItem="vFl-Pi-cz8" firstAttribute="top" secondItem="4Wq-EN-Cro" secondAttribute="top" id="cNg-A9-FlD"/>
-                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="leading" secondItem="4Wq-EN-Cro" secondAttribute="leading" id="d5a-sk-cZI"/>
                             <constraint firstItem="QJY-jQ-yyB" firstAttribute="trailing" secondItem="4Wq-EN-Cro" secondAttribute="trailing" id="hP0-ao-2F0"/>
-                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="trailing" secondItem="4Wq-EN-Cro" secondAttribute="trailing" id="wsd-Cd-0e0"/>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="width" relation="lessThanOrEqual" secondItem="4Wq-EN-Cro" secondAttribute="width" id="vjL-Gn-WMD"/>
+                            <constraint firstItem="vFl-Pi-cz8" firstAttribute="width" relation="lessThanOrEqual" secondItem="4Wq-EN-Cro" secondAttribute="height" id="x53-1S-NHt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4Wq-EN-Cro"/>
                     </view>

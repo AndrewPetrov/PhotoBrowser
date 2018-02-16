@@ -21,17 +21,14 @@
             <rect key="frame" x="0.0" y="0.0" width="271" height="48"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqo-eT-uHn">
-                    <rect key="frame" x="0.0" y="3" width="271" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="ibq-ix-XQX"/>
-                    </constraints>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqo-eT-uHn">
+                    <rect key="frame" x="0.0" y="3" width="271" height="19.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M94-58-LmD">
-                    <rect key="frame" x="0.0" y="26" width="271" height="19"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M94-58-LmD">
+                    <rect key="frame" x="0.0" y="25.5" width="271" height="19.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -39,6 +36,7 @@
             </subviews>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pqo-eT-uHn" secondAttribute="trailing" id="F6e-8f-Sx0"/>
+                <constraint firstItem="M94-58-LmD" firstAttribute="height" secondItem="pqo-eT-uHn" secondAttribute="height" id="V5a-V9-a8V"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="M94-58-LmD" secondAttribute="trailing" id="hoU-8v-Wiq"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="M94-58-LmD" secondAttribute="bottom" constant="3" id="jVl-Rt-bAR"/>
                 <constraint firstItem="M94-58-LmD" firstAttribute="top" secondItem="pqo-eT-uHn" secondAttribute="bottom" constant="3" id="lYG-D4-716"/>

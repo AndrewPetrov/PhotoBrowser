@@ -247,7 +247,7 @@ class CarouselViewController: UIViewController, Presentatable {
             guard let `self` = self else { return }
             self.presentationInputOutput.deleteItems(
                 withTypes: self.supportedTypes,
-                indexPathes: [self.currentCellIndexPath]
+                indexPaths: [self.currentCellIndexPath]
             )
             self.collectionView.reloadData()
             self.carouselControlCollectionView.reloadData()
@@ -269,7 +269,7 @@ class CarouselViewController: UIViewController, Presentatable {
             guard let `self` = self else { return }
             self.presentationInputOutput.saveItem(
                 withTypes: self.supportedTypes,
-                indexPathes: [self.presentationInputOutput.currentItemIndex()]
+                indexPaths: [self.presentationInputOutput.currentItemIndex()]
             )
         }
         alertController.addAction(saveAction)
@@ -278,7 +278,7 @@ class CarouselViewController: UIViewController, Presentatable {
             guard let `self` = self else { return }
             self.presentationInputOutput.forwardItem(
                 withTypes: self.supportedTypes,
-                indexPathes: [self.presentationInputOutput.currentItemIndex()]
+                indexPaths: [self.presentationInputOutput.currentItemIndex()]
             )
         }
         alertController.addAction(forwardAction)
@@ -287,7 +287,7 @@ class CarouselViewController: UIViewController, Presentatable {
             guard let `self` = self else { return }
             self.presentationInputOutput.shareItem(
                 withTypes: self.supportedTypes,
-                indexPathes: [self.presentationInputOutput.currentItemIndex()]
+                indexPaths: [self.presentationInputOutput.currentItemIndex()]
             )
         }
         alertController.addAction(shareAction)

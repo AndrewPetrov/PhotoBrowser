@@ -207,16 +207,16 @@ extension ViewController: PhotoBrowserDataSouce {
 
 extension ViewController: PhotoBrowserDelegate {
 
-    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        print("saved item with indexPath = \(indexPathes)")
+    func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        print("saved item with indexPath = \(indexPaths)")
     }
 
-    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        print("forward item with indexPath = \(indexPathes)")
+    func forwardItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        print("forward item with indexPath = \(indexPaths)")
     }
 
-    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        print("shared item with indexPath = \(indexPathes)")
+    func shareItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        print("shared item with indexPath = \(indexPaths)")
     }
 
     func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath) {
@@ -232,11 +232,11 @@ extension ViewController: PhotoBrowserDelegate {
         present(alertController, animated: true, completion: nil)
     }
 
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath]) {
-        let indexPathes = indexPathes.sorted()
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPaths: [IndexPath]) {
+        let indexPaths = indexPaths.sorted()
         var filtredItemsArray = filtredItems(withTypes: types)
 
-        for indexPath in indexPathes {
+        for indexPath in indexPaths {
             let itemForLike = filtredItemsArray[indexPath.row]
             if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
                 items[indexForLike].isLiked = isLiked
@@ -244,11 +244,11 @@ extension ViewController: PhotoBrowserDelegate {
         }
     }
 
-    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        let indexPathes = indexPathes.sorted()
+    func deleteItems(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        let indexPaths = indexPaths.sorted()
         var filtredItemsArray = filtredItems(withTypes: types)
 
-        for indexPath in indexPathes {
+        for indexPath in indexPaths {
             let itemForDeletion = filtredItemsArray[indexPath.row]
             if let indexForDetetion = items.index(of: itemForDeletion), indexForDetetion >= 0, indexForDetetion < items.count {
                 items.remove(at: indexForDetetion)

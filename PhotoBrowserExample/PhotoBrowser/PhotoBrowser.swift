@@ -14,12 +14,12 @@ import UIKit
 protocol PhotoBrowserDelegate: class {
 
     // types is necessary for calculation unfiltred index path in all Items
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath])
-    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPaths: [IndexPath])
+    func deleteItems(withTypes types: [ItemType], indexPaths: [IndexPath])
     func scrollToMessage(at indexPath: IndexPath)
-    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath])
-    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath])
-    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath])
+    func forwardItem(withTypes types: [ItemType], indexPaths: [IndexPath])
+    func shareItem(withTypes types: [ItemType], indexPaths: [IndexPath])
     func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
 
 }
@@ -60,13 +60,13 @@ protocol PresentationInput: class {
 protocol PresentationOutput: class {
 
     func setItemAsCurrent(at indexPath: IndexPath)
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath])
-    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPaths: [IndexPath])
+    func deleteItems(withTypes types: [ItemType], indexPaths: [IndexPath])
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
-    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath])
-    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath])
-    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath])
+    func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath])
+    func forwardItem(withTypes types: [ItemType], indexPaths: [IndexPath])
+    func shareItem(withTypes types: [ItemType], indexPaths: [IndexPath])
     func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
 
 }
@@ -230,24 +230,24 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
-    func saveItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        externalDelegate?.saveItem(withTypes: types, indexPathes: indexPathes)
+    func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        externalDelegate?.saveItem(withTypes: types, indexPaths: indexPaths)
     }
 
-    func forwardItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        externalDelegate?.forwardItem(withTypes: types, indexPathes: indexPathes)
+    func forwardItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        externalDelegate?.forwardItem(withTypes: types, indexPaths: indexPaths)
     }
 
-    func shareItem(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        externalDelegate?.shareItem(withTypes: types, indexPathes: indexPathes)
+    func shareItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        externalDelegate?.shareItem(withTypes: types, indexPaths: indexPaths)
     }
 
     func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath) {
         externalDelegate?.setAsMyProfilePhoto(withTypes: types, indexPath: indexPath)
     }
 
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPathes: [IndexPath]) {
-        externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPathes)
+    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPaths: [IndexPath]) {
+        externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPaths)
     }
 
     func goToMessage(with indexPath: IndexPath) {
@@ -260,8 +260,8 @@ extension PhotoBrowser: PresentationOutput {
         switchToCurrentPresentation()
     }
 
-    func deleteItems(withTypes types: [ItemType], indexPathes: [IndexPath]) {
-        externalDelegate?.deleteItems(withTypes: types, indexPathes: indexPathes)
+    func deleteItems(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+        externalDelegate?.deleteItems(withTypes: types, indexPaths: indexPaths)
     }
 
     func setItemAsCurrent(at indexPath: IndexPath) {

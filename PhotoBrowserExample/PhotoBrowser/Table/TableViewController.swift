@@ -49,6 +49,28 @@ class TableViewController: SelectableViewController, Presentatable {
         updateToolbarPosition()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        updateNavigationBar() 
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        let firstIndex = tableView.indexPathsForVisibleRows?.first
+        var secondIndex: IndexPath?
+        if let indexPaths = tableView.indexPathsForVisibleRows, indexPaths.count > 1 {
+            secondIndex = tableView.indexPathsForVisibleRows?[1]
+        }
+        coordinator.animate(alongsideTransition: { [weak self] (context) -> Void in
+            guard let `self` = self else { return }
+            self.tableView.scrollToRow(at: secondIndex ?? firstIndex ?? IndexPath(item: 0, section: 0), at: .middle, animated: true)
+            }, completion: { [weak self] (context) -> Void in
+                guard let `self` = self else { return }
+                self.updateNavigationBar()
+        })
+    }
+
     // MARK: - Setup controls
 
     private func setupToolbar() {
@@ -64,14 +86,6 @@ class TableViewController: SelectableViewController, Presentatable {
         parent?.navigationItem.rightBarButtonItem = selectButton
 
         selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
-
-        let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-        let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
-            itemTypes: presentationInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
-            count: presentationInputOutput.numberOfItems(withType: supportedTypes)
-        )
-        titleView.setup(sender: presentationInputOutput.senderName(), info: itemsTitle)
-        parent?.navigationItem.titleView = titleView
     }
 
     // MARK: - Update controls
@@ -99,11 +113,19 @@ class TableViewController: SelectableViewController, Presentatable {
     internal override func updateNavigationBar() {
         parent?.navigationItem.hidesBackButton = isSelectionAllowed
         parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
+
+        let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height:  parent?.navigationController?.navigationBar.frame.height ?? 20))
+        let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
+            itemTypes: presentationInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
+            count: presentationInputOutput.numberOfItems(withType: supportedTypes)
+        )
+        titleView.setup(sender: presentationInputOutput.senderName(), info: itemsTitle)
+        parent?.navigationItem.titleView = titleView
     }
 
     internal override func updateToolbarButtons() {
-        actionButton.isEnabled = selectedIndexPathes.count != 0
-        trashButton.isEnabled = selectedIndexPathes.count != 0
+        actionButton.isEnabled = selectedIndexPaths.count != 0
+        trashButton.isEnabled = selectedIndexPaths.count != 0
     }
 
     internal override func setItem(at indexPath: IndexPath, slected: Bool) {
@@ -125,7 +147,7 @@ class TableViewController: SelectableViewController, Presentatable {
     // MARK: - User actions
 
     @objc internal func actionButtonDidTap(_ sender: Any) {
-        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPathes: Array(selectedIndexPathes).sorted())
+        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths).sorted())
     }
 
 }
@@ -164,7 +186,7 @@ extension TableViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isSelectionAllowed {
-            selectedIndexPathes.insert(indexPath)
+            selectedIndexPaths.insert(indexPath)
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
             presentationInputOutput.setItemAsCurrent(at: indexPath)
@@ -173,7 +195,7 @@ extension TableViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        selectedIndexPathes.remove(indexPath)
+        selectedIndexPaths.remove(indexPath)
     }
 
 }

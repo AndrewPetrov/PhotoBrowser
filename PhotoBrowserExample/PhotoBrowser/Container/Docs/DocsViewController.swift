@@ -30,6 +30,19 @@ class DocsViewController: UIViewController {
 
         return newViewController
     }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        let firstIndex = tableView.indexPathsForVisibleRows?.first
+        var secondIndex: IndexPath?
+        if let indexPaths = tableView.indexPathsForVisibleRows, indexPaths.count > 1 {
+            secondIndex = tableView.indexPathsForVisibleRows?[1]
+        }
+        coordinator.animate(alongsideTransition: { [weak self] (context) -> Void in
+            guard let `self` = self else { return }
+            self.tableView.scrollToRow(at: secondIndex ?? firstIndex ?? IndexPath(item: 0, section: 0), at: .middle, animated: true)
+            }, completion: nil)
+    }
 }
 
 extension DocsViewController: ContainerViewControllerDelegate {

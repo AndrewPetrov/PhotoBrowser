@@ -79,7 +79,7 @@ extension MediaViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaCollectionViewCell",
                                                       for: indexPath) as! MediaCollectionViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
+        let isSelected = containerInputOutput.selectedIndexPaths().contains(indexPath)
         if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) {
             var videoDuration = ""
             if let item = item as? VideoItem {
