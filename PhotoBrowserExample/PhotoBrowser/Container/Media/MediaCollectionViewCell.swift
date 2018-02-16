@@ -13,9 +13,10 @@ class MediaCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet{
-            updateSelectionImage(isSelected: isSelected)
+            selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
         }
     }
+
     @IBOutlet private weak var selectionImagView: UIImageView!
     @IBOutlet private weak var videoImagView: UIImageView!
     @IBOutlet private weak var videoDurationLabel: UILabel!
@@ -30,17 +31,13 @@ class MediaCollectionViewCell: UICollectionViewCell {
         imageView.image = nil
     }
 
-    private func updateSelectionImage(isSelected: Bool) {
-        selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
-    }
-
     func configureCell(image: UIImage?, isSelectionAllowed: Bool, isSelected: Bool, isVideo: Bool, videoDuration: String = "", isLiked: Bool) {
         imageView.image = image
         selectionImageView.isHidden = !isSelectionAllowed
-        updateSelectionImage(isSelected: isSelected)
         videoImagView.isHidden = !isVideo
         videoDurationLabel.text = videoDuration
         likedImageView.isHidden = !isLiked
+        self.isSelected = isSelected
     }
 
 }

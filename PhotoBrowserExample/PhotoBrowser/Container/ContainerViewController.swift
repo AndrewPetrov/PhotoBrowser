@@ -252,18 +252,6 @@ class ContainerViewController: SelectableViewController, Presentatable {
         delegate?.reloadUI()
     }
 
-//    private func isAllItemsLiked() -> Bool {
-//        var isAllItemsLiked = !selectedIndexPathes.isEmpty
-//        for selectedIndexPath in selectedIndexPathes {
-//            let isItemLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: selectedIndexPath)
-//            if !isItemLiked {
-//                isAllItemsLiked = false
-//                break
-//            }
-//        }
-//        return isAllItemsLiked
-//    }
-
 }
 
 extension ContainerViewController: ContainerViewControllerImput {

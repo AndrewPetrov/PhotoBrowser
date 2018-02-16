@@ -29,7 +29,7 @@ class SelectableViewController: UIViewController {
 
     internal var selectedIndexPathes = Set<IndexPath>() {
         didSet {
-            reloadUI()
+
             updateSelectionTitle()
             updateToolbarButtons()
             updateSelectAllTitle()
@@ -38,6 +38,7 @@ class SelectableViewController: UIViewController {
 
     var isSelectionAllowed = false {
         didSet {
+            reloadUI()
             if !isSelectionAllowed {
                 selectedIndexPathes.removeAll()
             }
