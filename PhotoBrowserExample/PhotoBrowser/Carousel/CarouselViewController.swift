@@ -83,12 +83,12 @@ class CarouselViewController: UIViewController, Presentatable {
         CarouselViewController.dateFormatter.dateFormat = "[MMM d, h:mm a]"
         updateToolBar()
         setupNavigationBar()
-        setupCarouselControlCollectionView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         carouselControlCollectionView.reloadData()
+        setupCarouselControlCollectionView()
         collectionView.reloadData()
         //crolls only once each time after screen appears
         needToScroll = true
@@ -109,6 +109,8 @@ class CarouselViewController: UIViewController, Presentatable {
         super.viewDidLayoutSubviews()
 
         setupCollectionView()
+        carouselControlAdapter.collectionViewSize = carouselControlCollectionView.frame.size
+        carouselControlCollectionView.reloadData()
         if needToScroll {
             collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
             needToScroll = false

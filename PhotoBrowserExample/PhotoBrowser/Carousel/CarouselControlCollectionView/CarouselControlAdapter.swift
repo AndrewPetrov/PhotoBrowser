@@ -39,7 +39,6 @@ class CarouselControlAdapter: NSObject {
 
 }
 
-
 extension CarouselControlAdapter: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
