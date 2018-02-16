@@ -106,6 +106,14 @@ class TableViewController: SelectableViewController, Presentatable {
         trashButton.isEnabled = selectedIndexPathes.count != 0
     }
 
+    internal override func setItem(at indexPath: IndexPath, slected: Bool) {
+        if slected {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+    }
+
     internal override func reloadUI() {
         tableView.reloadData()
     }
@@ -131,12 +139,7 @@ extension TableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
         if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
-            let isSelected = selectedIndexPathes.contains(indexPath)
-            cell.configureCell(
-                item: item,
-                hasInset: !isLastCell(indexPath: indexPath),
-                isSelectionAllowed: isSelectionAllowed,
-                isSelected: isSelected)
+            cell.configureCell(item: item,hasInset: !isLastCell(indexPath: indexPath), isSelectionAllowed: isSelectionAllowed)
         }
 
         return cell

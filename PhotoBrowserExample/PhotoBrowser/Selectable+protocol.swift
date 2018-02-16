@@ -29,7 +29,6 @@ class SelectableViewController: UIViewController {
 
     internal var selectedIndexPathes = Set<IndexPath>() {
         didSet {
-
             updateSelectionTitle()
             updateToolbarButtons()
             updateSelectAllTitle()
@@ -40,7 +39,7 @@ class SelectableViewController: UIViewController {
         didSet {
             reloadUI()
             if !isSelectionAllowed {
-                selectedIndexPathes.removeAll()
+                deselectAll()
             }
             updateSelectionTitle()
             updateToolbarPosition()
@@ -64,6 +63,10 @@ class SelectableViewController: UIViewController {
 
     internal func reloadUI() {
         fatalError("need to override reloadUI")
+    }
+
+    internal func setItem(at indexPath: IndexPath, slected: Bool) {
+        fatalError("need to override setItem(at indexPath: IndexPath, slected: Bool)")
     }
 
     internal func updateToolbarButtons() {
@@ -117,18 +120,30 @@ class SelectableViewController: UIViewController {
     }
 
     @objc internal func toggleSelectAll() {
-        //select all
         if selectedIndexPathes.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
-            selectedIndexPathes.removeAll()
-            let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
-            for row in 0..<count {
-                selectedIndexPathes.insert(IndexPath(row: row, section: 0))
-            }
+            selectAll()
         } else {
-            //deselect all
-            selectedIndexPathes.removeAll()
+            deselectAll()
         }
-        reloadUI()
+    }
+
+    private func selectAll() {
+        selectedIndexPathes.removeAll()
+        let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
+        for row in 0..<count {
+            let indexPath = IndexPath(row: row, section: 0)
+            setItem(at: indexPath, slected: true)
+            selectedIndexPathes.insert(indexPath)
+        }
+    }
+
+    private func deselectAll() {
+        selectedIndexPathes.removeAll()
+        let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
+        for row in 0..<count {
+            let indexPath = IndexPath(row: row, section: 0)
+            setItem(at: indexPath, slected: false)
+        }
     }
 
     internal func updateSelectAllTitle() {

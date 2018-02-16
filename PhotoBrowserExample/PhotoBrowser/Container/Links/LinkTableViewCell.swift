@@ -24,7 +24,7 @@ class LinkTableViewCell: UITableViewCell {
         goToMessageHandler?()
     }
 
-    func configureCell(with item: LinkItem, isSelectionAllowed: Bool, isSelected: Bool, isLiked: Bool, goToMessageHandler: @escaping () -> ()) {
+    func configureCell(with item: LinkItem, isSelectionAllowed: Bool, isLiked: Bool, goToMessageHandler: @escaping () -> ()) {
         mainImageView.image = item.image
         self.goToMessageHandler = goToMessageHandler
         linkLabel.text = item.url.absoluteString
@@ -33,7 +33,6 @@ class LinkTableViewCell: UITableViewCell {
 
         selectionImageView.alpha = !isSelectionAllowed ? 1 : 0
         selectionViewWidth.constant = isSelectionAllowed ? 50 : 0
-        self.isSelected = isSelected
         UIView.animate(withDuration: 0.33) {
             self.selectionImageView.alpha = isSelectionAllowed ? 1 : 0
             self.layoutIfNeeded()

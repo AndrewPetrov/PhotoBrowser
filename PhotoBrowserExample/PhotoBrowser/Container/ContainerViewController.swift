@@ -40,6 +40,7 @@ protocol ContainerViewControllerOutput: class {
 
 protocol ContainerViewControllerDelegate {
     func reloadUI()
+    func setItem(at indexPath: IndexPath, slected: Bool)
 }
 
 class ContainerViewController: SelectableViewController, Presentatable {
@@ -179,6 +180,10 @@ class ContainerViewController: SelectableViewController, Presentatable {
         forwardButton.isEnabled = selectedIndexPathes.count != 0
 
         toolbar.items = [forwardButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
+    }
+
+    internal override func setItem(at indexPath: IndexPath, slected: Bool) {
+        delegate?.setItem(at: indexPath, slected: slected)
     }
 
     private func clearNavigationBar() {

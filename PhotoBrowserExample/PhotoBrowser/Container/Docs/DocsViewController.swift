@@ -34,6 +34,14 @@ class DocsViewController: UIViewController {
 
 extension DocsViewController: ContainerViewControllerDelegate {
 
+    func setItem(at indexPath: IndexPath, slected: Bool) {
+        if slected {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+    }
+
     func reloadUI() {
         tableView.reloadData()
     }
@@ -50,14 +58,12 @@ extension DocsViewController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocsTableViewCell") as! DocsTableViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
         if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? DocumentItem {
             cell.configureCell(
                 with: item,
                 size: "100500",
                 extensionText: "jpg",
                 isSelectionAllowed: isSelectionAllowed,
-                isSelected: isSelected,
                 isLiked: item.isLiked
             )
         }

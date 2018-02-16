@@ -43,6 +43,14 @@ class LinksViewController: UIViewController {
 
 extension LinksViewController: ContainerViewControllerDelegate {
 
+    func setItem(at indexPath: IndexPath, slected: Bool) {
+        if slected {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+    }
+
     func reloadUI() {
         tableView.reloadData()
     }
@@ -59,12 +67,10 @@ extension LinksViewController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "LinkTableViewCell") as! LinkTableViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        let isSelected = containerInputOutput.selectedIndexPathes().contains(indexPath)
         if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
             cell.configureCell(
                 with: item,
                 isSelectionAllowed: isSelectionAllowed,
-                isSelected: isSelected,
                 isLiked: item.isLiked) { [weak self] in
                     self?.presentationInputOutput.goToMessage(with: item.messageIndexPath)
             }

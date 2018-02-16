@@ -19,16 +19,14 @@ class DocsTableViewCell: UITableViewCell {
     @IBOutlet private weak var selectionViewWidth: NSLayoutConstraint!
     @IBOutlet private weak var likedImageView: UIImageView!
 
-    func configureCell(with item: DocumentItem, size: String, extensionText: String, isSelectionAllowed: Bool, isSelected: Bool, isLiked: Bool) {
+    func configureCell(with item: DocumentItem, size: String, extensionText: String, isSelectionAllowed: Bool, isLiked: Bool) {
         mainImageView.image = item.image
         nameLabel.text = item.name
         sizeLabel.text = size
         extensionLabel.text = extensionText
-        self.isSelected = isSelected
 
         selectionImageView.alpha = !isSelectionAllowed ? 1 : 0
         selectionViewWidth.constant = isSelectionAllowed ? 50 : 0
-        self.isSelected = isSelected
         likedImageView.isHidden = !isLiked
         UIView.animate(withDuration: 0.33) {
             self.selectionImageView.alpha = isSelectionAllowed ? 1 : 0

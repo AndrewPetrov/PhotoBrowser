@@ -19,19 +19,14 @@ class TableViewCell: UITableViewCell {
     @IBOutlet private weak var selectionImageView: UIImageView!
     @IBOutlet private weak var playImageView: UIImageView!
 
-    private weak var item: Item!
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
         mainImageView.image = nil
         likeImageView.image = nil
-
-        selectionImageView.image = #imageLiteral(resourceName: "nonSelected")
     }
 
-    func configureCell(item: Item, hasInset: Bool, isSelectionAllowed: Bool, isSelected: Bool) {
-        self.item = item
+    func configureCell(item: Item, hasInset: Bool, isSelectionAllowed: Bool) {
 
         buttomInset.constant = hasInset ? TableViewController.inset : 0
         mainImageView.image = item.image
@@ -49,9 +44,13 @@ class TableViewCell: UITableViewCell {
         dateLabel.text = TableViewController.dateFormatter.string(from: item.sentTime)
         likeImageView.image = item.isLiked ? #imageLiteral(resourceName: "star") : nil
 
-        selectionImageView.image = isSelected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
         selectionImageView.isHidden = !isSelectionAllowed
         playImageView.isHidden = item.type != .video
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        selectionImageView.image = selected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
     }
 
 }

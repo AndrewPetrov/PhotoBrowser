@@ -46,7 +46,6 @@ class MediaViewController: UIViewController {
     private func setupCollectionView() {
         collectionView.allowsMultipleSelection = true
             let minSize = min(collectionView.frame.width / 4, collectionView.frame.height / 4)
-            print(view.frame, minSize)
             layout.itemSize = CGSize(width: minSize, height: minSize)
             layout.minimumLineSpacing = 0
             layout.minimumInteritemSpacing = 0
@@ -56,7 +55,15 @@ class MediaViewController: UIViewController {
 }
 
 extension MediaViewController: ContainerViewControllerDelegate {
-    
+
+    func setItem(at indexPath: IndexPath, slected: Bool) {
+        if slected {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+        } else {
+            collectionView.deselectItem(at: indexPath, animated: false)
+        }
+    }
+
     func reloadUI() {
         collectionView.reloadData()
     }
@@ -95,6 +102,7 @@ extension MediaViewController: UICollectionViewDataSource {
 }
 
 extension MediaViewController: UICollectionViewDelegate {
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if containerInputOutput.isSelectionAllowed() {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
