@@ -117,7 +117,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
 
     static func make(presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
-        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
         newViewController.presentationInputOutput = presentationInputOutput
 
         return newViewController

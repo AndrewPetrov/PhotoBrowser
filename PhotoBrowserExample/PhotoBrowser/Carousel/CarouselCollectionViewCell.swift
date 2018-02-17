@@ -25,6 +25,7 @@ class CarouselCollectionViewCell: UICollectionViewCell {
 
         imageView.image = nil
         playImageView.isHidden = true
+        scrollView.setZoomScale(minScale, animated: false)
     }
 
     func configureCell(image: UIImage?, isVideo: Bool) {

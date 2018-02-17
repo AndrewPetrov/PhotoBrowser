@@ -28,7 +28,7 @@ class MediaViewController: UIViewController {
     }
 
     static func make(presentationInputOutput: PresentationInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> MediaViewController {
-        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MediaViewController") as! MediaViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "MediaViewController") as! MediaViewController
         newViewController.presentationInputOutput = presentationInputOutput
         newViewController.containerInputOutput = containerInputOutput
 
