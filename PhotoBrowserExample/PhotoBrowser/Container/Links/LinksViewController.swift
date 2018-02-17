@@ -56,6 +56,10 @@ class LinksViewController: UIViewController {
 
 extension LinksViewController: ContainerViewControllerDelegate {
 
+    func getSelectedIndexPaths() -> [IndexPath] {
+        return tableView.indexPathsForVisibleRows ?? [IndexPath]()
+    }
+
     func setItem(at indexPath: IndexPath, slected: Bool) {
         if slected {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)

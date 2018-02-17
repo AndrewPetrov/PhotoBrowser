@@ -107,7 +107,7 @@ class TableViewController: SelectableViewController, Presentatable {
     }
 
     internal override func updateSelectionTitle() {
-        selectedCountLabel.title = super.getSelectionTitle()
+        selectedCountLabel.title = getSelectionTitle()
     }
 
     internal override func updateNavigationBar() {
@@ -124,8 +124,8 @@ class TableViewController: SelectableViewController, Presentatable {
     }
 
     internal override func updateToolbarButtons() {
-        actionButton.isEnabled = selectedIndexPaths.count != 0
-        trashButton.isEnabled = selectedIndexPaths.count != 0
+        actionButton.isEnabled = getSelectedIndexPaths().count != 0
+        trashButton.isEnabled = getSelectedIndexPaths().count != 0
     }
 
     internal override func setItem(at indexPath: IndexPath, slected: Bool) {
@@ -140,6 +140,10 @@ class TableViewController: SelectableViewController, Presentatable {
         tableView.reloadData()
     }
 
+    internal override func getSelectedIndexPaths() -> [IndexPath] {
+        return tableView.indexPathsForSelectedRows ?? [IndexPath]()
+    }
+
     private func isLastCell(indexPath: IndexPath) -> Bool {
         return indexPath.row == presentationInputOutput.numberOfItems(withType: supportedTypes) - 1
     }
@@ -147,7 +151,7 @@ class TableViewController: SelectableViewController, Presentatable {
     // MARK: - User actions
 
     @objc internal func actionButtonDidTap(_ sender: Any) {
-        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths).sorted())
+        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPaths: getSelectedIndexPaths())
     }
 
 }
@@ -186,7 +190,7 @@ extension TableViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isSelectionAllowed {
-            selectedIndexPaths.insert(indexPath)
+            updateUIRalatedToSelection()
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
             presentationInputOutput.setItemAsCurrent(at: indexPath)
@@ -195,7 +199,7 @@ extension TableViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        selectedIndexPaths.remove(indexPath)
+        updateUIRalatedToSelection()
     }
 
 }

@@ -27,14 +27,6 @@ class SelectableViewController: UIViewController {
         reloadUI()
     }
 
-    internal var selectedIndexPaths = Set<IndexPath>() {
-        didSet {
-            updateSelectionTitle()
-            updateToolbarButtons()
-            updateSelectAllTitle()
-        }
-    }
-
     var isSelectionAllowed = false {
         didSet {
             reloadUI()
@@ -73,17 +65,27 @@ class SelectableViewController: UIViewController {
         fatalError("need to override reloadUI")
     }
 
+    internal func getSelectedIndexPaths() -> [IndexPath] {
+        fatalError("need to override getSelectedIndexPaths")
+    }
+
+    internal func updateUIRalatedToSelection() {
+        updateSelectionTitle()
+        updateToolbarButtons()
+        updateSelectAllTitle()
+    }
+
     internal func getSelectionTitle() -> String {
 
         var itemTypes = Set<ItemType>()
-        for indexPath in selectedIndexPaths {
+        for indexPath in getSelectedIndexPaths() {
             if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
                 itemTypes.insert(item.type)
             }
         }
         return ItemsSelectionHelper.getSelectionTitle(
             itemTypes: Array(itemTypes),
-            count: selectedIndexPaths.count)
+            count: getSelectedIndexPaths().count)
     }
 
     private func updateSelectButtonTitle() {
@@ -103,9 +105,9 @@ class SelectableViewController: UIViewController {
             guard let `self` = self else { return }
             self.presentationInputOutput.deleteItems(
                 withTypes: self.supportedTypes,
-                indexPaths: Array(self.selectedIndexPaths).sorted()
+                indexPaths: self.getSelectedIndexPaths()
             )
-            self.selectedIndexPaths.removeAll()
+            self.updateUIRalatedToSelection()
             self.reloadUI()
         }
         alertController.addAction(deleteForMeAction)
@@ -120,7 +122,7 @@ class SelectableViewController: UIViewController {
     }
 
     @objc internal func toggleSelectAll() {
-        if selectedIndexPaths.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
+        if getSelectedIndexPaths().count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
             selectAll()
         } else {
             deselectAll()
@@ -128,26 +130,25 @@ class SelectableViewController: UIViewController {
     }
 
     private func selectAll() {
-        selectedIndexPaths.removeAll()
         let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
         for row in 0..<count {
             let indexPath = IndexPath(row: row, section: 0)
             setItem(at: indexPath, slected: true)
-            selectedIndexPaths.insert(indexPath)
         }
+        updateUIRalatedToSelection()
     }
 
     private func deselectAll() {
-        selectedIndexPaths.removeAll()
         let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
         for row in 0..<count {
             let indexPath = IndexPath(row: row, section: 0)
             setItem(at: indexPath, slected: false)
         }
+        updateUIRalatedToSelection()
     }
 
     internal func updateSelectAllTitle() {
-        if selectedIndexPaths.count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
+        if getSelectedIndexPaths().count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
             selectAllButton.title = "Select All"
         } else {
             selectAllButton.title = "Deselect All"
@@ -155,8 +156,8 @@ class SelectableViewController: UIViewController {
     }
 
     internal func isAllItemsLiked() -> Bool {
-        var isAllItemsLiked = !selectedIndexPaths.isEmpty
-        for selectedIndexPath in selectedIndexPaths {
+        var isAllItemsLiked = !getSelectedIndexPaths().isEmpty
+        for selectedIndexPath in getSelectedIndexPaths() {
             let isItemLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: selectedIndexPath)
             if !isItemLiked {
                 isAllItemsLiked = false

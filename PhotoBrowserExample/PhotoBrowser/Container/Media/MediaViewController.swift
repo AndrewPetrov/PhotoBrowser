@@ -56,6 +56,10 @@ class MediaViewController: UIViewController {
 
 extension MediaViewController: ContainerViewControllerDelegate {
 
+    func getSelectedIndexPaths() -> [IndexPath] {
+        return collectionView.indexPathsForSelectedItems ?? [IndexPath]()
+    }
+
     func setItem(at indexPath: IndexPath, slected: Bool) {
         if slected {
             collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
