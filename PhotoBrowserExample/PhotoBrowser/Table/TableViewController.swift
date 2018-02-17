@@ -32,7 +32,7 @@ class TableViewController: SelectableViewController, Presentatable {
     }
 
     static func make(presentationInputOutput: PresentationInputOutput) -> TableViewController {
-        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
         newViewController.presentationInputOutput = presentationInputOutput
 
         return newViewController

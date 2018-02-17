@@ -24,7 +24,7 @@ class DocsViewController: UIViewController {
     }
 
     static func make(presentationInputOutput: PresentationInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> DocsViewController {
-        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DocsViewController") as! DocsViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "DocsViewController") as! DocsViewController
         newViewController.presentationInputOutput = presentationInputOutput
         newViewController.containerInputOutput = containerInputOutput
 

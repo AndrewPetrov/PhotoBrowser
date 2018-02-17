@@ -71,7 +71,7 @@ class CarouselViewController: UIViewController, Presentatable {
     }
     
     static func make(presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
-        let newViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CarouselViewController") as! CarouselViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "CarouselViewController") as! CarouselViewController
         newViewController.presentationInputOutput = presentationInputOutput
         
         return newViewController
