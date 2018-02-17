@@ -11,7 +11,6 @@ import UIKit
 
 class MediaViewController: UIViewController {
 
-//    private let supportedTypes: [ItemType] = [.image, .video]
     @IBOutlet private weak var collectionView: UICollectionView!
     private weak var presentationInputOutput: PresentationInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
@@ -83,7 +82,6 @@ extension MediaViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaCollectionViewCell",
                                                       for: indexPath) as! MediaCollectionViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        let isSelected = containerInputOutput.selectedIndexPaths().contains(indexPath)
         if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) {
             var videoDuration = ""
             if let item = item as? VideoItem {
@@ -93,7 +91,6 @@ extension MediaViewController: UICollectionViewDataSource {
         cell.configureCell(
             image: presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath)?.image,
             isSelectionAllowed: isSelectionAllowed,
-            isSelected: isSelected,
             isVideo: item.type == .video,
             videoDuration: videoDuration,
             isLiked: item.isLiked

@@ -245,7 +245,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
         presentationInputOutput.setItemAs(
             withTypes: supportedTypes,
             isLiked: !isAllItemsLiked(),
-            at: Array(selectedIndexPaths()).sorted())
+            at: selectedIndexPaths())
         isSelectionAllowed = false
         delegate?.reloadUI()
     }

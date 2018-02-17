@@ -86,10 +86,14 @@ class Item: Equatable {
     }
 
     static func ==(lhs: Item, rhs: Item) -> Bool {
-
-//for testing
-        return lhs.image == rhs.image
-//        return lhs.id == rhs.id
+        return lhs.id == rhs.id &&
+            lhs.image == rhs.image &&
+            lhs.name == rhs.name &&
+            lhs.sentTime == rhs.sentTime &&
+            lhs.type == rhs.type &&
+            lhs.deliveryStatus == rhs.deliveryStatus &&
+            lhs.isLiked == rhs.isLiked &&
+            lhs.messageIndexPath == rhs.messageIndexPath
     }
 
 }

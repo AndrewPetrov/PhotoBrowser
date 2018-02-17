@@ -31,13 +31,12 @@ class MediaCollectionViewCell: UICollectionViewCell {
         imageView.image = nil
     }
 
-    func configureCell(image: UIImage?, isSelectionAllowed: Bool, isSelected: Bool, isVideo: Bool, videoDuration: String = "", isLiked: Bool) {
+    func configureCell(image: UIImage?, isSelectionAllowed: Bool, isVideo: Bool, videoDuration: String = "", isLiked: Bool) {
         imageView.image = image
         selectionImageView.isHidden = !isSelectionAllowed
         videoImagView.isHidden = !isVideo
         videoDurationLabel.text = videoDuration
         likedImageView.isHidden = !isLiked
-        self.isSelected = isSelected
     }
 
 }
