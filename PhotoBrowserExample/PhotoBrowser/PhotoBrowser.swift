@@ -95,17 +95,16 @@ class PhotoBrowser: UIViewController {
     private var currentPresentation: Presentation
     //for transitions to the same item
     private var previousPresentation: Presentation?
-    private var currentItemIndexPath: IndexPath
+    lazy private var currentItemIndexPath: IndexPath = dataSource?.startingItemIndexPath() ?? IndexPath(item: 0, section: 0)
 
     init(dataSource: PhotoBrowserDataSouce?,
          delegate: PhotoBrowserDelegate?,
-         presentation: Presentation,
-         starIndex: IndexPath = IndexPath(row: 0, section: 0)) {
+         presentation: Presentation
+        ) {
 
         self.dataSource = dataSource
         self.externalDelegate = delegate
         self.currentPresentation = presentation
-        currentItemIndexPath = starIndex
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -230,6 +229,7 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
+
     func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
         externalDelegate?.saveItem(withTypes: types, indexPaths: indexPaths)
     }

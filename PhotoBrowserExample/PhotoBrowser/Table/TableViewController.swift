@@ -51,6 +51,7 @@ class TableViewController: SelectableViewController, Presentatable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tableView.scrollToRow(at: presentationInputOutput.currentItemIndex(), at: .middle, animated: false)
 
         updateNavigationBar() 
     }
