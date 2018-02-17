@@ -45,8 +45,7 @@ class CarouselViewController: UIViewController, Presentatable {
     private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likeNo"), scaledToSize: uiBarButtonImageSize)
     private lazy var flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
-
-    private var needToScroll = true
+    private var isFirstAppearing = true
     
     private var delegate: CarouselViewControllerDelegate!
     
@@ -90,8 +89,6 @@ class CarouselViewController: UIViewController, Presentatable {
         carouselControlCollectionView.reloadData()
         setupCarouselControlCollectionView()
         collectionView.reloadData()
-        //crolls only once each time after screen appears
-        needToScroll = true
         //force viewDidLayoutSubviews always after viewWillAppear
         carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
         view.setNeedsLayout()
@@ -103,6 +100,10 @@ class CarouselViewController: UIViewController, Presentatable {
         setupDelegate()
         setupGestureRecognizers()
 
+        if let videoItem = presentationInputOutput.item(withType: supportedTypes, at: currentCellIndexPath) as? VideoItem, isFirstAppearing {
+            isFirstAppearing = false
+            playVideo(videoItem)
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -111,9 +112,8 @@ class CarouselViewController: UIViewController, Presentatable {
         setupCollectionView()
         carouselControlAdapter.collectionViewSize = carouselControlCollectionView.frame.size
         carouselControlCollectionView.reloadData()
-        if needToScroll {
+        if isFirstAppearing {
             collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
-            needToScroll = false
         }
     }
 
@@ -121,6 +121,12 @@ class CarouselViewController: UIViewController, Presentatable {
         super.didMove(toParentViewController: parent)
 
         setupNavigationBar()
+    }
+
+    override func willMove(toParentViewController parent: UIViewController?) {
+        super.willMove(toParentViewController: parent)
+
+        isFirstAppearing = true
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -315,18 +321,24 @@ class CarouselViewController: UIViewController, Presentatable {
         updateToolBar()
     }
     
+    fileprivate func playVideo(_ videoItem: VideoItem) {
+        let player = AVPlayer(url: videoItem.url)
+        let playerController = AVPlayerViewController()
+        playerController.player = player
+        present(playerController, animated: true) {
+            player.play()
+        }
+    }
+
     @IBAction func collectionViewDidTap(_ sender: UITapGestureRecognizer) {
         if let videoItem = presentationInputOutput.item(withType: supportedTypes, at: currentCellIndexPath) as? VideoItem {
-            let player = AVPlayer(url: videoItem.url)
-            let playerController = AVPlayerViewController()
-            playerController.player = player
-            present(playerController, animated: true) {
-                player.play()
-            }
+            playVideo(videoItem)
         } else {
             toggleFullScreen()
         }
     }
+
+
     
     @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
         delegate.didDoubleTap(self)
