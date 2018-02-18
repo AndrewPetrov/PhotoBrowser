@@ -11,7 +11,7 @@ import AVFoundation
 
 class ViewController: UIViewController {
 
-    var itemsCache: [ItemTypes: [Item]] = [ItemTypes: [Item]]()
+    var itemsCache = [ItemTypes: [Item]]()
 
     var items = [Item]()
 
@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        
         items = [Item]()
     }
 
@@ -28,11 +30,12 @@ class ViewController: UIViewController {
         let namesArray = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
 
         for index in 0..<count {
-            self.items.append(
+            items.append(
                 ImageItem(id: index + startIndex,
                           image: UIImage(named: namesArray[index % namesArray.count])!,
-                          sentTime: self.getPastDay(index),
-                          deliveryStatus: .delivered))
+                          sentTime: getPastDay(index),
+                          deliveryStatus: .delivered)
+            )
         }
     }
 
@@ -42,68 +45,69 @@ class ViewController: UIViewController {
     }
 
     private func populateGalleryDataSource() {
+        items = [Item]()
         //add video
 
-        if let path = Bundle.main.path(forResource: "small", ofType:"mp4") {
-            let url = URL(fileURLWithPath: path)
-            let videoItem = VideoItem(id: 1, url: url, thumbnail: nil)
-            items.append(videoItem)
-        } else {
-            debugPrint("small.mp4 not found")
-        }
+//        if let path = Bundle.main.path(forResource: "small", ofType:"mp4") {
+//            let url = URL(fileURLWithPath: path)
+//            let videoItem = VideoItem(id: 1, url: url, thumbnail: nil)
+//            items.append(videoItem)
+//        } else {
+//            debugPrint("small.mp4 not found")
+//        }
+//
+//        //add photo
+//        items.append(ImageItem(id: 2, image: UIImage(named: "11")!, sentTime: getPastDay(1), deliveryStatus: .delivered))
+//        items.append(ImageItem(id: 3, image: UIImage(named: "2")!, sentTime: getPastDay(2), deliveryStatus: .delivered))
+//        if let path = Bundle.main.path(forResource: "Cock - 10685", ofType:"mp4") {
+//            let url = URL(fileURLWithPath: path)
+//            let videoItem = VideoItem(id: 4, url: url, thumbnail: nil)
+//            items.append(videoItem)
+//        } else {
+//            debugPrint("small.mp4 not found")
+//        }
+//
+//        if let path = Bundle.main.path(forResource: "Roast - 11620", ofType:"mp4") {
+//            let url = URL(fileURLWithPath: path)
+//            let videoItem = VideoItem(id: 7, url: url, thumbnail: nil)
+//            items.append(videoItem)
+//        } else {
+//            debugPrint("small.mp4 not found")
+//        }
+//
+//        if let path = Bundle.main.path(forResource: "Runner - 10809", ofType:"mp4") {
+//            let url = URL(fileURLWithPath: path)
+//            let videoItem = VideoItem(id: 8, url: url, thumbnail: nil)
+//            items.append(videoItem)
+//        } else {
+//            debugPrint("small.mp4 not found")
+//        }
+//
+//
+//        //add links
+//        items.append(LinkItem(id: 9, url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
+//        items.append(LinkItem(id: 10, url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
+//
+//        //add docs
+//
+//        let fm = FileManager.default
+//        let docsurl = try! fm.url(for:.documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+//        let myurl = docsurl.appendingPathComponent("small.mp4")
+//
+//
+//        //add links
+//        items.append(LinkItem(id: 11, url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
+//        items.append(LinkItem(id: 12, url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
+//
+//        //add docs
+//        items.append(DocumentItem(id: 13, url: myurl, name: "Doc 1", sentTime: getPastDay(18), deliveryStatus: .seen))
+//        items.append(DocumentItem(id: 14, url: myurl, name: "Doc 2", sentTime: getPastDay(2), deliveryStatus: .seen))
+//        items.append(DocumentItem(id: 15, url: myurl, name: "Doc 3", sentTime: getPastDay(4), deliveryStatus: .seen))
+//        items.append(DocumentItem(id: 16, url: myurl, name: "Doc 4", sentTime: getPastDay(6), deliveryStatus: .seen))
+//        items.append(DocumentItem(id: 17, url: myurl, name: "Doc 5", sentTime: getPastDay(9), deliveryStatus: .seen))
+//
 
-        //add photo
-        items.append(ImageItem(id: 2, image: UIImage(named: "11")!, sentTime: getPastDay(1), deliveryStatus: .delivered))
-        items.append(ImageItem(id: 3, image: UIImage(named: "2")!, sentTime: getPastDay(2), deliveryStatus: .delivered))
-        if let path = Bundle.main.path(forResource: "Cock - 10685", ofType:"mp4") {
-            let url = URL(fileURLWithPath: path)
-            let videoItem = VideoItem(id: 4, url: url, thumbnail: nil)
-            items.append(videoItem)
-        } else {
-            debugPrint("small.mp4 not found")
-        }
-
-        if let path = Bundle.main.path(forResource: "Roast - 11620", ofType:"mp4") {
-            let url = URL(fileURLWithPath: path)
-            let videoItem = VideoItem(id: 7, url: url, thumbnail: nil)
-            items.append(videoItem)
-        } else {
-            debugPrint("small.mp4 not found")
-        }
-
-        if let path = Bundle.main.path(forResource: "Runner - 10809", ofType:"mp4") {
-            let url = URL(fileURLWithPath: path)
-            let videoItem = VideoItem(id: 8, url: url, thumbnail: nil)
-            items.append(videoItem)
-        } else {
-            debugPrint("small.mp4 not found")
-        }
-
-
-        //add links
-        items.append(LinkItem(id: 9, url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
-        items.append(LinkItem(id: 10, url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
-
-        //add docs
-
-        let fm = FileManager.default
-        let docsurl = try! fm.url(for:.documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let myurl = docsurl.appendingPathComponent("small.mp4")
-
-
-        //add links
-        items.append(LinkItem(id: 11, url: URL(string: "https://developer.apple.com/")!, thumbnail: #imageLiteral(resourceName: "linkAppDev"), name: "apple.com", deliveryStatus: .delivered))
-        items.append(LinkItem(id: 12, url: URL(string: "https://www.google.com/")!, thumbnail: #imageLiteral(resourceName: "linkGoogle"), name: "google.com", deliveryStatus: .seen))
-
-        //add docs
-        items.append(DocumentItem(id: 13, url: myurl, name: "Doc 1", sentTime: getPastDay(18), deliveryStatus: .seen))
-        items.append(DocumentItem(id: 14, url: myurl, name: "Doc 2", sentTime: getPastDay(2), deliveryStatus: .seen))
-        items.append(DocumentItem(id: 15, url: myurl, name: "Doc 3", sentTime: getPastDay(4), deliveryStatus: .seen))
-        items.append(DocumentItem(id: 16, url: myurl, name: "Doc 4", sentTime: getPastDay(6), deliveryStatus: .seen))
-        items.append(DocumentItem(id: 17, url: myurl, name: "Doc 5", sentTime: getPastDay(9), deliveryStatus: .seen))
-
-
-        appendPhotos(count: 1000, startIndex: 18)
+        appendPhotos(count: 30, startIndex: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -126,6 +130,10 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: PhotoBrowserDataSouce {
+
+    func indexPath(for item: Item, types: ItemTypes) -> IndexPath {
+        return IndexPath(row: filtredItems(withTypes: types).index(of: item) ?? 0, section: 0)
+    }
 
     func typesOfItems() -> ItemTypes {
         var itemTypes = ItemTypes()
@@ -154,7 +162,7 @@ extension ViewController: PhotoBrowserDataSouce {
     }
 
     func startingItemIndexPath() -> IndexPath {
-        return IndexPath(item: 7, section: 0)
+        return IndexPath(item: 0, section: 0)
     }
 
     func item(at indexPath: IndexPath) -> Item? {
@@ -165,10 +173,13 @@ extension ViewController: PhotoBrowserDataSouce {
         if let items = itemsCache[types] {
             return items
         } else {
+            dump(items)
+            print("---------")
             let filteredItems = items.filter { item -> Bool in
                 types.contains(item.type)
             }
             itemsCache[types] = filteredItems
+            dump(filteredItems)
             return filteredItems
         }
     }
@@ -195,9 +206,7 @@ extension ViewController: PhotoBrowserDelegate {
 
     func scrollToMessage(at indexPath: IndexPath) {
         let alertController = UIAlertController(title: "Scrolled to message", message: "\(indexPath)", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Clear", style: .default) { [weak self] _ in
-            alertController.dismiss(animated: true, completion: nil)
-        }
+        let okAction = UIAlertAction(title: "Clear", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
@@ -207,8 +216,13 @@ extension ViewController: PhotoBrowserDelegate {
 
         for indexPath in indexPaths {
             let itemForLike = filtredItemsArray[indexPath.row]
+            print(items.index(of: itemForLike))
             if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
                 items[indexForLike].isLiked = isLiked
+            } else {
+                dump(itemForLike)
+                print("------------")
+                dump(items)
             }
         }
     }
@@ -223,7 +237,7 @@ extension ViewController: PhotoBrowserDelegate {
                 items.remove(at: indexForDetetion)
             }
         }
-        itemsCache.removeAll()
+        itemsCache = [ItemTypes: [Item]]()
     }
 
 }
