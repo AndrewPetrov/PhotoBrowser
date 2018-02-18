@@ -56,6 +56,11 @@ class LinksViewController: UIViewController {
 
 extension LinksViewController: ContainerViewControllerDelegate {
 
+    func updateCache() {
+        //do nothing for now
+        reloadUI()
+    }
+
     func getSelectedIndexPaths() -> [IndexPath] {
         return tableView.indexPathsForVisibleRows ?? [IndexPath]()
     }

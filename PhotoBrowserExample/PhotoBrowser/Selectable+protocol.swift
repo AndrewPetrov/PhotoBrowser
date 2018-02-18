@@ -57,6 +57,10 @@ class SelectableViewController: UIViewController {
         fatalError("need to override reloadUI")
     }
 
+    internal func updateCache() {
+        fatalError("need to override updateCache")
+    }
+
     internal func setItem(at indexPath: IndexPath, slected: Bool) {
         fatalError("need to override setItem(at indexPath: IndexPath, slected: Bool)")
     }
@@ -110,7 +114,7 @@ class SelectableViewController: UIViewController {
             )
             self.isSelectionAllowed = false
             self.updateUIRalatedToSelection()
-            self.reloadUI()
+            self.updateCache()
         }
         alertController.addAction(deleteForMeAction)
 

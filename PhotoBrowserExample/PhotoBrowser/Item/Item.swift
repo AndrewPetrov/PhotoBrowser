@@ -41,7 +41,6 @@ struct ItemTypes: OptionSet, Equatable, Hashable {
              return isPlural ? "Items" : "Item"
         }
     }
-
 }
 
 enum DeliveryStatus {

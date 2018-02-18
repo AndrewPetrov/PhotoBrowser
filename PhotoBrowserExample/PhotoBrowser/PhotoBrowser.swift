@@ -33,6 +33,7 @@ protocol PhotoBrowserDataSouce: class {
     func item(withTypes types: ItemTypes, at indexPath: IndexPath) -> Item?
     func senderName() -> String
     func typesOfItems() -> ItemTypes
+    func indexPath(for item: Item, types: ItemTypes) -> IndexPath
 
 }
 
@@ -52,6 +53,7 @@ protocol PresentationInput: class {
     func countOfItems(withType types: ItemTypes) -> Int
     func item(withType types: ItemTypes, at indexPath: IndexPath) -> Item?
     func senderName() -> String
+    func indexPath(for item: Item, withTypes types: ItemTypes) -> IndexPath
     //in example gallery gives 3 types, but this Presentation can take only 2 types, result will be logical AND
     func intersectionOfBrowserOutputTypes(inputTypes: ItemTypes) -> ItemTypes
 
@@ -196,7 +198,11 @@ class PhotoBrowser: UIViewController {
 
 extension PhotoBrowser: PresentationInput {
 
-    func intersectionOfBrowserOutputTypes( inputTypes: ItemTypes) -> ItemTypes {
+    func indexPath(for item: Item, withTypes types: ItemTypes) -> IndexPath {
+        return dataSource?.indexPath(for:item, types: types) ?? IndexPath()
+    }
+
+    func intersectionOfBrowserOutputTypes(inputTypes: ItemTypes) -> ItemTypes {
         if let ouputTypes = dataSource?.typesOfItems() {
             return ouputTypes.intersection(inputTypes)
         }

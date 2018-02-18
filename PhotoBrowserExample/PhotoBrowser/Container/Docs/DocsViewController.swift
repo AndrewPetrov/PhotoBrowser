@@ -47,6 +47,11 @@ class DocsViewController: UIViewController {
 
 extension DocsViewController: ContainerViewControllerDelegate {
 
+    func updateCache() {
+        //do nothing for now
+        reloadUI()
+    }
+
     func getSelectedIndexPaths() -> [IndexPath] {
         return tableView.indexPathsForVisibleRows ?? [IndexPath]()
     }

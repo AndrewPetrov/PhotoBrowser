@@ -41,7 +41,8 @@ protocol ContainerViewControllerOutput: class {
 protocol ContainerViewControllerDelegate {
     func reloadUI()
     func setItem(at indexPath: IndexPath, slected: Bool)
-    func getSelectedIndexPaths() -> [IndexPath] 
+    func getSelectedIndexPaths() -> [IndexPath]
+    func updateCache()
 }
 
 class ContainerViewController: SelectableViewController, Presentatable {
@@ -173,6 +174,10 @@ class ContainerViewController: SelectableViewController, Presentatable {
     
     internal override func reloadUI() {
         delegate?.reloadUI()
+    }
+
+    internal override func updateCache() {
+        delegate?.updateCache()
     }
     
     internal override func getSelectedIndexPaths() -> [IndexPath] {

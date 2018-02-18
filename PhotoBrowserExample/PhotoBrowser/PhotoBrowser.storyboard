@@ -670,13 +670,13 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="zQ3-ai-IeG">
                                     <size key="itemSize" width="100" height="100"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediaCollectionViewCell" id="jBp-xa-cfd" customClass="MediaCollectionViewCell" customModule="PhotoBrowser" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="50" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -739,6 +739,71 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="MediaCollectionViewHeader" id="Whd-ni-0kU" customClass="MediaCollectionViewHeader" customModule="PhotoBrowser" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kTQ-t6-k5d">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Kdo-Ed-Fe2">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            </view>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.48415492957746481" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <blurEffect style="light"/>
+                                        </visualEffectView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="this month" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Okj-aB-aUO">
+                                            <rect key="frame" x="8" y="15" width="359" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="kTQ-t6-k5d" firstAttribute="top" secondItem="Whd-ni-0kU" secondAttribute="top" id="38n-y6-Skv"/>
+                                        <constraint firstItem="Okj-aB-aUO" firstAttribute="centerY" secondItem="Whd-ni-0kU" secondAttribute="centerY" id="4wq-BV-zGf"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Okj-aB-aUO" secondAttribute="trailing" id="ARY-a3-Nf8"/>
+                                        <constraint firstItem="kTQ-t6-k5d" firstAttribute="leading" secondItem="Whd-ni-0kU" secondAttribute="leading" id="CAW-cP-Bz2"/>
+                                        <constraint firstAttribute="trailing" secondItem="kTQ-t6-k5d" secondAttribute="trailing" id="Pfd-N2-AvM"/>
+                                        <constraint firstItem="Okj-aB-aUO" firstAttribute="centerX" secondItem="Whd-ni-0kU" secondAttribute="centerX" id="dry-YI-SAl"/>
+                                        <constraint firstItem="Okj-aB-aUO" firstAttribute="leading" secondItem="Whd-ni-0kU" secondAttribute="leadingMargin" id="mfB-QW-xK1"/>
+                                        <constraint firstAttribute="bottom" secondItem="kTQ-t6-k5d" secondAttribute="bottom" id="ry1-XY-8uT"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="dateLabel" destination="Okj-aB-aUO" id="i1Q-Es-9Bk"/>
+                                    </connections>
+                                </collectionReusableView>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="MediaCollectionViewFooter" id="UCp-gN-e7d" customClass="MediaCollectionViewFooter" customModule="PhotoBrowser" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="150" width="375" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="03c-kr-ZeV">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CZ3-Et-bS4">
+                                            <rect key="frame" x="20" y="49" width="335" height="1"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="1" id="Cu7-yU-gV1"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="03c-kr-ZeV" firstAttribute="leading" secondItem="UCp-gN-e7d" secondAttribute="leading" id="0Ei-25-uu1"/>
+                                        <constraint firstAttribute="trailing" secondItem="CZ3-Et-bS4" secondAttribute="trailing" constant="20" id="44c-Cg-X5o"/>
+                                        <constraint firstAttribute="trailing" secondItem="03c-kr-ZeV" secondAttribute="trailing" id="G3a-sH-YvG"/>
+                                        <constraint firstAttribute="bottom" secondItem="CZ3-Et-bS4" secondAttribute="bottom" id="YQQ-rJ-kEe"/>
+                                        <constraint firstItem="03c-kr-ZeV" firstAttribute="top" secondItem="UCp-gN-e7d" secondAttribute="top" id="iOV-sf-31g"/>
+                                        <constraint firstAttribute="bottom" secondItem="03c-kr-ZeV" secondAttribute="bottom" id="jIv-cu-3CY"/>
+                                        <constraint firstItem="CZ3-Et-bS4" firstAttribute="leading" secondItem="UCp-gN-e7d" secondAttribute="leading" constant="20" id="s7A-Wa-Rhr"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="countLabel" destination="03c-kr-ZeV" id="JrR-eu-wuP"/>
+                                    </connections>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="1jT-Dk-ysm" id="o9a-t2-Vuw"/>
                                     <outlet property="delegate" destination="1jT-Dk-ysm" id="byn-e8-Tsj"/>

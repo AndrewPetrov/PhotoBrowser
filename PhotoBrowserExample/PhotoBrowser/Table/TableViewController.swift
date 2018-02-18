@@ -54,7 +54,9 @@ class TableViewController: SelectableViewController, Presentatable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.scrollToRow(at: presentationInputOutput.currentItemIndex(), at: .middle, animated: false)
+        if presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
+            tableView.scrollToRow(at: presentationInputOutput.currentItemIndex(), at: .middle, animated: false)
+        }
 
         updateToolbarPosition()
         updateNavigationBar() 
@@ -143,6 +145,11 @@ class TableViewController: SelectableViewController, Presentatable {
 
     internal override func reloadUI() {
         tableView.reloadData()
+    }
+
+    internal override func updateCache() {
+        //do nothing for now
+        reloadUI()
     }
 
     internal override func getSelectedIndexPaths() -> [IndexPath] {
