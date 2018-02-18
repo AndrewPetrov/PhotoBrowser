@@ -14,13 +14,13 @@ import UIKit
 protocol PhotoBrowserDelegate: class {
 
     // types is necessary for calculation unfiltred index path in all Items
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPaths: [IndexPath])
-    func deleteItems(withTypes types: [ItemType], indexPaths: [IndexPath])
+    func setItemAs(withTypes types: ItemTypes, isLiked: Bool, at indexPaths: [IndexPath])
+    func deleteItems(withTypes types: ItemTypes, indexPaths: [IndexPath])
     func scrollToMessage(at indexPath: IndexPath)
-    func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath])
-    func forwardItem(withTypes types: [ItemType], indexPaths: [IndexPath])
-    func shareItem(withTypes types: [ItemType], indexPaths: [IndexPath])
-    func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
+    func saveItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
+    func forwardItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
+    func shareItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
+    func setAsMyProfilePhoto(withTypes types: ItemTypes, indexPath: IndexPath)
 
 }
 
@@ -29,10 +29,10 @@ protocol PhotoBrowserDataSouce: class {
 
     func startingItemIndexPath() -> IndexPath
     func item(at indexPath: IndexPath) -> Item?
-    func numberOfItems(withTypes types: [ItemType]) -> Int
-    func item(withTypes types: [ItemType], at indexPath: IndexPath) -> Item?
+    func numberOfItems(withTypes types: ItemTypes) -> Int
+    func item(withTypes types: ItemTypes, at indexPath: IndexPath) -> Item?
     func senderName() -> String
-    func typesOfItems() -> [ItemType]
+    func typesOfItems() -> ItemTypes
 
 }
 
@@ -48,26 +48,26 @@ typealias PresentationInputOutput = PresentationInput & PresentationOutput
 protocol PresentationInput: class {
 
     func currentItemIndex() -> IndexPath
-    func isItemLiked(withTypes types: [ItemType], at indexPath: IndexPath) -> Bool
-    func numberOfItems(withType types: [ItemType]) -> Int
-    func item(withType types: [ItemType], at indexPath: IndexPath) -> Item?
+    func isItemLiked(withTypes types: ItemTypes, at indexPath: IndexPath) -> Bool
+    func countOfItems(withType types: ItemTypes) -> Int
+    func item(withType types: ItemTypes, at indexPath: IndexPath) -> Item?
     func senderName() -> String
     //in example gallery gives 3 types, but this Presentation can take only 2 types, result will be logical AND
-    func intersectionOfBrowserOutputTypes(inputTypes: [ItemType]) -> [ItemType]
+    func intersectionOfBrowserOutputTypes(inputTypes: ItemTypes) -> ItemTypes
 
 }
 
 protocol PresentationOutput: class {
 
     func setItemAsCurrent(at indexPath: IndexPath)
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPaths: [IndexPath])
-    func deleteItems(withTypes types: [ItemType], indexPaths: [IndexPath])
+    func setItemAs(withTypes types: ItemTypes, isLiked: Bool, at indexPaths: [IndexPath])
+    func deleteItems(withTypes types: ItemTypes, indexPaths: [IndexPath])
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
-    func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath])
-    func forwardItem(withTypes types: [ItemType], indexPaths: [IndexPath])
-    func shareItem(withTypes types: [ItemType], indexPaths: [IndexPath])
-    func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath)
+    func saveItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
+    func forwardItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
+    func shareItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
+    func setAsMyProfilePhoto(withTypes types: ItemTypes, indexPath: IndexPath)
 
 }
 
@@ -111,6 +111,10 @@ class PhotoBrowser: UIViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        print(">>>browser deinit")
     }
 
     private lazy var carouselViewController = CarouselViewController.make(presentationInputOutput: self)
@@ -192,17 +196,15 @@ class PhotoBrowser: UIViewController {
 
 extension PhotoBrowser: PresentationInput {
 
-    func intersectionOfBrowserOutputTypes( inputTypes: [ItemType]) -> [ItemType] {
+    func intersectionOfBrowserOutputTypes( inputTypes: ItemTypes) -> ItemTypes {
         if let ouputTypes = dataSource?.typesOfItems() {
-            let ouputTypesSet: Set<ItemType> = Set(ouputTypes)
-            let inputTypesSet: Set<ItemType> = Set(inputTypes)
-            return Array(ouputTypesSet.intersection(inputTypesSet))
+            return ouputTypes.intersection(inputTypes)
         }
 
-        return [ItemType]()
+        return ItemTypes()
     }
 
-    func isItemLiked(withTypes types: [ItemType], at indexPath: IndexPath) -> Bool {
+    func isItemLiked(withTypes types: ItemTypes, at indexPath: IndexPath) -> Bool {
         if let item = dataSource?.item(withTypes: types, at: indexPath) {
             return item.isLiked
         }
@@ -213,11 +215,11 @@ extension PhotoBrowser: PresentationInput {
         return dataSource?.senderName() ?? ""
     }
 
-    func item(withType types: [ItemType], at indexPath: IndexPath) -> Item? {
+    func item(withType types: ItemTypes, at indexPath: IndexPath) -> Item? {
         return dataSource?.item(withTypes: types, at: indexPath)
     }
 
-    func numberOfItems(withType types: [ItemType]) -> Int {
+    func countOfItems(withType types: ItemTypes) -> Int {
         return dataSource?.numberOfItems(withTypes: types) ?? 0
     }
 
@@ -230,23 +232,23 @@ extension PhotoBrowser: PresentationInput {
 
 extension PhotoBrowser: PresentationOutput {
 
-    func saveItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+    func saveItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
         externalDelegate?.saveItem(withTypes: types, indexPaths: indexPaths)
     }
 
-    func forwardItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+    func forwardItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
         externalDelegate?.forwardItem(withTypes: types, indexPaths: indexPaths)
     }
 
-    func shareItem(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+    func shareItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
         externalDelegate?.shareItem(withTypes: types, indexPaths: indexPaths)
     }
 
-    func setAsMyProfilePhoto(withTypes types: [ItemType], indexPath: IndexPath) {
+    func setAsMyProfilePhoto(withTypes types: ItemTypes, indexPath: IndexPath) {
         externalDelegate?.setAsMyProfilePhoto(withTypes: types, indexPath: indexPath)
     }
 
-    func setItemAs(withTypes types: [ItemType], isLiked: Bool, at indexPaths: [IndexPath]) {
+    func setItemAs(withTypes types: ItemTypes, isLiked: Bool, at indexPaths: [IndexPath]) {
         externalDelegate?.setItemAs(withTypes: types, isLiked: isLiked, at: indexPaths)
     }
 
@@ -260,7 +262,7 @@ extension PhotoBrowser: PresentationOutput {
         switchToCurrentPresentation()
     }
 
-    func deleteItems(withTypes types: [ItemType], indexPaths: [IndexPath]) {
+    func deleteItems(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
         externalDelegate?.deleteItems(withTypes: types, indexPaths: indexPaths)
     }
 

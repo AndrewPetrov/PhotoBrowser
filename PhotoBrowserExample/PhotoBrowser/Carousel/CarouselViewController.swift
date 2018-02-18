@@ -11,16 +11,15 @@ import UIKit
 import AVKit
 import AVFoundation
 
-protocol CarouselViewControllerDelegate {
+protocol CarouselViewControllerDelegate: class {
     func didDoubleTap(_: CarouselViewController)
 }
 
 class CarouselViewController: UIViewController, Presentatable {
 
-
     private static var dateFormatter = DateFormatter()
     let presentation: Presentation = .carousel
-    private let supportedTypes: [ItemType] = [.image, .video]
+    private let supportedTypes: ItemTypes = [.image, .video]
     private weak var presentationInputOutput: PresentationInputOutput!
     @IBOutlet private weak var imageViewOnTopOfCollectionView: UIImageView!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
@@ -47,7 +46,7 @@ class CarouselViewController: UIViewController, Presentatable {
 
     private var isFirstAppearing = true
     
-    private var delegate: CarouselViewControllerDelegate!
+    private weak var delegate: CarouselViewControllerDelegate?
     
     private var currentCellIndexPath : IndexPath {
         return presentationInputOutput.currentItemIndex()
@@ -67,6 +66,10 @@ class CarouselViewController: UIViewController, Presentatable {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    deinit {
+        print("-CarouselViewController")
     }
     
     static func make(presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
@@ -341,7 +344,7 @@ class CarouselViewController: UIViewController, Presentatable {
 
     
     @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
-        delegate.didDoubleTap(self)
+        delegate?.didDoubleTap(self)
     }
     
     private func updateCurrentCellIndexPath(_ contentOffset: CGFloat) {
@@ -355,7 +358,7 @@ class CarouselViewController: UIViewController, Presentatable {
 extension CarouselViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems(withType: supportedTypes)
+        return presentationInputOutput.countOfItems(withType: supportedTypes)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -31,6 +31,10 @@ class TableViewController: SelectableViewController, Presentatable {
         super.init(coder: aDecoder)
     }
 
+    deinit {
+        print("-TableViewController")
+    }
+
     static func make(presentationInputOutput: PresentationInputOutput) -> TableViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
         newViewController.presentationInputOutput = presentationInputOutput
@@ -46,13 +50,13 @@ class TableViewController: SelectableViewController, Presentatable {
         setupToolbar()
         updateToolbarButtons()
         updateSelectionTitle()
-        updateToolbarPosition()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.scrollToRow(at: presentationInputOutput.currentItemIndex(), at: .middle, animated: false)
 
+        updateToolbarPosition()
         updateNavigationBar() 
     }
 
@@ -118,7 +122,7 @@ class TableViewController: SelectableViewController, Presentatable {
         let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height:  parent?.navigationController?.navigationBar.frame.height ?? 20))
         let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
             itemTypes: presentationInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
-            count: presentationInputOutput.numberOfItems(withType: supportedTypes)
+            count: presentationInputOutput.countOfItems(withType: supportedTypes)
         )
         titleView.setup(sender: presentationInputOutput.senderName(), info: itemsTitle)
         parent?.navigationItem.titleView = titleView
@@ -146,7 +150,7 @@ class TableViewController: SelectableViewController, Presentatable {
     }
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
-        return indexPath.row == presentationInputOutput.numberOfItems(withType: supportedTypes) - 1
+        return indexPath.row == presentationInputOutput.countOfItems(withType: supportedTypes) - 1
     }
 
     // MARK: - User actions
@@ -160,13 +164,21 @@ class TableViewController: SelectableViewController, Presentatable {
 extension TableViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems(withType: supportedTypes)
+        return presentationInputOutput.countOfItems(withType: supportedTypes)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
         if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
-            cell.configureCell(item: item,hasInset: !isLastCell(indexPath: indexPath), isSelectionAllowed: isSelectionAllowed)
+            cell.configureCell(
+                image: item.image,
+                isLiked: item.isLiked,
+                isVideo: item.type == .video,
+                hasInset: !isLastCell(indexPath: indexPath),
+                isSelectionAllowed: isSelectionAllowed,
+                deliveryStatus: item.deliveryStatus,
+                sentTime: item.sentTime
+            )
         }
 
         return cell

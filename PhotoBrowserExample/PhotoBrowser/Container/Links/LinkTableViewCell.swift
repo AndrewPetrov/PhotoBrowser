@@ -43,6 +43,8 @@ class LinkTableViewCell: UITableViewCell {
         super.prepareForReuse()
 
         mainImageView.image = nil
+        selectionImageView.image = nil
+        likedImageView.image = nil
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

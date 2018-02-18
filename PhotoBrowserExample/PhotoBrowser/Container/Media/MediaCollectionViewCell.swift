@@ -29,6 +29,9 @@ class MediaCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
 
         imageView.image = nil
+        likedImageView.image = nil
+        videoImagView.image = nil
+        selectionImageView.image = nil
     }
 
     func configureCell(image: UIImage?, isSelectionAllowed: Bool, isVideo: Bool, videoDuration: String = "", isLiked: Bool) {

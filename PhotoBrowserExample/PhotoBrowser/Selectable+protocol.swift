@@ -13,7 +13,7 @@ class SelectableViewController: UIViewController {
 
     internal weak var presentationInputOutput: PresentationInputOutput!
 
-    internal var supportedTypes: [ItemType] = [.image, .video]
+    internal var supportedTypes: ItemTypes = [.image, .video]
 
     internal var selectButton: UIBarButtonItem!
     internal var selectAllButton: UIBarButtonItem!
@@ -77,18 +77,19 @@ class SelectableViewController: UIViewController {
 
     internal func getSelectionTitle() -> String {
 
-        var itemTypes = Set<ItemType>()
+        var itemTypes = ItemTypes()
         for indexPath in getSelectedIndexPaths() {
             if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
                 itemTypes.insert(item.type)
             }
         }
         return ItemsSelectionHelper.getSelectionTitle(
-            itemTypes: Array(itemTypes),
+            itemTypes: itemTypes,
             count: getSelectedIndexPaths().count)
     }
 
     private func updateSelectButtonTitle() {
+        selectButton.isEnabled = presentationInputOutput.countOfItems(withType: supportedTypes) > 0
         let title = isSelectionAllowed ? "Calcel" : "Select"
         selectButton.title = title
     }
@@ -107,6 +108,7 @@ class SelectableViewController: UIViewController {
                 withTypes: self.supportedTypes,
                 indexPaths: self.getSelectedIndexPaths()
             )
+            self.isSelectionAllowed = false
             self.updateUIRalatedToSelection()
             self.reloadUI()
         }
@@ -122,7 +124,7 @@ class SelectableViewController: UIViewController {
     }
 
     @objc internal func toggleSelectAll() {
-        if getSelectedIndexPaths().count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
+        if getSelectedIndexPaths().count < presentationInputOutput.countOfItems(withType: supportedTypes) {
             selectAll()
         } else {
             deselectAll()
@@ -130,7 +132,7 @@ class SelectableViewController: UIViewController {
     }
 
     private func selectAll() {
-        let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
+        let count = presentationInputOutput.countOfItems(withType: supportedTypes)
         for row in 0..<count {
             let indexPath = IndexPath(row: row, section: 0)
             setItem(at: indexPath, slected: true)
@@ -139,7 +141,7 @@ class SelectableViewController: UIViewController {
     }
 
     private func deselectAll() {
-        let count = presentationInputOutput.numberOfItems(withType: supportedTypes)
+        let count = presentationInputOutput.countOfItems(withType: supportedTypes)
         for row in 0..<count {
             let indexPath = IndexPath(row: row, section: 0)
             setItem(at: indexPath, slected: false)
@@ -148,7 +150,7 @@ class SelectableViewController: UIViewController {
     }
 
     internal func updateSelectAllTitle() {
-        if getSelectedIndexPaths().count < presentationInputOutput.numberOfItems(withType: supportedTypes) {
+        if getSelectedIndexPaths().count < presentationInputOutput.countOfItems(withType: supportedTypes) {
             selectAllButton.title = "Select All"
         } else {
             selectAllButton.title = "Deselect All"

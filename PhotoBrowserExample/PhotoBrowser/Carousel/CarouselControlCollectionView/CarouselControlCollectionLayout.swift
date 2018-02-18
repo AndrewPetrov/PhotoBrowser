@@ -11,11 +11,11 @@ import UIKit
 
 class CarouselControlCollectionLayout: UICollectionViewFlowLayout {
 
-    private let supportedTypes: [ItemType]
+    private let supportedTypes: ItemTypes
 
     private weak var presentationInputOutput: PresentationInputOutput!
 
-    init(presentationInputOutput: PresentationInputOutput, supportedTypes: [ItemType]) {
+    init(presentationInputOutput: PresentationInputOutput, supportedTypes: ItemTypes) {
         self.presentationInputOutput = presentationInputOutput
         self.supportedTypes = supportedTypes
 

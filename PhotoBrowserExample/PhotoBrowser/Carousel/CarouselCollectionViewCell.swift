@@ -45,9 +45,11 @@ extension CarouselCollectionViewCell: UIScrollViewDelegate {
 }
 
 extension CarouselCollectionViewCell: CarouselViewControllerDelegate {
+
     func didDoubleTap(_: CarouselViewController) {
         let scale = scrollView.zoomScale == minScale ? maxScale : minScale
         scrollView.setZoomScale(scale, animated: true)
     }
+
 }
 

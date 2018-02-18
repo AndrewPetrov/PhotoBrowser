@@ -26,12 +26,12 @@ class TableViewCell: UITableViewCell {
         likeImageView.image = nil
     }
 
-    func configureCell(item: Item, hasInset: Bool, isSelectionAllowed: Bool) {
+    func configureCell(image: UIImage, isLiked: Bool, isVideo: Bool, hasInset: Bool, isSelectionAllowed: Bool, deliveryStatus: DeliveryStatus, sentTime: Date) {
 
         buttomInset.constant = hasInset ? TableViewController.inset : 0
-        mainImageView.image = item.image
+        mainImageView.image = image
         var image = UIImage()
-        switch item.deliveryStatus {
+        switch deliveryStatus {
         case .delivered:
             image = #imageLiteral(resourceName: "tick")
         case .seen:
@@ -41,11 +41,11 @@ class TableViewCell: UITableViewCell {
         }
         deliveryStatusImageView.image = image
 
-        dateLabel.text = TableViewController.dateFormatter.string(from: item.sentTime)
-        likeImageView.image = item.isLiked ? #imageLiteral(resourceName: "star") : nil
+        dateLabel.text = TableViewController.dateFormatter.string(from: sentTime)
+        likeImageView.image = isLiked ? #imageLiteral(resourceName: "star") : nil
 
         selectionImageView.isHidden = !isSelectionAllowed
-        playImageView.isHidden = item.type != .video
+        playImageView.isHidden = !isVideo
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

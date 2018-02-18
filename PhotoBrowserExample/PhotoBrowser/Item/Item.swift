@@ -10,26 +10,21 @@ import Foundation
 import UIKit
 import AVFoundation
 
-enum ItemType: Equatable {
-    case image
-    case video
-    case link
-    case document
+struct ItemTypes: OptionSet, Equatable, Hashable {
 
-    static func ==(lhs: ItemType, rhs: ItemType) -> Bool {
-        switch (lhs, rhs) {
-        case (.image, .image):
-            return true
-        case (.video, .video):
-            return true
-        case (.link, .link):
-            return true
-        case (.document, .document):
-            return true
+    var hashValue: Int {
+        return self.rawValue
+    }
 
-        default:
-            return false
-        }
+    let rawValue: Int
+
+     static let image = ItemTypes(rawValue: 1)
+     static let video = ItemTypes(rawValue: 2)
+     static let link = ItemTypes(rawValue: 4)
+     static let document = ItemTypes(rawValue: 8)
+
+    static func ==(lhs: ItemTypes, rhs: ItemTypes) -> Bool {
+        return lhs.rawValue == rhs.rawValue
     }
 
     func description(isPlural: Bool) -> String {
@@ -42,6 +37,8 @@ enum ItemType: Equatable {
             return isPlural ? "Links" : "Link"
         case .document:
             return isPlural ? "Documents" : "Document"
+        default:
+             return isPlural ? "Items" : "Item"
         }
     }
 
@@ -52,25 +49,26 @@ enum DeliveryStatus {
     case delivered
     case seen
 }
+typealias Id = Int
 
 class Item: Equatable {
 
     //Discuss what will be ID
-    var id: String
+    var id: Id
     var image: UIImage
     var name: String
     var sentTime: Date
-    var type: ItemType
+    var type: ItemTypes
     var deliveryStatus: DeliveryStatus
     var isLiked: Bool
     //goes from Chat
     var messageIndexPath: IndexPath
 
-    init(id: String = "",
+    init(id: Id,
          image: UIImage,
          name: String = "",
          sentTime: Date = Date(),
-         type: ItemType,
+         type: ItemTypes,
          deliveryStatus: DeliveryStatus = .nonDelivered,
          isLiked: Bool = false,
          messageIndexPath: IndexPath = IndexPath(row: 100500, section: 42)) {
@@ -100,8 +98,8 @@ class Item: Equatable {
 
 class ImageItem: Item {
 
-    init(image: UIImage, name: String = "", sentTime: Date = Date(), deliveryStatus: DeliveryStatus = .nonDelivered) {
-        super.init(image: image, name: name, sentTime: sentTime, type: .image, deliveryStatus: deliveryStatus)
+    init(id: Id, image: UIImage, name: String = "", sentTime: Date = Date(), deliveryStatus: DeliveryStatus = .nonDelivered) {
+        super.init(id: id, image: image, name: name, sentTime: sentTime, type: .image, deliveryStatus: deliveryStatus)
     }
 }
 
@@ -109,14 +107,15 @@ class VideoItem: Item {
 
     let url: URL
 
-    init(url: URL,
+    init(id: Id,
+         url: URL,
          thumbnail: UIImage?,
          name: String = "",
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
         self.url = url
 
-        super.init(image: thumbnail ?? VideoItem.getThumbnailFrom(url: url) ?? UIImage(),
+        super.init(id: id, image: thumbnail ?? VideoItem.getThumbnailFrom(url: url) ?? UIImage(),
                    name: name,
                    sentTime: sentTime,
                    type: .video,
@@ -144,14 +143,16 @@ class LinkItem: Item {
 
     let url: URL
 
-    init(url: URL,
+    init(id: Id,
+         url: URL,
          thumbnail: UIImage,
          name: String = "",
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
 
         self.url = url
-        super.init(image: thumbnail,
+        super.init(id: id,
+                   image: thumbnail,
                    name: name,
                    sentTime: sentTime,
                    type: .link,
@@ -163,13 +164,15 @@ class LinkItem: Item {
 class DocumentItem: Item {
     let url: URL
 
-    init(url: URL,
+    init(id: Id,
+         url: URL,
          name: String = "",
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
 
         self.url = url
-        super.init(image: DocumentItem.getThumbnailFrom(url: url),
+        super.init(id: id,
+                   image: DocumentItem.getThumbnailFrom(url: url),
                    name: name,
                    sentTime: sentTime,
                    type: .document,

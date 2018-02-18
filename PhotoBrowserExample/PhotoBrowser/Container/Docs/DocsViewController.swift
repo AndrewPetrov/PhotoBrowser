@@ -68,7 +68,7 @@ extension DocsViewController: ContainerViewControllerDelegate {
 extension DocsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems(withType: containerInputOutput.currentlySupportedTypes())
+        return presentationInputOutput.countOfItems(withType: containerInputOutput.currentlySupportedTypes())
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

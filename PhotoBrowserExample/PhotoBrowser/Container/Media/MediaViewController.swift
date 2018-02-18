@@ -75,7 +75,7 @@ extension MediaViewController: ContainerViewControllerDelegate {
 
 extension MediaViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInputOutput.numberOfItems(withType: containerInputOutput.currentlySupportedTypes())
+        return presentationInputOutput.countOfItems(withType: containerInputOutput.currentlySupportedTypes())
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

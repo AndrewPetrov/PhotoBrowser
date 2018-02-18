@@ -16,7 +16,6 @@
 		7737C75C203078340052F6A2 /* LinksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75B203078340052F6A2 /* LinksViewController.swift */; };
 		7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75D203078460052F6A2 /* DocsViewController.swift */; };
 		7737C760203082B20052F6A2 /* LinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7737C75F203082B20052F6A2 /* LinkTableViewCell.swift */; };
-		773863522034845700FD2FEA /* CarouselControlCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773863512034845700FD2FEA /* CarouselControlCollectionView.swift */; };
 		773863542034BF7700FD2FEA /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 773863532034BF7700FD2FEA /* TitleView.xib */; };
 		773863562034BFBB00FD2FEA /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773863552034BFBB00FD2FEA /* TitleView.swift */; };
 		773863592034C21A00FD2FEA /* ItemsSelectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773863582034C21A00FD2FEA /* ItemsSelectionHelper.swift */; };
@@ -55,7 +54,6 @@
 		7737C75B203078340052F6A2 /* LinksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinksViewController.swift; sourceTree = "<group>"; };
 		7737C75D203078460052F6A2 /* DocsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsViewController.swift; sourceTree = "<group>"; };
 		7737C75F203082B20052F6A2 /* LinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTableViewCell.swift; sourceTree = "<group>"; };
-		773863512034845700FD2FEA /* CarouselControlCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselControlCollectionView.swift; sourceTree = "<group>"; };
 		773863532034BF7700FD2FEA /* TitleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleView.xib; sourceTree = "<group>"; };
 		773863552034BFBB00FD2FEA /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		773863582034C21A00FD2FEA /* ItemsSelectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsSelectionHelper.swift; sourceTree = "<group>"; };
@@ -119,7 +117,6 @@
 				77061D1A2033887D0029E314 /* CarouselControlCollectionLayout.swift */,
 				772D969220337CA9003903EC /* CarouselControlAdapter.swift */,
 				772D969520337EEB003903EC /* CarouselControlCollectionViewCell.swift */,
-				773863512034845700FD2FEA /* CarouselControlCollectionView.swift */,
 			);
 			path = CarouselControlCollectionView;
 			sourceTree = "<group>";
@@ -387,7 +384,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				773863522034845700FD2FEA /* CarouselControlCollectionView.swift in Sources */,
 				77F4CBDE202F0A7100DED9AF /* Item.swift in Sources */,
 				77A4A4E6202E2F49000B73B3 /* CarouselViewController.swift in Sources */,
 				77A4A4EE202E553C000B73B3 /* TableViewCell.swift in Sources */,
@@ -550,6 +546,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9XN4NB5VV8;
 				INFOPLIST_FILE = PhotoBrowserExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;

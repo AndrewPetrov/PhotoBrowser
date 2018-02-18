@@ -35,7 +35,7 @@ protocol ContainerViewControllerImput: class {
 protocol ContainerViewControllerOutput: class {
     func isSelectionAllowed() -> Bool
     func selectedIndexPaths() -> [IndexPath]
-    func currentlySupportedTypes() -> [ItemType]
+    func currentlySupportedTypes() -> ItemTypes
 }
 
 protocol ContainerViewControllerDelegate {
@@ -70,6 +70,10 @@ class ContainerViewController: SelectableViewController, Presentatable {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    deinit {
+        print("-ContainerViewController")
     }
     
     override func viewDidLoad() {
@@ -274,7 +278,7 @@ extension ContainerViewController: ContainerViewControllerImput {
 
 extension ContainerViewController: ContainerViewControllerOutput {
     
-    func currentlySupportedTypes() -> [ItemType] {
+    func currentlySupportedTypes() -> ItemTypes {
         return supportedTypes
     }
     
