@@ -85,6 +85,7 @@ class CarouselViewController: UIViewController, Presentatable {
         CarouselViewController.dateFormatter.dateFormat = "[MMM d, h:mm a]"
         updateToolBar()
         setupNavigationBar()
+        cacheFirstImagesForCarouselViewAdapter() 
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -93,7 +94,11 @@ class CarouselViewController: UIViewController, Presentatable {
         setupCarouselControlCollectionView()
         collectionView.reloadData()
         //force viewDidLayoutSubviews always after viewWillAppear
-        carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
+
+        if presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
+            carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
+        }
+
         view.setNeedsLayout()
     }
 
@@ -115,7 +120,7 @@ class CarouselViewController: UIViewController, Presentatable {
         setupCollectionView()
         carouselControlAdapter.collectionViewSize = carouselControlCollectionView.frame.size
         carouselControlCollectionView.reloadData()
-        if isFirstAppearing {
+        if isFirstAppearing, presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
             collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
         }
     }
@@ -341,8 +346,6 @@ class CarouselViewController: UIViewController, Presentatable {
         }
     }
 
-
-    
     @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
         delegate?.didDoubleTap(self)
     }
@@ -351,6 +354,33 @@ class CarouselViewController: UIViewController, Presentatable {
         let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
         let row = Int((contentOffset / cellWidth).rounded())
         presentationInputOutput.setItemAsCurrent(at: IndexPath(row: row, section: 0))
+    }
+
+    // MARK: - Misc
+
+    private func cacheFirstImagesForCarouselViewAdapter() {
+        let start = -10
+        let count = 10
+
+        var currentIndexPath = IndexPath(item: 0, section: 0)
+        if presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
+            currentIndexPath = presentationInputOutput.currentItemIndex()
+        }
+
+        for delta in start..<count {
+            //avoid going out of bounds
+            let safeIndex = min(max(currentIndexPath.row + delta, 0), presentationInputOutput.countOfItems(withType: supportedTypes) - 1)
+            if let item = presentationInputOutput.item(
+                withType: supportedTypes,
+                at: IndexPath(item: safeIndex, section: 0)),
+                ImageCache.shared.sizedImage(forKey: item.id) == nil {
+                ImageCache.shared.setSized(UIImage(), forKey: item.id)
+                DispatchQueue.global().async {
+                    let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: CGSize(width: 30, height: 50))
+                    ImageCache.shared.setSized(sizedImage, forKey: item.id)
+                }
+            }
+        }
     }
     
 }
