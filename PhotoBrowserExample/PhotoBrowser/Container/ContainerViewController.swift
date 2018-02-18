@@ -256,7 +256,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
             isLiked: !isAllItemsLiked(),
             at: selectedIndexPaths())
         isSelectionAllowed = false
-        delegate?.reloadUI()
+        delegate?.updateCache()
     }
     
     @objc private func actionButtonDidTap(_ sender: Any) {

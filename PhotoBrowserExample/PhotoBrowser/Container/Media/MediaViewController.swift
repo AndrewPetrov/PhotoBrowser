@@ -26,7 +26,7 @@ class MediaViewController: UIViewController {
     }()
 
     // [number_of_month_ago: [Item]]
-    var cachedDetaSource = [Int: [Item]]()
+    var cachedDataSource = [Int: [Item]]()
 
     @IBOutlet private weak var collectionView: UICollectionView!
     private weak var presentationInputOutput: PresentationInputOutput!
@@ -50,7 +50,6 @@ class MediaViewController: UIViewController {
 
         return newViewController
     }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,7 +78,7 @@ class MediaViewController: UIViewController {
     }
 
     private func updateCacheInBackground() {
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global().async {
             self.cacheDataSource()
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
@@ -88,7 +87,7 @@ class MediaViewController: UIViewController {
     }
 
     private func cacheDataSource() {
-        cachedDetaSource = [Int: [Item]]()
+        cachedDataSource = [Int: [Item]]()
         let calendar = Calendar.current
         for index in 0..<presentationInputOutput.countOfItems(withType: containerInputOutput.currentlySupportedTypes()) {
             if let item = presentationInputOutput.item(
@@ -100,18 +99,30 @@ class MediaViewController: UIViewController {
 
                 let monthDelta = currentDate.month! - itemDate.month! + (currentDate.year! - itemDate.year!) * 12
 
-                if cachedDetaSource[monthDelta] == nil {
-                    cachedDetaSource[monthDelta] = [Item]()
+                if cachedDataSource[monthDelta] == nil {
+                    cachedDataSource[monthDelta] = [Item]()
                 }
-                cachedDetaSource[monthDelta]!.append(item)
+                cachedDataSource[monthDelta]!.append(item)
             }
         }
     }
 
     private func presentationIndexPath(for sectionedIndexPath: IndexPath) -> IndexPath {
-        if let sections = cachedDetaSource[sectionedIndexPath.section], sectionedIndexPath.row < sections.count {
+        if let sections = cachedDataSource[sectionedIndexPath.section], sectionedIndexPath.row < sections.count {
             let item = sections[sectionedIndexPath.row]
             return presentationInputOutput.indexPath(for: item, withTypes: containerInputOutput.currentlySupportedTypes())
+        }
+        return IndexPath()
+    }
+
+    private func sectionedIndexPath(for presentationIndexPath: IndexPath) -> IndexPath {
+        let targetItem = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: presentationIndexPath)
+        for section in cachedDataSource.keys {
+            for index in 0..<cachedDataSource[section]!.count {
+                if cachedDataSource[section]![index] == targetItem {
+                    return IndexPath(item: index, section: section)
+                }
+            }
         }
         return IndexPath()
     }
@@ -132,10 +143,11 @@ extension MediaViewController: ContainerViewControllerDelegate {
     }
 
     func setItem(at indexPath: IndexPath, slected: Bool) {
+        let targetIndexPath = sectionedIndexPath(for: indexPath)
         if slected {
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .left)
+            collectionView.selectItem(at: targetIndexPath, animated: false, scrollPosition: .left)
         } else {
-            collectionView.deselectItem(at: indexPath, animated: false)
+            collectionView.deselectItem(at: targetIndexPath, animated: false)
         }
     }
 
@@ -149,21 +161,21 @@ extension MediaViewController: ContainerViewControllerDelegate {
 extension MediaViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section < cachedDetaSource.count, let monthItems = cachedDetaSource[section] {
+        if section < cachedDataSource.count, let monthItems = cachedDataSource[section] {
             return monthItems.count
         }
         return 0
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return cachedDetaSource.count
+        return cachedDataSource.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaCollectionViewCell",
                                                       for: indexPath) as! MediaCollectionViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        if let section = cachedDetaSource[indexPath.section], indexPath.row < section.count {
+        if let section = cachedDataSource[indexPath.section], indexPath.row < section.count {
             let item = section[indexPath.row]
             var videoDuration = ""
             if let item = item as? VideoItem {
@@ -189,7 +201,7 @@ extension MediaViewController: UICollectionViewDataSource {
                                                                              withReuseIdentifier: "MediaCollectionViewHeader",
                                                                              for: indexPath) as! MediaCollectionViewHeader
 
-            let monthDelta = Array(cachedDetaSource.keys).sorted()[indexPath.section]
+            let monthDelta = Array(cachedDataSource.keys).sorted()[indexPath.section]
             var sectionDateSrting: String
 
             if let sectionMonthAndYear = Calendar.current.date(byAdding: .month, value: 0 - monthDelta, to: Date()) {
@@ -217,11 +229,11 @@ extension MediaViewController: UICollectionViewDataSource {
 
             //TODO: conform ItemTypes to Sequence protocol and refactor
             if containerInputOutput.currentlySupportedTypes().contains(.image) {
-                let count = cachedDetaSource[indexPath.section]?.filter { $0.type == .image }.count
+                let count = cachedDataSource[indexPath.section]?.filter { $0.type == .image }.count
                 assetsString += "\(count!) Images "
             }
             if containerInputOutput.currentlySupportedTypes().contains(.video) {
-                let count = cachedDetaSource[indexPath.section]?.filter { $0.type == .video }.count
+                let count = cachedDataSource[indexPath.section]?.filter { $0.type == .video }.count
                 assetsString += "\(count!) Videos"
             }
             footerView.configureView(text: assetsString)

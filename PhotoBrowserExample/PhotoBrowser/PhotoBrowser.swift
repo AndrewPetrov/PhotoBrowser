@@ -163,13 +163,6 @@ class PhotoBrowser: UIViewController {
         }
 
         return
-
-        // variant without animation
-        if childViewControllers.count != 0 {
-            removeChildViewControllers()
-        }
-
-        add(asChildViewController: currentPresentationViewController)
     }
 
     private func add(asChildViewController viewController: UIViewController) {

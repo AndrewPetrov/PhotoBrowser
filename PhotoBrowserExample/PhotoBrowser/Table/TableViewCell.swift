@@ -23,7 +23,6 @@ class TableViewCell: UITableViewCell {
         super.prepareForReuse()
 
         mainImageView.image = nil
-        likeImageView.image = nil
     }
 
     func configureCell(image: UIImage, isLiked: Bool, isVideo: Bool, hasInset: Bool, isSelectionAllowed: Bool, deliveryStatus: DeliveryStatus, sentTime: Date) {

@@ -103,7 +103,7 @@ extension DocsViewController: UITableViewDelegate {
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
             if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
-                //TODO: somhow open the document fom item
+                //TODO: somehow open the document fom item
             }
         }
     }

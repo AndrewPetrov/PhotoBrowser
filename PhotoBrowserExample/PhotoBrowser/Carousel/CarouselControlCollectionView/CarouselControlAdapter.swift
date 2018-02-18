@@ -60,7 +60,7 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
                 cell.configureCell(image: cachedImage, leftOffset: leftOffset, rightOffset: rightOffset)
             } else {
                 cell.configureCell(image: nil, leftOffset: leftOffset, rightOffset: rightOffset)
-                DispatchQueue.global(qos: .background).async {
+                DispatchQueue.global().async {
                     //to avoid task for same item in "willDisplay cell"
                     ImageCache.shared.setSized(UIImage(), forKey: item.id)
                     let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
