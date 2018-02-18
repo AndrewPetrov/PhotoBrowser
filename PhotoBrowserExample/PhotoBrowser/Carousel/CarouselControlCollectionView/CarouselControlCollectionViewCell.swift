@@ -18,12 +18,16 @@ class CarouselControlCollectionViewCell: UICollectionViewCell {
     weak var image: UIImage? {
         didSet {
             imageView.image = image
+            imageView.alpha = 0
+            UIView.animate(withDuration: 0.2) {
+                self.imageView.alpha = 1
+            }
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         imageView.image = nil
     }
 

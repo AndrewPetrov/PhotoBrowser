@@ -110,12 +110,12 @@ extension CarouselControlAdapter: UICollectionViewDelegate {
         let count = 20
 
         for delta in start..<count {
-            if let item = presentationInputOutput.item(withType: supportedTypes, at: IndexPath(item: max(indexPath.row + delta, 0), section: 0)) {
-                if ImageCache.shared.sizedImage(forKey: item.id) == nil {
-                    DispatchQueue.global().async {
-                        let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
-                        ImageCache.shared.setSized(sizedImage, forKey: item.id)
-                    }
+            if let item = presentationInputOutput.item(withType: supportedTypes, at: IndexPath(item: max(indexPath.row + delta, 0), section: 0)),
+                ImageCache.shared.sizedImage(forKey: item.id) == nil {
+                
+                DispatchQueue.global().async {
+                    let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
+                    ImageCache.shared.setSized(sizedImage, forKey: item.id)
                 }
             }
         }

@@ -104,9 +104,9 @@ class CarouselViewController: UIViewController, Presentatable {
         setupGestureRecognizers()
 
         if let videoItem = presentationInputOutput.item(withType: supportedTypes, at: currentCellIndexPath) as? VideoItem, isFirstAppearing {
-            isFirstAppearing = false
             playVideo(videoItem)
         }
+        isFirstAppearing = false
     }
 
     override func viewDidLayoutSubviews() {

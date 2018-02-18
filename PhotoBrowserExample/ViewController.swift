@@ -154,7 +154,7 @@ extension ViewController: PhotoBrowserDataSouce {
     }
 
     func startingItemIndexPath() -> IndexPath {
-        return IndexPath(item: 5, section: 0)
+        return IndexPath(item: 7, section: 0)
     }
 
     func item(at indexPath: IndexPath) -> Item? {
