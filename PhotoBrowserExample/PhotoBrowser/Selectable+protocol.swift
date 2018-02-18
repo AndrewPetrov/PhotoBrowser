@@ -118,10 +118,7 @@ class SelectableViewController: UIViewController {
         }
         alertController.addAction(deleteForMeAction)
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-            alertController.dismiss(animated: true, completion: nil)
-        }
-
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(cancelAction)
 
         present(alertController, animated: true, completion: nil)

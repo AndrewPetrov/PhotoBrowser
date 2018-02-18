@@ -108,8 +108,8 @@ class TableViewController: SelectableViewController, Presentatable {
                 toolbarBottomContraint.constant -= bottomPadding
             }
         }
-        UIView.animate(withDuration: 0.33) {
-            self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.33) { [weak self] in
+            self?.view.layoutIfNeeded()
         }
     }
 

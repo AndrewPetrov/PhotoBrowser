@@ -116,6 +116,7 @@ class PhotoBrowser: UIViewController {
     }
 
     deinit {
+        ImageCache.shared.cleanCache()
         print(">>>browser deinit")
     }
 

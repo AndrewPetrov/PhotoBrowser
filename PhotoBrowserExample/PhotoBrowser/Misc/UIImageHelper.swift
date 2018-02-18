@@ -49,4 +49,8 @@ extension ImageCache {
     func sizedImage(forKey key: Id) -> UIImage? {
         return sizedImages[key]
     }
+
+    func cleanCache() {
+        sizedImages = [Id: UIImage]()
+    }
 }

@@ -229,7 +229,8 @@ extension MediaViewController: UICollectionViewDataSource {
             return footerView
 
         default:
-             assert(false, "Unexpected element kind")
+            assert(false, "Unexpected element kind")
+            return UICollectionReusableView()
         }
 
     }
