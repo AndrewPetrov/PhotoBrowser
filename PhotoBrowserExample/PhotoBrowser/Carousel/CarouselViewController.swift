@@ -85,9 +85,8 @@ class CarouselViewController: UIViewController, Presentatable {
         super.viewDidLoad()
 
         CarouselViewController.dateFormatter.dateFormat = "[MMM d, h:mm a]"
-        updateToolBar()
         setupNavigationBar()
-        cacheFirstImagesForCarouselViewAdapter() 
+        cacheFirstImagesForCarouselViewAdapter()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -95,14 +94,14 @@ class CarouselViewController: UIViewController, Presentatable {
         carouselControlCollectionView.reloadData()
         setupCarouselControlCollectionView()
         collectionView.reloadData()
-        //force viewDidLayoutSubviews always after viewWillAppear
 
         if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
             modelInputOutput.numberOfItems(withTypes: supportedTypes) {
-
             carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes), at: .centeredHorizontally, animated: false)
         }
 
+        updateToolBar()
+        //force viewDidLayoutSubviews always after viewWillAppear
         view.setNeedsLayout()
     }
 

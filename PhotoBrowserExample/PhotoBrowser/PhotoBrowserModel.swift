@@ -42,7 +42,6 @@ protocol ModelInput: class {
     func forwardItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
     func shareItem(withTypes types: ItemTypes, indexPaths: [IndexPath])
     func setAsMyProfilePhoto(withTypes types: ItemTypes, indexPath: IndexPath)
-//    func setItemAsCurrent(at indexPath: IndexPath, completion: (() -> ())?)
     func scrollToMessage(at indexPath: IndexPath)
 
 }
@@ -51,9 +50,7 @@ protocol ModelOutput: class {
 
     func numberOfItems(withTypes types: ItemTypes) -> Int
     func item(withTypes types: ItemTypes, at indexPath: IndexPath) -> Item?
-//    func typesOfItems() -> ItemTypes
     func indexPath(for item: Item, withTypes types: ItemTypes) -> IndexPath
-//    func currentItemIndex() -> IndexPath
     func intersectionOfBrowserOutputTypes(inputTypes: ItemTypes) -> ItemTypes
     func isItemLiked(withTypes types: ItemTypes, at indexPath: IndexPath) -> Bool
     func senderName() -> String
@@ -66,8 +63,6 @@ class PhotoBrowserModel {
 
     private weak var dataSource: PhotoBrowserDataSouce!
     private weak var delegate: PhotoBrowserDelegate!
-
-//    lazy private var currentItemIndexPath: IndexPath = dataSource?.startingItemIndexPath() ?? IndexPath(item: 0, section: 0)
 
     lazy var cachedItems = [Item]()
     private var itemsCacheByTypes = [ItemTypes: [Item]]()
@@ -107,7 +102,7 @@ class PhotoBrowserModel {
 
     deinit {
         ImageCache.shared.cleanCache()
-        print(">>>browser deinit")
+        print("browser deinit")
     }
 
     private func filtredItems(withTypes types: ItemTypes) -> [Item] {
@@ -173,13 +168,6 @@ extension PhotoBrowserModel: ModelInput {
             delegate.setAsMyProfilePhoto(indexPath: indexPath)
         }
     }
-
-//    func setItemAsCurrent(at indexPath: IndexPath, completion: (() -> ())?) {
-//        if currentItemIndexPath != indexPath {
-//            currentItemIndexPath = indexPath
-//            completion?()
-//        }
-//    }
 
     func scrollToMessage(at indexPath: IndexPath) {
         delegate.scrollToMessage(at: indexPath)
