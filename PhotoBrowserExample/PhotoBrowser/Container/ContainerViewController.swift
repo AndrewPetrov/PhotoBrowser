@@ -30,6 +30,8 @@ typealias ContainerViewControllerInputOutput = ContainerViewControllerImput & Co
 
 protocol ContainerViewControllerImput: class {
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath)
+    func switchTo(presentation: Presentation)
+    func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes)
 }
 
 protocol ContainerViewControllerOutput: class {
@@ -50,6 +52,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
     let presentation: Presentation = .container
     
     private var mediaTypesSegmentedControl: UISegmentedControl!
+    internal weak var presentationInputOutput: PresentationInputOutput!
     
     var forwardButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(forwardButtonDidTap))
     
@@ -88,9 +91,9 @@ class ContainerViewController: SelectableViewController, Presentatable {
         updateToolbarPosition()
     }
     
-    private lazy var mediaViewController = MediaViewController.make(presentationInputOutput: presentationInputOutput, containerInputOutput: self)
-    private lazy var linksViewController = LinksViewController.make(presentationInputOutput: presentationInputOutput, containerInputOutput: self)
-    private lazy var docsViewController = DocsViewController.make(presentationInputOutput: presentationInputOutput, containerInputOutput: self)
+    private lazy var mediaViewController = MediaViewController.make(modelInputOutput: modelInputOutput, containerInputOutput: self)
+    private lazy var linksViewController = LinksViewController.make(modelInputOutput: modelInputOutput, containerInputOutput: self)
+    private lazy var docsViewController = DocsViewController.make(modelInputOutput: modelInputOutput, containerInputOutput: self)
     
     private func add(asChildViewController viewController: UIViewController & ContainerViewControllerDelegate) {
         delegate = viewController
@@ -122,8 +125,9 @@ class ContainerViewController: SelectableViewController, Presentatable {
         setupNavigationBar()
     }
     
-    static func make(presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
+    static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
+        newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         
         return newViewController
@@ -251,7 +255,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
     
     @objc private func likeButtonDidTap(_ sender: Any) {
-        presentationInputOutput.setItemAs(
+        modelInputOutput.setItemAs(
             withTypes: supportedTypes,
             isLiked: !isAllItemsLiked(),
             at: selectedIndexPaths())
@@ -260,13 +264,13 @@ class ContainerViewController: SelectableViewController, Presentatable {
     }
     
     @objc private func actionButtonDidTap(_ sender: Any) {
-        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
+        modelInputOutput.shareItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
         isSelectionAllowed = false
         delegate?.reloadUI()
     }
     
     @objc private func forwardButtonDidTap(_ sender: Any) {
-        presentationInputOutput.forwardItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
+        modelInputOutput.forwardItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
         isSelectionAllowed = false
         delegate?.reloadUI()
     }
@@ -274,6 +278,16 @@ class ContainerViewController: SelectableViewController, Presentatable {
 }
 
 extension ContainerViewController: ContainerViewControllerImput {
+
+    func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes) {
+        presentationInputOutput.setItemAsCurrent(at: indexPath, withTypes: types)
+    }
+
+
+    func switchTo(presentation: Presentation) {
+        presentationInputOutput.switchTo(presentation: presentation)
+    }
+
     
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath) {
         updateUIRalatedToSelection()
@@ -301,6 +315,10 @@ extension ContainerViewController: PhotoBrowserInternalDelegate {
     
     func currentItemIndexDidChange() {
         
+    }
+
+    func getSupportedTypes() -> ItemTypes {
+        return supportedTypes
     }
     
 }

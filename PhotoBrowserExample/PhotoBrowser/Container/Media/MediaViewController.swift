@@ -29,7 +29,7 @@ class MediaViewController: UIViewController {
     var cachedDataSource = [Int: [Item]]()
 
     @IBOutlet private weak var collectionView: UICollectionView!
-    private weak var presentationInputOutput: PresentationInputOutput!
+    private weak var modelInputOutput: ModelInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
 
@@ -43,9 +43,9 @@ class MediaViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func make(presentationInputOutput: PresentationInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> MediaViewController {
+    static func make(modelInputOutput: ModelInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> MediaViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "MediaViewController") as! MediaViewController
-        newViewController.presentationInputOutput = presentationInputOutput
+        newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
 
         return newViewController
@@ -89,9 +89,9 @@ class MediaViewController: UIViewController {
     private func cacheDataSource() {
         cachedDataSource = [Int: [Item]]()
         let calendar = Calendar.current
-        for index in 0..<presentationInputOutput.countOfItems(withType: containerInputOutput.currentlySupportedTypes()) {
-            if let item = presentationInputOutput.item(
-                withType: containerInputOutput.currentlySupportedTypes(),
+        for index in 0..<modelInputOutput.numberOfItems(withTypes: containerInputOutput.currentlySupportedTypes()) {
+            if let item = modelInputOutput.item(
+                withTypes: containerInputOutput.currentlySupportedTypes(),
                 at: IndexPath(item: index, section: 0)) {
 
                 let itemDate = calendar.dateComponents([.year, .month], from: item.sentTime)
@@ -110,13 +110,13 @@ class MediaViewController: UIViewController {
     private func presentationIndexPath(for sectionedIndexPath: IndexPath) -> IndexPath {
         if let sections = cachedDataSource[sectionedIndexPath.section], sectionedIndexPath.row < sections.count {
             let item = sections[sectionedIndexPath.row]
-            return presentationInputOutput.indexPath(for: item, withTypes: containerInputOutput.currentlySupportedTypes())
+            return modelInputOutput.indexPath(for: item, withTypes: containerInputOutput.currentlySupportedTypes())
         }
         return IndexPath()
     }
 
     private func sectionedIndexPath(for presentationIndexPath: IndexPath) -> IndexPath {
-        let targetItem = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: presentationIndexPath)
+        let targetItem = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: presentationIndexPath)
         for section in cachedDataSource.keys {
             for index in 0..<cachedDataSource[section]!.count {
                 if cachedDataSource[section]![index] == targetItem {
@@ -175,10 +175,10 @@ extension MediaViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MediaCollectionViewCell",
                                                       for: indexPath) as! MediaCollectionViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        if let section = cachedDataSource[indexPath.section], indexPath.row < section.count {
+        if let section = cachedDataSource[indexPath.section], indexPath.row <= section.endIndex {
             let item = section[indexPath.row]
             var videoDuration = ""
-            if let item = item as? VideoItem {
+            if item is VideoItem {
                 //TODO: calculate duration
                 videoDuration = "1:02"
             }
@@ -256,8 +256,8 @@ extension MediaViewController: UICollectionViewDelegate {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             collectionView.deselectItem(at: indexPath, animated: false)
-            presentationInputOutput.setItemAsCurrent(at: presentationIndexPath(for: indexPath))
-            presentationInputOutput.switchTo(presentation: .carousel)
+            containerInputOutput.setItemAsCurrent(at: presentationIndexPath(for: indexPath), withTypes: containerInputOutput.currentlySupportedTypes())
+            containerInputOutput.switchTo(presentation: .carousel)
         }
     }
 

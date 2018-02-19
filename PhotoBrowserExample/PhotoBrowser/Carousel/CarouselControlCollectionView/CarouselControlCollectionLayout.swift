@@ -13,10 +13,10 @@ class CarouselControlCollectionLayout: UICollectionViewFlowLayout {
 
     private let supportedTypes: ItemTypes
 
-    private weak var presentationInputOutput: PresentationInputOutput!
+    private weak var modelInputOutput: ModelInputOutput!
 
-    init(presentationInputOutput: PresentationInputOutput, supportedTypes: ItemTypes) {
-        self.presentationInputOutput = presentationInputOutput
+    init(modelInputOutput: ModelInputOutput, supportedTypes: ItemTypes) {
+        self.modelInputOutput = modelInputOutput
         self.supportedTypes = supportedTypes
 
         super.init()

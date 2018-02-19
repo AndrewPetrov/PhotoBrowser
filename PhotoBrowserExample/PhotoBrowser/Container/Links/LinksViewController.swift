@@ -11,7 +11,7 @@ import UIKit
 
 class LinksViewController: UIViewController {
 
-    private weak var presentationInputOutput: PresentationInputOutput!
+    private weak var modelInputOutput: ModelInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
 
     @IBOutlet private weak var tableView: UITableView!
@@ -23,9 +23,9 @@ class LinksViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func make(presentationInputOutput: PresentationInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> LinksViewController {
+    static func make(modelInputOutput: ModelInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> LinksViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "LinksViewController") as! LinksViewController
-        newViewController.presentationInputOutput = presentationInputOutput
+        newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
 
         return newViewController
@@ -82,19 +82,19 @@ extension LinksViewController: ContainerViewControllerDelegate {
 extension LinksViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInputOutput.countOfItems(withType: containerInputOutput.currentlySupportedTypes())
+        return modelInputOutput.numberOfItems(withTypes: containerInputOutput.currentlySupportedTypes())
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "LinkTableViewCell") as! LinkTableViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
+        if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
             cell.configureCell(
                 with: item,
                 isSelectionAllowed: isSelectionAllowed,
                 isLiked: item.isLiked) { [weak self] in
-                    self?.presentationInputOutput.goToMessage(with: item.messageIndexPath)
+                    self?.modelInputOutput.scrollToMessage(at: item.messageIndexPath)
             }
         }
 
@@ -110,7 +110,7 @@ extension LinksViewController: UITableViewDelegate {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
-            if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
+            if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
                 showWebViewController(url: item.url)
             }
         }

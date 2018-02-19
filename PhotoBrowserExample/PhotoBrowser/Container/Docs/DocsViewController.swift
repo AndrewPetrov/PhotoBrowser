@@ -11,7 +11,7 @@ import UIKit
 
 class DocsViewController: UIViewController {
     
-    private weak var presentationInputOutput: PresentationInputOutput!
+    private weak var modelInputOutput: ModelInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
 
     @IBOutlet private weak var tableView: UITableView!
@@ -23,9 +23,9 @@ class DocsViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    static func make(presentationInputOutput: PresentationInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> DocsViewController {
+    static func make(modelInputOutput: ModelInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> DocsViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "DocsViewController") as! DocsViewController
-        newViewController.presentationInputOutput = presentationInputOutput
+        newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
 
         return newViewController
@@ -73,14 +73,14 @@ extension DocsViewController: ContainerViewControllerDelegate {
 extension DocsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInputOutput.countOfItems(withType: containerInputOutput.currentlySupportedTypes())
+        return modelInputOutput.numberOfItems(withTypes: containerInputOutput.currentlySupportedTypes())
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocsTableViewCell") as! DocsTableViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? DocumentItem {
+        if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? DocumentItem {
             cell.configureCell(
                 with: item,
                 size: "100500",
@@ -102,7 +102,7 @@ extension DocsViewController: UITableViewDelegate {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
-            if let item = presentationInputOutput.item(withType: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
+            if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
                 //TODO: somehow open the document fom item
             }
         }

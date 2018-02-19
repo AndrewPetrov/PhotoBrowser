@@ -21,6 +21,8 @@ class TableViewController: SelectableViewController, Presentatable {
     @IBOutlet private weak var toolbarBottomContraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
 
+    private weak var presentationInputOutput: PresentationInputOutput!
+
     // MARK: - Life cycle
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -35,8 +37,9 @@ class TableViewController: SelectableViewController, Presentatable {
         print("-TableViewController")
     }
 
-    static func make(presentationInputOutput: PresentationInputOutput) -> TableViewController {
+    static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> TableViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
+        newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
 
         return newViewController
@@ -54,8 +57,9 @@ class TableViewController: SelectableViewController, Presentatable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
-            tableView.scrollToRow(at: presentationInputOutput.currentItemIndex(), at: .middle, animated: false)
+        if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row
+            < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            tableView.scrollToRow(at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes), at: .middle, animated: false)
         }
 
         updateToolbarPosition()
@@ -123,10 +127,10 @@ class TableViewController: SelectableViewController, Presentatable {
 
         let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height:  parent?.navigationController?.navigationBar.frame.height ?? 20))
         let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
-            itemTypes: presentationInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
-            count: presentationInputOutput.countOfItems(withType: supportedTypes)
+            itemTypes: modelInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
+            count: modelInputOutput.numberOfItems(withTypes: supportedTypes)
         )
-        titleView.setup(sender: presentationInputOutput.senderName(), info: itemsTitle)
+        titleView.setup(sender: modelInputOutput.senderName(), info: itemsTitle)
         parent?.navigationItem.titleView = titleView
     }
 
@@ -157,13 +161,13 @@ class TableViewController: SelectableViewController, Presentatable {
     }
 
     private func isLastCell(indexPath: IndexPath) -> Bool {
-        return indexPath.row == presentationInputOutput.countOfItems(withType: supportedTypes) - 1
+        return indexPath.row == modelInputOutput.numberOfItems(withTypes: supportedTypes) - 1
     }
 
     // MARK: - User actions
 
     @objc internal func actionButtonDidTap(_ sender: Any) {
-        presentationInputOutput.shareItem(withTypes: supportedTypes, indexPaths: getSelectedIndexPaths())
+        modelInputOutput.shareItem(withTypes: supportedTypes, indexPaths: getSelectedIndexPaths())
     }
 
 }
@@ -171,12 +175,12 @@ class TableViewController: SelectableViewController, Presentatable {
 extension TableViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presentationInputOutput.countOfItems(withType: supportedTypes)
+        return modelInputOutput.numberOfItems(withTypes: supportedTypes)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-        if let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath) {
+        if let item = modelInputOutput.item(withTypes: supportedTypes, at: indexPath) {
             cell.configureCell(
                 image: item.image,
                 isLiked: item.isLiked,
@@ -196,7 +200,7 @@ extension TableViewController: UITableViewDataSource {
 extension TableViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let image = presentationInputOutput.item(withType: supportedTypes, at: indexPath)?.image else { return 0 }
+        guard let image = modelInputOutput.item(withTypes: supportedTypes, at: indexPath)?.image else { return 0 }
         let proportion = image.size.height / image.size.width
         let height = tableView.frame.width * proportion
 
@@ -213,7 +217,7 @@ extension TableViewController: UITableViewDelegate {
             updateUIRalatedToSelection()
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
-            presentationInputOutput.setItemAsCurrent(at: indexPath)
+            presentationInputOutput.setItemAsCurrent(at: indexPath, withTypes: supportedTypes)
             presentationInputOutput.switchTo(presentation: .carousel)
         }
     }
@@ -225,6 +229,10 @@ extension TableViewController: UITableViewDelegate {
 }
 
 extension TableViewController: PhotoBrowserInternalDelegate {
+
+    func getSupportedTypes() -> ItemTypes {
+        return supportedTypes
+    }
 
     func currentItemIndexDidChange() {
 

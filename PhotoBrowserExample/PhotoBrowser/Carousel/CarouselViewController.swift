@@ -20,6 +20,7 @@ class CarouselViewController: UIViewController, Presentatable {
     private static var dateFormatter = DateFormatter()
     let presentation: Presentation = .carousel
     private let supportedTypes: ItemTypes = [.image, .video]
+    private weak var modelInputOutput: ModelInputOutput!
     private weak var presentationInputOutput: PresentationInputOutput!
     @IBOutlet private weak var imageViewOnTopOfCollectionView: UIImageView!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
@@ -28,7 +29,7 @@ class CarouselViewController: UIViewController, Presentatable {
     @IBOutlet private weak var toolbarBottomConstraint: NSLayoutConstraint!
 
     lazy private var carouselControlAdapter: CarouselControlAdapter =
-        CarouselControlAdapter(collectionView: carouselControlCollectionView, presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
+        CarouselControlAdapter(collectionView: carouselControlCollectionView, modelInputOutput: modelInputOutput, presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
     @IBOutlet private weak var carouselView: UIView!
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var deleteBarButtonItem: UIBarButtonItem!
@@ -49,7 +50,7 @@ class CarouselViewController: UIViewController, Presentatable {
     private weak var delegate: CarouselViewControllerDelegate?
     
     private var currentCellIndexPath : IndexPath {
-        return presentationInputOutput.currentItemIndex()
+        return presentationInputOutput.currentItemIndex(withTypes: supportedTypes)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -72,10 +73,11 @@ class CarouselViewController: UIViewController, Presentatable {
         print("-CarouselViewController")
     }
     
-    static func make(presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
+    static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "CarouselViewController") as! CarouselViewController
+        newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
-        
+
         return newViewController
     }
     
@@ -95,8 +97,10 @@ class CarouselViewController: UIViewController, Presentatable {
         collectionView.reloadData()
         //force viewDidLayoutSubviews always after viewWillAppear
 
-        if presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
-            carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
+        if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
+            modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+
+            carouselControlCollectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes), at: .centeredHorizontally, animated: false)
         }
 
         view.setNeedsLayout()
@@ -108,7 +112,7 @@ class CarouselViewController: UIViewController, Presentatable {
         setupDelegate()
         setupGestureRecognizers()
 
-        if let videoItem = presentationInputOutput.item(withType: supportedTypes, at: currentCellIndexPath) as? VideoItem, isFirstAppearing {
+        if let videoItem = modelInputOutput.item(withTypes: supportedTypes, at: currentCellIndexPath) as? VideoItem, isFirstAppearing {
             playVideo(videoItem)
         }
         isFirstAppearing = false
@@ -120,8 +124,8 @@ class CarouselViewController: UIViewController, Presentatable {
         setupCollectionView()
         carouselControlAdapter.collectionViewSize = carouselControlCollectionView.frame.size
         carouselControlCollectionView.reloadData()
-        if isFirstAppearing, presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
-            collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(), at: .centeredHorizontally, animated: false)
+        if isFirstAppearing, presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes), at: .centeredHorizontally, animated: false)
         }
     }
 
@@ -140,7 +144,7 @@ class CarouselViewController: UIViewController, Presentatable {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
 
-        imageViewOnTopOfCollectionView.image = presentationInputOutput.item(withType: supportedTypes, at: presentationInputOutput.currentItemIndex())?.image
+        imageViewOnTopOfCollectionView.image = modelInputOutput.item(withTypes: supportedTypes, at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes))?.image
         imageViewOnTopOfCollectionView.isHidden = false
         collectionView.isHidden = true
 
@@ -149,7 +153,7 @@ class CarouselViewController: UIViewController, Presentatable {
             self.carouselControlAdapter.collectionViewSize = size
             self.carouselControlCollectionView.reloadData()
             self.carouselControlCollectionView.scrollToItem(
-                at: self.presentationInputOutput.currentItemIndex(),
+                at: self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes),
                 at: .centeredHorizontally,
                 animated: true)
             self.imageViewOnTopOfCollectionView.frame.size = size
@@ -159,7 +163,7 @@ class CarouselViewController: UIViewController, Presentatable {
                 self.collectionView.reloadData()
                 self.collectionView.layoutIfNeeded()
                 self.collectionView.scrollToItem(
-                    at: self.presentationInputOutput.currentItemIndex(),
+                    at: self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes),
                     at: .centeredHorizontally,
                     animated: false)
                 self.collectionView.isHidden = false
@@ -191,7 +195,7 @@ class CarouselViewController: UIViewController, Presentatable {
     private func setupCarouselControlCollectionView() {
         carouselControlCollectionView.delegate = carouselControlAdapter
         carouselControlCollectionView.dataSource = carouselControlAdapter
-        let layout = CarouselControlCollectionLayout(presentationInputOutput: presentationInputOutput, supportedTypes: supportedTypes)
+        let layout = CarouselControlCollectionLayout(modelInputOutput: modelInputOutput, supportedTypes: supportedTypes)
 
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
@@ -210,7 +214,7 @@ class CarouselViewController: UIViewController, Presentatable {
     // MARK: - Update controls
 
     private func updateToolBar() {
-        let isLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: currentCellIndexPath)
+        let isLiked = modelInputOutput.isItemLiked(withTypes: supportedTypes, at: currentCellIndexPath)
         let sizedImage = isLiked ? likedYesSizedImage : likedNoSizedImage
         let likeBarButtonItem = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
         toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem, flexibleSpace, deleteBarButtonItem]
@@ -240,14 +244,14 @@ class CarouselViewController: UIViewController, Presentatable {
 
     private func updateTitleView() {
         var info = ""
-        if let date = presentationInputOutput.item(
-            withType: supportedTypes,
-            at: presentationInputOutput.currentItemIndex())?.sentTime {
+        if let date = modelInputOutput.item(
+            withTypes: supportedTypes,
+            at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes))?.sentTime {
             info = CarouselViewController.dateFormatter.string(from: date)
         }
         
         titleView?.setup(
-            sender: presentationInputOutput.senderName(),
+            sender: modelInputOutput.senderName(),
             info:  info
         )
     }
@@ -259,7 +263,7 @@ class CarouselViewController: UIViewController, Presentatable {
         
         let deleteForMeAction = UIAlertAction(title: "Delete For Me", style: .destructive) { [weak self] _ in
             guard let `self` = self else { return }
-            self.presentationInputOutput.deleteItems(
+            self.modelInputOutput.deleteItems(
                 withTypes: self.supportedTypes,
                 indexPaths: [self.currentCellIndexPath]
             )
@@ -281,36 +285,36 @@ class CarouselViewController: UIViewController, Presentatable {
 
         let saveAction = UIAlertAction(title: "Save", style: .default) { [weak self] _ in
             guard let `self` = self else { return }
-            self.presentationInputOutput.saveItem(
+            self.modelInputOutput.saveItem(
                 withTypes: self.supportedTypes,
-                indexPaths: [self.presentationInputOutput.currentItemIndex()]
+                indexPaths: [self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes)]
             )
         }
         alertController.addAction(saveAction)
 
         let forwardAction = UIAlertAction(title: "Forward", style: .default) { [weak self] _ in
             guard let `self` = self else { return }
-            self.presentationInputOutput.forwardItem(
+            self.modelInputOutput.forwardItem(
                 withTypes: self.supportedTypes,
-                indexPaths: [self.presentationInputOutput.currentItemIndex()]
+                indexPaths: [self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes)]
             )
         }
         alertController.addAction(forwardAction)
 
         let shareAction = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
             guard let `self` = self else { return }
-            self.presentationInputOutput.shareItem(
+            self.modelInputOutput.shareItem(
                 withTypes: self.supportedTypes,
-                indexPaths: [self.presentationInputOutput.currentItemIndex()]
+                indexPaths: [self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes)]
             )
         }
         alertController.addAction(shareAction)
 
         let setAsProfilePictureAction = UIAlertAction(title: "Set As Profile Picture", style: .default) { [weak self] _ in
             guard let `self` = self else { return }
-            self.presentationInputOutput.setAsMyProfilePhoto(
+            self.modelInputOutput.setAsMyProfilePhoto(
                 withTypes: self.supportedTypes,
-                indexPath: self.presentationInputOutput.currentItemIndex()
+                indexPath: self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes)
             )
         }
         alertController.addAction(setAsProfilePictureAction)
@@ -324,8 +328,8 @@ class CarouselViewController: UIViewController, Presentatable {
     }
     
     @objc func likeButtonDidTap(_ sender: Any) {
-        let isCellLiked = presentationInputOutput.isItemLiked(withTypes: supportedTypes, at: currentCellIndexPath)
-        presentationInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isCellLiked, at: [currentCellIndexPath])
+        let isCellLiked = modelInputOutput.isItemLiked(withTypes: supportedTypes, at: currentCellIndexPath)
+        modelInputOutput.setItemAs(withTypes: supportedTypes, isLiked: !isCellLiked, at: [currentCellIndexPath])
         updateToolBar()
     }
     
@@ -339,7 +343,7 @@ class CarouselViewController: UIViewController, Presentatable {
     }
 
     @IBAction func collectionViewDidTap(_ sender: UITapGestureRecognizer) {
-        if let videoItem = presentationInputOutput.item(withType: supportedTypes, at: currentCellIndexPath) as? VideoItem {
+        if let videoItem = modelInputOutput.item(withTypes: supportedTypes, at: currentCellIndexPath) as? VideoItem {
             playVideo(videoItem)
         } else {
             toggleFullScreen()
@@ -353,7 +357,7 @@ class CarouselViewController: UIViewController, Presentatable {
     private func updateCurrentCellIndexPath(_ contentOffset: CGFloat) {
         let cellWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
         let row = Int((contentOffset / cellWidth).rounded())
-        presentationInputOutput.setItemAsCurrent(at: IndexPath(row: row, section: 0))
+        presentationInputOutput.setItemAsCurrent(at: IndexPath(row: row, section: 0), withTypes: supportedTypes)
     }
 
     // MARK: - Misc
@@ -363,15 +367,15 @@ class CarouselViewController: UIViewController, Presentatable {
         let count = 10
 
         var currentIndexPath = IndexPath(item: 0, section: 0)
-        if presentationInputOutput.currentItemIndex().row < presentationInputOutput.countOfItems(withType: supportedTypes) {
-            currentIndexPath = presentationInputOutput.currentItemIndex()
+        if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            currentIndexPath = presentationInputOutput.currentItemIndex(withTypes: supportedTypes)
         }
 
         for delta in start..<count {
             //avoid going out of bounds
-            let safeIndex = min(max(currentIndexPath.row + delta, 0), presentationInputOutput.countOfItems(withType: supportedTypes) - 1)
-            if let item = presentationInputOutput.item(
-                withType: supportedTypes,
+            let safeIndex = min(max(currentIndexPath.row + delta, 0), modelInputOutput.numberOfItems(withTypes: supportedTypes) - 1)
+            if let item = modelInputOutput.item(
+                withTypes: supportedTypes,
                 at: IndexPath(item: safeIndex, section: 0)),
                 ImageCache.shared.sizedImage(forKey: item.id) == nil {
                 ImageCache.shared.setSized(UIImage(), forKey: item.id)
@@ -388,13 +392,13 @@ class CarouselViewController: UIViewController, Presentatable {
 extension CarouselViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presentationInputOutput.countOfItems(withType: supportedTypes)
+        return modelInputOutput.numberOfItems(withTypes: supportedTypes)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCollectionViewCell",
                                                       for: indexPath) as! CarouselCollectionViewCell
-        let item = presentationInputOutput.item(withType: supportedTypes, at: indexPath)
+        let item = modelInputOutput.item(withTypes: supportedTypes, at: indexPath)
         cell.configureCell(image: item?.image, isVideo: item?.type == .video)
         
         return cell
@@ -428,16 +432,20 @@ extension CarouselViewController: PhotoBrowserInternalDelegate {
         updateTitleView()
         if !collectionView.isTracking {
             collectionView.scrollToItem(
-                at: presentationInputOutput.currentItemIndex(),
+                at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
                 at: .centeredHorizontally,
                 animated: false)
         }
         if !(carouselControlCollectionView.isTracking || carouselControlCollectionView.isDecelerating) {
             carouselControlCollectionView.scrollToItem(
-                at: presentationInputOutput.currentItemIndex(),
+                at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
                 at: .centeredHorizontally,
                 animated: true)
         }
+    }
+
+    func getSupportedTypes() -> ItemTypes {
+        return supportedTypes
     }
 
 }

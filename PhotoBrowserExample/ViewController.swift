@@ -11,8 +11,6 @@ import AVFoundation
 
 class ViewController: UIViewController {
 
-    var itemsCache = [ItemTypes: [Item]]()
-
     var items = [Item]()
 
     override func viewDidLoad() {
@@ -114,16 +112,21 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
     @IBAction func didTapOnGroupedPhoto(_ sender: Any) {
         populateGalleryDataSource()
-        let photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .table)
-        navigationController?.pushViewController(photoBrowser, animated: true)
+        DispatchQueue.main.async {
+            let photoBrowserModel = PhotoBrowserModel.make(dataSource: self, delegate: self)
+            let photoBrowser = PhotoBrowser(modelInputOutput: photoBrowserModel, presentation: .table)
+            self.navigationController?.pushViewController(photoBrowser, animated: true)
+        }
         
     }
 
     @IBAction func didTapOnSinglePhoto(_ sender: Any) {
         populateGalleryDataSource()
-        let photoBrowser = PhotoBrowser(dataSource: self, delegate: self, presentation: .carousel)
+        let photoBrowserModel = PhotoBrowserModel.make(dataSource: self, delegate: self)
+        let photoBrowser = PhotoBrowser(modelInputOutput: photoBrowserModel, presentation: .carousel)
         navigationController?.pushViewController(photoBrowser, animated: true)
     }
 
@@ -131,31 +134,42 @@ class ViewController: UIViewController {
 
 extension ViewController: PhotoBrowserDataSouce {
 
-    func indexPath(for item: Item, types: ItemTypes) -> IndexPath {
-        return IndexPath(row: filtredItems(withTypes: types).index(of: item) ?? 0, section: 0)
+    func items(for indexPaths: [IndexPath]) -> [Item] {
+        var tempItems = [Item]()
+        for indexPath in indexPaths {
+            if indexPath.row <= items.endIndex {
+                tempItems.append(items[indexPath.row])
+            }
+        }
+        return tempItems
     }
 
-    func typesOfItems() -> ItemTypes {
-        var itemTypes = ItemTypes()
-        _ = items.map { itemTypes.insert($0.type) }
-
-        return itemTypes
+    func itemsCount() -> Int {
+        return items.count
     }
+
+
+//    func typesOfItems() -> ItemTypes {
+//        var itemTypes = ItemTypes()
+//        _ = items.map { itemTypes.insert($0.type) }
+//
+//        return itemTypes
+//    }
 
     func senderName() -> String {
         return "Some your friend"
     }
 
-    func numberOfItems(withTypes types: ItemTypes) -> Int {
-        return filtredItems(withTypes: types).count
-    }
+//    func numberOfItems(withTypes types: ItemTypes) -> Int {
+//        return filtredItems(withTypes: types).count
+//    }
 
-    func item(withTypes types: ItemTypes, at indexPath: IndexPath) -> Item? {
-        if indexPath.row < filtredItems(withTypes: types).count {
-            return filtredItems(withTypes: types)[indexPath.row]
-        }
-        return nil
-    }
+//    func item(withTypes types: ItemTypes, at indexPath: IndexPath) -> Item? {
+//        if indexPath.row < filtredItems(withTypes: types).count {
+//            return filtredItems(withTypes: types)[indexPath.row]
+//        }
+//        return nil
+//    }
 
     func numberOfItems() -> Int {
         return items.count
@@ -164,44 +178,22 @@ extension ViewController: PhotoBrowserDataSouce {
     func startingItemIndexPath() -> IndexPath {
         return IndexPath(item: 0, section: 0)
     }
-
-    func item(at indexPath: IndexPath) -> Item? {
-        return items[indexPath.row]
-    }
-
-    private func filtredItems(withTypes types: ItemTypes) -> [Item] {
-        if let items = itemsCache[types] {
-            return items
-        } else {
-            dump(items)
-            print("---------")
-            let filteredItems = items.filter { item -> Bool in
-                types.contains(item.type)
-            }
-            itemsCache[types] = filteredItems
-            dump(filteredItems)
-            return filteredItems
-        }
-    }
     
 }
 
 extension ViewController: PhotoBrowserDelegate {
 
-    func saveItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
-        print("saved item with indexPath = \(indexPaths)")
+    func setItemAs(at indexPaths: [IndexPath], isLiked: Bool) {
+        for indexPath in indexPaths {
+            items[indexPath.row].isLiked = isLiked
+        }
     }
 
-    func forwardItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
-        print("forward item with indexPath = \(indexPaths)")
-    }
-
-    func shareItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
-        print("shared item with indexPath = \(indexPaths)")
-    }
-
-    func setAsMyProfilePhoto(withTypes types: ItemTypes, indexPath: IndexPath) {
-        print("set As My Profile Photo item with indexPath = \(indexPath)")
+    func deleteItems(at indexPaths: [IndexPath]) {
+        //when remove in straight forward direction items array gets smaller and there aren't mambers for second half of indexPaths
+        for indexPath in indexPaths.reversed() {
+            items.remove(at: indexPath.row)
+        }
     }
 
     func scrollToMessage(at indexPath: IndexPath) {
@@ -211,34 +203,69 @@ extension ViewController: PhotoBrowserDelegate {
         present(alertController, animated: true, completion: nil)
     }
 
-    func setItemAs(withTypes types: ItemTypes, isLiked: Bool, at indexPaths: [IndexPath]) {
-        var filtredItemsArray = filtredItems(withTypes: types)
-
-        for indexPath in indexPaths {
-            let itemForLike = filtredItemsArray[indexPath.row]
-            print(items.index(of: itemForLike))
-            if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
-                items[indexForLike].isLiked = isLiked
-            } else {
-                dump(itemForLike)
-                print("------------")
-                dump(items)
-            }
-        }
+    func saveItem(at indexPaths: [IndexPath]) {
+        print("saved item with indexPath = \(indexPaths)")
     }
 
-    func deleteItems(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
-        let indexPaths = indexPaths.sorted()
-        var filtredItemsArray = filtredItems(withTypes: types)
-
-        for indexPath in indexPaths {
-            let itemForDeletion = filtredItemsArray[indexPath.row]
-            if let indexForDetetion = items.index(of: itemForDeletion), indexForDetetion >= 0, indexForDetetion < items.count {
-                items.remove(at: indexForDetetion)
-            }
-        }
-        itemsCache = [ItemTypes: [Item]]()
+    func forwardItem(at indexPaths: [IndexPath]) {
+        print("forward item with indexPath = \(indexPaths)")
     }
+
+    func shareItem(at indexPaths: [IndexPath]) {
+        print("shared item with indexPath = \(indexPaths)")
+    }
+
+    func setAsMyProfilePhoto(indexPath: IndexPath) {
+        print("set As My Profile Photo item with indexPath = \(indexPath)")
+    }
+
+
+//    func saveItem(indexPaths: [IndexPath]) {
+//        print("saved item with indexPath = \(indexPaths)")
+//    }
+
+//    func forwardItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
+//        print("forward item with indexPath = \(indexPaths)")
+//    }
+
+//    func shareItem(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
+//        print("shared item with indexPath = \(indexPaths)")
+//    }
+
+//    func setAsMyProfilePhoto(withTypes types: ItemTypes, indexPath: IndexPath) {
+//        print("set As My Profile Photo item with indexPath = \(indexPath)")
+//    }
+
+
+
+//    func setItemAs(withTypes types: ItemTypes, isLiked: Bool, at indexPaths: [IndexPath]) {
+////        var filtredItemsArray = filtredItems(withTypes: types)
+//
+//        for indexPath in indexPaths {
+//            let itemForLike = filtredItemsArray[indexPath.row]
+//            print(items.index(of: itemForLike))
+//            if let indexForLike = items.index(of: itemForLike), indexForLike >= 0, indexForLike < items.count {
+//                items[indexForLike].isLiked = isLiked
+//            } else {
+//                dump(itemForLike)
+//                print("------------")
+//                dump(items)
+//            }
+//        }
+//    }
+
+//    func deleteItems(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
+//        let indexPaths = indexPaths.sorted()
+//        var filtredItemsArray = filtredItems(withTypes: types)
+//
+//        for indexPath in indexPaths {
+//            let itemForDeletion = filtredItemsArray[indexPath.row]
+//            if let indexForDetetion = items.index(of: itemForDeletion), indexForDetetion >= 0, indexForDetetion < items.count {
+//                items.remove(at: indexForDetetion)
+//            }
+//        }
+//        itemsCache = [ItemTypes: [Item]]()
+//    }
 
 }
 
