@@ -254,6 +254,7 @@ class ContainerViewController: SelectableViewController, Presentatable {
             add(asChildViewController: docsViewController)
         }
         setupToolbar()
+        updateSelectButtonTitle()
     }
     
     @objc private func likeButtonDidTap(_ sender: Any) {

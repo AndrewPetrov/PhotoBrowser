@@ -113,7 +113,7 @@ class TableViewController: SelectableViewController, Presentatable {
             }
         }
         UIView.animate(withDuration: 0.33) { [weak self] in
-            self?.view.layoutIfNeeded()
+            self?.toolbar.superview?.layoutIfNeeded()
         }
     }
 

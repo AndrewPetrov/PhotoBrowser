@@ -92,7 +92,7 @@ class SelectableViewController: UIViewController {
             count: getSelectedIndexPaths().count)
     }
 
-    private func updateSelectButtonTitle() {
+    internal func updateSelectButtonTitle() {
         selectButton.isEnabled = modelInputOutput.numberOfItems(withTypes: supportedTypes) > 0
         let title = isSelectionAllowed ? "Calcel" : "Select"
         selectButton.title = title

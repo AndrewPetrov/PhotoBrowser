@@ -219,7 +219,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ITG-se-Fni">
-                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" focusStyle="custom" rowHeight="337" id="JaI-j0-8zD" customClass="TableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
@@ -300,24 +300,39 @@
                                     <outlet property="delegate" destination="Nog-CD-7I8" id="x8N-Zg-LMf"/>
                                 </connections>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNz-X4-fWK">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wfv-xf-was">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <items/>
-                            </toolbar>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNz-X4-fWK">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="YlA-ee-6Yl"/>
+                                        </constraints>
+                                        <items/>
+                                    </toolbar>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="JNz-X4-fWK" firstAttribute="leading" secondItem="wfv-xf-was" secondAttribute="leading" id="5d2-Ja-MQ7"/>
+                                    <constraint firstAttribute="trailing" secondItem="JNz-X4-fWK" secondAttribute="trailing" id="jdp-iM-SaU"/>
+                                    <constraint firstAttribute="bottom" secondItem="JNz-X4-fWK" secondAttribute="bottom" id="oWk-mq-sKT"/>
+                                    <constraint firstAttribute="height" constant="44" id="su4-Ct-r0Q"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="wfv-xf-was" firstAttribute="bottom" secondItem="jb6-6k-3DH" secondAttribute="bottom" id="6Ng-Wd-gTl"/>
                             <constraint firstItem="ITG-se-Fni" firstAttribute="leading" secondItem="jb6-6k-3DH" secondAttribute="leading" priority="750" id="7mC-jh-85y"/>
                             <constraint firstItem="ITG-se-Fni" firstAttribute="top" secondItem="jb6-6k-3DH" secondAttribute="top" id="Ed2-d7-wPm"/>
-                            <constraint firstItem="JNz-X4-fWK" firstAttribute="leading" secondItem="jb6-6k-3DH" secondAttribute="leading" id="Epd-fT-fMB"/>
+                            <constraint firstItem="jb6-6k-3DH" firstAttribute="bottom" secondItem="ITG-se-Fni" secondAttribute="bottom" id="KPT-Kh-qwV"/>
+                            <constraint firstItem="wfv-xf-was" firstAttribute="trailing" secondItem="jb6-6k-3DH" secondAttribute="trailing" id="akC-ez-qFZ"/>
                             <constraint firstItem="ITG-se-Fni" firstAttribute="width" relation="lessThanOrEqual" secondItem="jb6-6k-3DH" secondAttribute="width" id="ayp-Cj-QM4"/>
                             <constraint firstItem="ITG-se-Fni" firstAttribute="trailing" secondItem="jb6-6k-3DH" secondAttribute="trailing" priority="750" id="bAp-bu-ikK"/>
+                            <constraint firstItem="wfv-xf-was" firstAttribute="leading" secondItem="jb6-6k-3DH" secondAttribute="leading" id="diq-oD-aQg"/>
                             <constraint firstItem="ITG-se-Fni" firstAttribute="width" relation="lessThanOrEqual" secondItem="jb6-6k-3DH" secondAttribute="height" id="dnH-1v-RHy"/>
                             <constraint firstItem="ITG-se-Fni" firstAttribute="centerX" secondItem="xXw-m1-Fym" secondAttribute="centerX" id="jgZ-hS-1ui"/>
-                            <constraint firstItem="JNz-X4-fWK" firstAttribute="trailing" secondItem="jb6-6k-3DH" secondAttribute="trailing" id="jje-dq-gKY"/>
-                            <constraint firstItem="jb6-6k-3DH" firstAttribute="bottom" secondItem="JNz-X4-fWK" secondAttribute="bottom" id="pZ1-E5-rf5"/>
-                            <constraint firstItem="ITG-se-Fni" firstAttribute="bottom" secondItem="JNz-X4-fWK" secondAttribute="top" id="szh-Bb-4pY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jb6-6k-3DH"/>
                     </view>
@@ -325,7 +340,7 @@
                     <connections>
                         <outlet property="tableView" destination="ITG-se-Fni" id="5kD-0T-Mrg"/>
                         <outlet property="toolbar" destination="JNz-X4-fWK" id="HVZ-an-t4E"/>
-                        <outlet property="toolbarBottomContraint" destination="pZ1-E5-rf5" id="Tne-T5-nqs"/>
+                        <outlet property="toolbarBottomContraint" destination="oWk-mq-sKT" id="vDa-5k-STx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JPj-Vs-rMz" userLabel="First Responder" sceneMemberID="firstResponder"/>
