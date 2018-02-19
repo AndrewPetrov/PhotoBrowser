@@ -89,13 +89,14 @@ class PhotoBrowser: UIViewController {
 
     private func getViewController(by presentation: Presentation) -> PresentationViewController? {
 
-        let presentationViewControllers: [PresentationViewController] = [carouselViewController as! UIViewController & PhotoBrowserInternalDelegate & Presentatable, containerViewController, tableViewController]
+        let presentationViewControllers: [PresentationViewController] = [carouselViewController, containerViewController, tableViewController]
         return presentationViewControllers.filter { $0.presentation == presentation }.first
     }
 
     func switchToCurrentPresentation() {
         guard let currentPresentationViewController = getViewController(by: currentPresentation) else { return }
-        delegate = currentPresentationViewController as! PhotoBrowserInternalDelegate
+
+        delegate = currentPresentationViewController as PhotoBrowserInternalDelegate
         if let previousPresentation = previousPresentation, let previousPresentationViewController = getViewController(by: previousPresentation) {
             previousPresentationViewController.willMove(toParentViewController: nil)
             addChildViewController(currentPresentationViewController)
@@ -179,7 +180,17 @@ extension PhotoBrowser: PresentationOutput {
     func switchTo(presentation: Presentation) {
         previousPresentation = currentPresentation
         currentPresentation = presentation
-        switchToCurrentPresentation()
+        //check If presentation supports current Item type
+        if let targetSupportedTypes = getViewController(by: presentation)?.getSupportedTypes(),
+            let currentItemType = modelInputOutput.item(withTypes: currentItemIndexPathWithTypes.types, at: currentItemIndexPathWithTypes.indexPath)?.type {
+            if targetSupportedTypes.contains(currentItemType) {
+                switchToCurrentPresentation()
+            } else {
+                if let previousPresentation = previousPresentation {
+                    currentPresentation = previousPresentation
+                }
+            }
+        }
     }
 
 }

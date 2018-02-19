@@ -27,6 +27,7 @@ class CarouselControlAdapter: NSObject {
         self.collectionView = collectionView
         self.modelInputOutput = modelInputOutput
         self.supportedTypes = supportedTypes
+        self.presentationInputOutput = presentationInputOutput
         collectionViewSize = collectionView.frame.size
     }
 

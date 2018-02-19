@@ -102,6 +102,7 @@ class PhotoBrowserModel {
             indexPaths.append(IndexPath(item: index, section: 0))
         }
         cachedItems = dataSource.items(for: indexPaths)
+        itemsCacheByTypes = [ItemTypes: [Item]]()
     }
 
     deinit {
@@ -135,7 +136,7 @@ class PhotoBrowserModel {
         }
         return dataSourceIndexPaths
     }
-    
+
 }
 
 extension PhotoBrowserModel: ModelInput {
