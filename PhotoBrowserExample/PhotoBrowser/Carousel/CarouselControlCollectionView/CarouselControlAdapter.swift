@@ -129,7 +129,10 @@ extension CarouselControlAdapter: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var itemWidth = itemSize.width
-        if isFirstCell(indexPath: indexPath) || isLastCell(indexPath: indexPath) {
+        if isFirstCell(indexPath: indexPath) {
+            itemWidth += gapSpace
+        }
+        if isLastCell(indexPath: indexPath) {
             itemWidth += gapSpace
         }
 
