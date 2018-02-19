@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import WebKit
 
 enum ContainerItemType: Int {
     case media
@@ -32,6 +33,7 @@ protocol ContainerViewControllerImput: class {
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath)
     func switchTo(presentation: Presentation)
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes)
+    func open(item: Item)
 }
 
 protocol ContainerViewControllerOutput: class {
@@ -278,6 +280,16 @@ class ContainerViewController: SelectableViewController, Presentatable {
 }
 
 extension ContainerViewController: ContainerViewControllerImput {
+
+    func open(item: Item) {
+        if let documentItem = item as? DocumentItem {
+            let webView = WKWebView(frame: view.frame)
+            let webViewController = UIViewController(nibName: nil, bundle: nil)
+            webViewController.view = webView
+            webView.load(URLRequest(url: documentItem.url))
+            navigationController?.pushViewController(webViewController, animated: true)
+        }
+    }
 
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes) {
         presentationInputOutput.setItemAsCurrent(at: indexPath, withTypes: types)

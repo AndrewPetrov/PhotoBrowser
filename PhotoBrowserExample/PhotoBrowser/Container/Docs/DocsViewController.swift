@@ -43,6 +43,7 @@ class DocsViewController: UIViewController {
             self.tableView.scrollToRow(at: secondIndex ?? firstIndex ?? IndexPath(item: 0, section: 0), at: .middle, animated: true)
             }, completion: nil)
     }
+
 }
 
 extension DocsViewController: ContainerViewControllerDelegate {
@@ -102,8 +103,8 @@ extension DocsViewController: UITableViewDelegate {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
-            if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? LinkItem {
-                //TODO: somehow open the document fom item
+            if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) {
+                containerInputOutput.open(item: item)
             }
         }
     }
