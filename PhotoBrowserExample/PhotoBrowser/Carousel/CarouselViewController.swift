@@ -350,6 +350,7 @@ class CarouselViewController: UIViewController, Presentatable {
     }
 
     @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
+        collectionView.isScrollEnabled = !collectionView.isScrollEnabled
         delegate?.didDoubleTap(self)
     }
     
@@ -398,7 +399,9 @@ extension CarouselViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCollectionViewCell",
                                                       for: indexPath) as! CarouselCollectionViewCell
         let item = modelInputOutput.item(withTypes: supportedTypes, at: indexPath)
-        cell.configureCell(image: item?.image, isVideo: item?.type == .video)
+        cell.configureCell(image: item?.image, isVideo: item?.type == .video) { [weak self] in
+            self?.collectionView.isScrollEnabled = true
+        }
         
         return cell
     }

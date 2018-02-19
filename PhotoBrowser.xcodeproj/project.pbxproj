@@ -25,6 +25,7 @@
 		7738635F2034E6CE00FD2FEA /* Roast - 11620.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7738635A2034E6A900FD2FEA /* Roast - 11620.mp4 */; };
 		7738636120359C0A00FD2FEA /* DocsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738636020359C0A00FD2FEA /* DocsTableViewCell.swift */; };
 		773AA7B52031DE8200930D51 /* Selectable+protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773AA7B42031DE8200930D51 /* Selectable+protocol.swift */; };
+		776B94FA203B568300CC4ACA /* NSPredicateCheatsheet.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 776B94F9203B568200CC4ACA /* NSPredicateCheatsheet.pdf */; };
 		7796303B2030896700EF4861 /* small.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7796303A2030895B00EF4861 /* small.mp4 */; };
 		779A8D80202E282400CCFF26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D7F202E282400CCFF26 /* AppDelegate.swift */; };
 		779A8D82202E282400CCFF26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D81202E282400CCFF26 /* ViewController.swift */; };
@@ -66,6 +67,7 @@
 		7738635C2034E6AB00FD2FEA /* Runner - 10809.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Runner - 10809.mp4"; sourceTree = "<group>"; };
 		7738636020359C0A00FD2FEA /* DocsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsTableViewCell.swift; sourceTree = "<group>"; };
 		773AA7B42031DE8200930D51 /* Selectable+protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Selectable+protocol.swift"; sourceTree = "<group>"; };
+		776B94F9203B568200CC4ACA /* NSPredicateCheatsheet.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = NSPredicateCheatsheet.pdf; sourceTree = "<group>"; };
 		7796303A2030895B00EF4861 /* small.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = small.mp4; sourceTree = "<group>"; };
 		779A8D7C202E282400CCFF26 /* PhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A8D7F202E282400CCFF26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				7738635A2034E6A900FD2FEA /* Roast - 11620.mp4 */,
 				7738635C2034E6AB00FD2FEA /* Runner - 10809.mp4 */,
 				7796303A2030895B00EF4861 /* small.mp4 */,
+				776B94F9203B568200CC4ACA /* NSPredicateCheatsheet.pdf */,
 				779A8D86202E282400CCFF26 /* Assets.xcassets */,
 				779A8D88202E282400CCFF26 /* LaunchScreen.storyboard */,
 				779A8D8B202E282400CCFF26 /* Info.plist */,
@@ -327,6 +330,7 @@
 				779A8D8A202E282400CCFF26 /* LaunchScreen.storyboard in Resources */,
 				779A8D87202E282400CCFF26 /* Assets.xcassets in Resources */,
 				77BEE9AD2038326A0046BE0C /* PhotoBrowser.storyboard in Resources */,
+				776B94FA203B568300CC4ACA /* NSPredicateCheatsheet.pdf in Resources */,
 				773863542034BF7700FD2FEA /* TitleView.xib in Resources */,
 				779A8D85202E282400CCFF26 /* Main.storyboard in Resources */,
 			);

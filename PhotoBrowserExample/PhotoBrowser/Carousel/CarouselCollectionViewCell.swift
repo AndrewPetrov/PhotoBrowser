@@ -15,6 +15,8 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var playImageView: UIImageView!
 
     @IBOutlet private weak var scrollView: UIScrollView!
+    private var zoomOutHandler: (() -> ())?
+    private var isVideo = false
 
     //TODO: calculate related on real resolution
     let minScale: CGFloat = 1
@@ -28,11 +30,14 @@ class CarouselCollectionViewCell: UICollectionViewCell {
         scrollView.setZoomScale(minScale, animated: false)
     }
 
-    func configureCell(image: UIImage?, isVideo: Bool) {
+    func configureCell(image: UIImage?, isVideo: Bool, zoomOutHandler: (() -> ())?) {
         imageView.image = image
         playImageView.isHidden = !isVideo
-        scrollView.maximumZoomScale = isVideo ? 1 : minScale
-        scrollView.maximumZoomScale = isVideo ? 1 : maxScale
+        scrollView.maximumZoomScale = minScale
+        scrollView.minimumZoomScale = minScale
+        self.zoomOutHandler = zoomOutHandler
+        scrollView.delegate = self
+        self.isVideo = isVideo
     }
 }
 
@@ -42,12 +47,22 @@ extension CarouselCollectionViewCell: UIScrollViewDelegate {
         return imageView
     }
 
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        if scale <= minScale {
+            zoomOutHandler?()
+            scrollView.maximumZoomScale = minScale
+        }
+    }
+
 }
 
 extension CarouselCollectionViewCell: CarouselViewControllerDelegate {
 
     func didDoubleTap(_: CarouselViewController) {
+        guard !isVideo else { return }
+        scrollView.maximumZoomScale = scrollView.maximumZoomScale == maxScale ? minScale : maxScale
         let scale = scrollView.zoomScale == minScale ? maxScale : minScale
+
         scrollView.setZoomScale(scale, animated: true)
     }
 
