@@ -379,8 +379,9 @@ class CarouselViewController: UIViewController, Presentatable {
                 at: IndexPath(item: safeIndex, section: 0)),
                 ImageCache.shared.sizedImage(forKey: item.id) == nil {
                 ImageCache.shared.setSized(UIImage(), forKey: item.id)
+                let size = carouselControlAdapter.itemSize
                 DispatchQueue.global().async {
-                    let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: CGSize(width: 30, height: 50))
+                    let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: size)
                     ImageCache.shared.setSized(sizedImage, forKey: item.id)
                 }
             }

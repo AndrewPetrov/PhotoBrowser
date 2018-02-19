@@ -114,7 +114,7 @@ extension CarouselControlAdapter: UICollectionViewDelegate {
         for delta in start..<count {
             if let item = modelInputOutput.item(withTypes: supportedTypes, at: IndexPath(item: max(indexPath.row + delta, 0), section: 0)),
                 ImageCache.shared.sizedImage(forKey: item.id) == nil {
-                
+                ImageCache.shared.setSized(UIImage(), forKey: item.id)
                 DispatchQueue.global().async {
                     let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
                     ImageCache.shared.setSized(sizedImage, forKey: item.id)
