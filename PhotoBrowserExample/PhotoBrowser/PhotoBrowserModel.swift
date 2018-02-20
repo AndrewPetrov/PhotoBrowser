@@ -143,7 +143,7 @@ extension PhotoBrowserModel: ModelInput {
     }
 
     func deleteItems(withTypes types: ItemTypes, indexPaths: [IndexPath]) {
-        let indexPaths = dataSourceIndexPaths(for: indexPaths, withTypes: types)
+        let indexPaths = dataSourceIndexPaths(for: indexPaths, withTypes: types).sorted()
         delegate.deleteItems(at: indexPaths)
         updateCache()
     }
