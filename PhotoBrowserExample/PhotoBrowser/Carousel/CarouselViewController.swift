@@ -111,7 +111,10 @@ class CarouselViewController: UIViewController, Presentatable {
         setupDelegate()
         setupGestureRecognizers()
 
-        if let videoItem = modelInputOutput.item(withTypes: supportedTypes, at: currentCellIndexPath) as? VideoItem, isFirstAppearing {
+        if let videoItem = modelInputOutput.item(withTypes: supportedTypes, at: currentCellIndexPath) as? VideoItem,
+            isFirstAppearing,
+            presentationInputOutput.shouldAutoplayVideo() {
+
             playVideo(videoItem)
         }
         isFirstAppearing = false

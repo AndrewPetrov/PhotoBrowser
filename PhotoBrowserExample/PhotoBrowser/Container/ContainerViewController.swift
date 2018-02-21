@@ -298,6 +298,7 @@ extension ContainerViewController: ContainerViewControllerImput {
 
 
     func switchTo(presentation: Presentation) {
+        presentationInputOutput.setAutoplayVideoEnabled(to: presentation != .carousel)
         presentationInputOutput.switchTo(presentation: presentation)
     }
 

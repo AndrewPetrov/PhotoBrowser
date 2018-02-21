@@ -24,11 +24,13 @@ protocol PresentationOutput: class {
     func switchTo(presentation: Presentation)
     func goToMessage(with indexPath: IndexPath)
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes)
+    func setAutoplayVideoEnabled(to enabled: Bool)
 
 }
 
 protocol PresentationInput: class {
     func currentItemIndex(withTypes types: ItemTypes) -> IndexPath
+    func shouldAutoplayVideo() -> Bool
 }
 
 enum Presentation {
@@ -65,6 +67,8 @@ class PhotoBrowser: UIViewController {
 
     private var currentPresentation: Presentation
     private var previousPresentation: Presentation?
+
+    private var isVideoAutoplayEnabled = true
 
     init(modelInputOutput: ModelInputOutput, presentation: Presentation) {
         self.modelInputOutput = modelInputOutput
@@ -152,6 +156,10 @@ class PhotoBrowser: UIViewController {
 
 extension PhotoBrowser: PresentationInput {
 
+    func shouldAutoplayVideo() -> Bool {
+        return isVideoAutoplayEnabled
+    }
+
     func currentItemIndex(withTypes types: ItemTypes) -> IndexPath {
         return modelInputOutput.transfotm(
             indexPath: currentItemIndexPathWithTypes.indexPath,
@@ -163,6 +171,10 @@ extension PhotoBrowser: PresentationInput {
 }
 
 extension PhotoBrowser: PresentationOutput {
+
+    func setAutoplayVideoEnabled(to enabled: Bool) {
+        isVideoAutoplayEnabled = enabled
+    }
 
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes) {
         if currentItemIndexPathWithTypes.indexPath != indexPath ||

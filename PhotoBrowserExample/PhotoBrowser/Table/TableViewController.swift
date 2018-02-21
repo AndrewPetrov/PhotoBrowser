@@ -218,6 +218,7 @@ extension TableViewController: UITableViewDelegate {
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
             presentationInputOutput.setItemAsCurrent(at: indexPath, withTypes: supportedTypes)
+            presentationInputOutput.setAutoplayVideoEnabled(to: true)
             presentationInputOutput.switchTo(presentation: .carousel)
         }
     }
