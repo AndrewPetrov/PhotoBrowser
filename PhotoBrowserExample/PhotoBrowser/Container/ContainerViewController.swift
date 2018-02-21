@@ -63,8 +63,8 @@ class ContainerViewController: SelectableViewController, Presentatable {
     @IBOutlet private weak var toolbarBottomConstraint: NSLayoutConstraint!
     
     private let uiBarButtonImageSize = CGSize(width: 25, height: 25)
-    private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likedYes"), scaledToSize: uiBarButtonImageSize)
-    private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "likeNo"), scaledToSize: uiBarButtonImageSize)
+    private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "iOSPhotoBrowser_doubleTick"), scaledToSize: uiBarButtonImageSize)
+    private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "iOSPhotoBrowser_likeNo"), scaledToSize: uiBarButtonImageSize)
     
     private var delegate: ContainerViewControllerDelegate?
     

@@ -45,7 +45,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                                             <gestureRecognizers/>
                                                         </imageView>
-                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play" translatesAutoresizingMaskIntoConstraints="NO" id="ZuF-rn-fXZ">
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iOSPhotoBrowser_play" translatesAutoresizingMaskIntoConstraints="NO" id="ZuF-rn-fXZ">
                                                             <rect key="frame" x="75" y="75" width="50" height="50"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="50" id="I50-qz-BHs"/>
@@ -222,7 +222,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" focusStyle="custom" rowHeight="337" id="JaI-j0-8zD" customClass="TableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TableViewCell" focusStyle="custom" rowHeight="337" id="JaI-j0-8zD" customClass="TableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="337"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JaI-j0-8zD" id="rIe-0A-2Ro">
@@ -230,30 +230,30 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UCG-Fq-6gg">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="326.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="355" height="326.5"/>
                                                 </imageView>
-                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-16-qC0">
-                                                    <rect key="frame" x="162.5" y="143.5" width="50" height="50"/>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iOSPhotoBrowser_play" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-16-qC0">
+                                                    <rect key="frame" x="152.5" y="143.5" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="9qv-fJ-KjP"/>
                                                         <constraint firstAttribute="width" constant="50" id="V1y-rO-b5s"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69I-3O-2Qq">
-                                                    <rect key="frame" x="283" y="295.5" width="42" height="21"/>
+                                                    <rect key="frame" x="263" y="295.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BTS-vK-7Lc">
-                                                    <rect key="frame" x="210" y="286.5" width="30" height="30"/>
+                                                    <rect key="frame" x="190" y="286.5" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="MfP-bw-YDO"/>
                                                         <constraint firstAttribute="width" constant="30" id="lwe-hh-cia"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fv1-Nn-JmT">
-                                                    <rect key="frame" x="335" y="286.5" width="30" height="30"/>
+                                                    <rect key="frame" x="315" y="286.5" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="p5y-1b-IXw"/>
                                                         <constraint firstAttribute="height" constant="30" id="pEv-aV-qNy"/>
@@ -401,7 +401,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LinkTableViewCell" rowHeight="100" id="2UB-8u-fKe" customClass="LinkTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LinkTableViewCell" rowHeight="100" id="2UB-8u-fKe" customClass="LinkTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2UB-8u-fKe" id="rLx-ov-7Dj">
@@ -562,7 +562,7 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="DocsTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocsTableViewCell" id="dcQ-5Q-Axk" customClass="DocsTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="DocsTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocsTableViewCell" id="dcQ-5Q-Axk" customClass="DocsTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dcQ-5Q-Axk" id="rh5-ke-DMR">
@@ -707,7 +707,7 @@
                                                         <constraint firstAttribute="width" constant="20" id="Gpm-nN-IYc"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="videoIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jkl-zk-YZA">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iOSPhotoBrowser_videoIcon" translatesAutoresizingMaskIntoConstraints="NO" id="jkl-zk-YZA">
                                                     <rect key="frame" x="5" y="75" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="DT0-Ue-R0e"/>
@@ -845,8 +845,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="iOSPhotoBrowser_play" width="512" height="512"/>
+        <image name="iOSPhotoBrowser_videoIcon" width="512" height="512"/>
         <image name="likedYes" width="432" height="413"/>
-        <image name="play" width="512" height="512"/>
-        <image name="videoIcon" width="512" height="512"/>
     </resources>
 </document>

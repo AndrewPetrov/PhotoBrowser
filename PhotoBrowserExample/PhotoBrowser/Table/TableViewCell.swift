@@ -32,16 +32,17 @@ class TableViewCell: UITableViewCell {
         var image = UIImage()
         switch deliveryStatus {
         case .delivered:
-            image = #imageLiteral(resourceName: "tick")
+            image = #imageLiteral(resourceName: "iOSPhotoBrowser_tick")
         case .seen:
-            image = #imageLiteral(resourceName: "doubleTick")
+            image = #imageLiteral(resourceName: "iOSPhotoBrowser_doubleTick")
         case .nonDelivered:
             break
         }
         deliveryStatusImageView.image = image
 
         dateLabel.text = TableViewController.dateFormatter.string(from: sentTime)
-        likeImageView.image = isLiked ? #imageLiteral(resourceName: "star") : nil
+
+        likeImageView.image = isLiked ? #imageLiteral(resourceName: "iOSPhotoBrowser_star") : nil
 
         selectionImageView.isHidden = !isSelectionAllowed
         playImageView.isHidden = !isVideo
@@ -49,7 +50,7 @@ class TableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        selectionImageView.image = selected ? #imageLiteral(resourceName: "selected") : #imageLiteral(resourceName: "nonSelected")
+        selectionImageView.image = selected ? #imageLiteral(resourceName: "iOSPhotoBrowser_selected") : #imageLiteral(resourceName: "iOSPhotoBrowser_nonSelected")
     }
 
 }

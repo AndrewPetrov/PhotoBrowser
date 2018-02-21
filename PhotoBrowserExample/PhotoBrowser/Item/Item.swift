@@ -181,11 +181,11 @@ class DocumentItem: Item {
     private static func getThumbnailFrom(url: URL) -> UIImage {
         switch url.deletingPathExtension().lastPathComponent {
         case "jpg":
-            return #imageLiteral(resourceName: "docPicture")
+            return #imageLiteral(resourceName: "iOSPhotoBrowser_docPicture")
         case "txt":
-            return #imageLiteral(resourceName: "docText")
+            return #imageLiteral(resourceName: "iOSPhotoBrowser_docText")
         default:
-            return #imageLiteral(resourceName: "docUnknown")
+            return #imageLiteral(resourceName: "iOSPhotoBrowser_docUnknown")
         }
     }
 
