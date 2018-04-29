@@ -48,6 +48,7 @@ enum DeliveryStatus {
     case delivered
     case seen
 }
+
 typealias Id = Int
 
 class Item: Equatable {

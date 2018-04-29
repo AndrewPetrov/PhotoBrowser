@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MediaCollectionViewFooter" customModule="PhotoBrowser" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="123"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xXT-XB-S7B">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="123"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="yqg-UG-Fav">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="123"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.48415492960000001" colorSpace="custom" customColorSpace="sRGB"/>
+                    <blurEffect style="light"/>
+                </visualEffectView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQ1-SQ-fly">
+                    <rect key="frame" x="0.0" y="51" width="375" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="xXT-XB-S7B" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="0tB-bi-WRX"/>
+                <constraint firstItem="xXT-XB-S7B" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ATv-la-HpG"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="dQ1-SQ-fly" secondAttribute="trailing" id="cMc-3l-xfE"/>
+                <constraint firstItem="dQ1-SQ-fly" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="hQv-qW-UQV"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="xXT-XB-S7B" secondAttribute="bottom" id="jIQ-b8-9jx"/>
+                <constraint firstItem="dQ1-SQ-fly" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="nsx-yO-eLg"/>
+                <constraint firstItem="xXT-XB-S7B" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="vQw-jK-MHx"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="countLabel" destination="dQ1-SQ-fly" id="ibE-5K-PQB"/>
+            </connections>
+            <point key="canvasLocation" x="19.5" y="236.5"/>
+        </view>
+    </objects>
+</document>

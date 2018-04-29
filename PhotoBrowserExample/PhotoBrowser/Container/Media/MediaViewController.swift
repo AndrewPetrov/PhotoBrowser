@@ -29,9 +29,11 @@ class MediaViewController: UIViewController {
     var cachedDataSource = [Int: [Item]]()
 
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var layout: UICollectionViewFlowLayout!
+
     private weak var modelInputOutput: ModelInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
-    @IBOutlet private weak var layout: UICollectionViewFlowLayout!
+    private let footerView: MediaCollectionViewFooter = UIView.fromNib()
 
     // MARK: - Life cycle
 
@@ -44,7 +46,9 @@ class MediaViewController: UIViewController {
     }
 
     static func make(modelInputOutput: ModelInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> MediaViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "MediaViewController") as! MediaViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
+            withIdentifier: "MediaViewController"
+        ) as! MediaViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
 
@@ -66,24 +70,65 @@ class MediaViewController: UIViewController {
     // MARK: - Setup controls
 
     private func setupCollectionView() {
+        let space: CGFloat = 2
         collectionView.allowsMultipleSelection = true
-        let minSize = min(collectionView.frame.width / 4, collectionView.frame.height / 4)
+        let minSize = min((collectionView.frame.width - space * 5) / 4, (collectionView.frame.height - space * 5 / 4))
         layout.itemSize = CGSize(width: minSize, height: minSize)
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = space
+        layout.minimumInteritemSpacing = space
         layout.sectionHeadersPinToVisibleBounds = true
         layout.headerReferenceSize = CGSize(width: 30, height: 44)
-        layout.footerReferenceSize = CGSize(width: 30, height: 44)
+
         layout.invalidateLayout()
+        addFooter(space: space)
+    }
+
+    private func addFooter(space: CGFloat) {
+        let footerHeight: CGFloat = 50
+        collectionView.contentInset = UIEdgeInsets(top: space, left: space, bottom: footerHeight, right: space)
+        collectionView.addSubview(footerView)
+        footerView.frame = CGRect(origin:
+                                  CGPoint(x: 0, y: collectionView.contentSize.height),
+                                  size: CGSize(width: collectionView.contentSize.width, height: footerHeight)
+        )
+
+        var assetsString = ""
+        if containerInputOutput.currentlySupportedTypes()
+               .contains(.image) {
+            let count = cachedDataSource.reduce([Item]()) { (result: [Item], arg1) -> [Item] in
+                    let (_, value) = arg1
+                    var newArray = result
+                    newArray.append(contentsOf: value)
+
+                    return newArray
+                }
+                .filter { $0.type == .image }.count
+            assetsString += "\(count) Images "
+        }
+        if containerInputOutput.currentlySupportedTypes()
+               .contains(.video) {
+            let count = cachedDataSource.reduce([Item]()) { (result: [Item], arg1) -> [Item] in
+                    let (_, value) = arg1
+                    var newArray = result
+                    newArray.append(contentsOf: value)
+
+                    return newArray
+                }
+                .filter { $0.type == .video }.count
+
+            assetsString += "\(count) Videos"
+        }
+        footerView.configureView(text: assetsString)
     }
 
     private func updateCacheInBackground() {
-        DispatchQueue.global().async {
-            self.cacheDataSource()
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+        DispatchQueue.global()
+            .async {
+                self.cacheDataSource()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
-        }
     }
 
     private func cacheDataSource() {
@@ -116,7 +161,10 @@ class MediaViewController: UIViewController {
     }
 
     private func sectionedIndexPath(for presentationIndexPath: IndexPath) -> IndexPath {
-        let targetItem = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: presentationIndexPath)
+        let targetItem = modelInputOutput.item(
+            withTypes: containerInputOutput.currentlySupportedTypes(),
+            at: presentationIndexPath
+        )
         for section in cachedDataSource.keys {
             for index in 0..<cachedDataSource[section]!.count {
                 if cachedDataSource[section]![index] == targetItem {
@@ -137,7 +185,7 @@ extension MediaViewController: ContainerViewControllerDelegate {
 
     func getSelectedIndexPaths() -> [IndexPath] {
         if let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems {
-          return indexPathsForSelectedItems.map { presentationIndexPath(for: $0) }
+            return indexPathsForSelectedItems.map { presentationIndexPath(for: $0) }
         }
         return [IndexPath]()
     }
@@ -154,7 +202,6 @@ extension MediaViewController: ContainerViewControllerDelegate {
     func reloadUI() {
         collectionView.reloadData()
     }
-
 
 }
 
@@ -195,56 +242,31 @@ extension MediaViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case UICollectionElementKindSectionHeader:
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                             withReuseIdentifier: "MediaCollectionViewHeader",
-                                                                             for: indexPath) as! MediaCollectionViewHeader
-
-            let monthDelta = Array(cachedDataSource.keys).sorted()[indexPath.section]
-            var sectionDateSrting: String
-
-            if let sectionMonthAndYear = Calendar.current.date(byAdding: .month, value: 0 - monthDelta, to: Date()) {
-                switch monthDelta {
-                case 0:
-                    sectionDateSrting = "This Month"
-
-                case let monthDelta where monthDelta < 12:
-                    sectionDateSrting = MediaViewController.monthFormatter.string(from: sectionMonthAndYear)
-
-                default:
-                    sectionDateSrting = MediaViewController.monthAndYearFormatter.string(from: sectionMonthAndYear)
-                }
-                headerView.configureView(text: sectionDateSrting)
-            }
-
-            return headerView
-
-        case UICollectionElementKindSectionFooter:
-            let footerView = collectionView.dequeueReusableSupplementaryView(
+        let headerView =
+            collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
-                withReuseIdentifier: "MediaCollectionViewFooter",
-                for: indexPath) as! MediaCollectionViewFooter
-            var assetsString = ""
+                withReuseIdentifier: "MediaCollectionViewHeader",
+                for: indexPath
+            ) as! MediaCollectionViewHeader
 
-            //TODO: conform ItemTypes to Sequence protocol and refactor
-            if containerInputOutput.currentlySupportedTypes().contains(.image) {
-                let count = cachedDataSource[indexPath.section]?.filter { $0.type == .image }.count
-                assetsString += "\(count!) Images "
+        let monthDelta = Array(cachedDataSource.keys).sorted()[indexPath.section]
+        var sectionDateString: String
+
+        if let sectionMonthAndYear = Calendar.current.date(byAdding: .month, value: 0 - monthDelta, to: Date()) {
+            switch monthDelta {
+            case 0:
+                sectionDateString = "This Month"
+
+            case let monthDelta where monthDelta < 12:
+                sectionDateString = MediaViewController.monthFormatter.string(from: sectionMonthAndYear)
+
+            default:
+                sectionDateString = MediaViewController.monthAndYearFormatter.string(from: sectionMonthAndYear)
             }
-            if containerInputOutput.currentlySupportedTypes().contains(.video) {
-                let count = cachedDataSource[indexPath.section]?.filter { $0.type == .video }.count
-                assetsString += "\(count!) Videos"
-            }
-            footerView.configureView(text: assetsString)
-
-            return footerView
-
-        default:
-            assert(false, "Unexpected element kind")
-            return UICollectionReusableView()
+            headerView.configureView(text: sectionDateString)
         }
 
+        return headerView
     }
 
 }
@@ -256,7 +278,10 @@ extension MediaViewController: UICollectionViewDelegate {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             collectionView.deselectItem(at: indexPath, animated: false)
-            containerInputOutput.setItemAsCurrent(at: presentationIndexPath(for: indexPath), withTypes: containerInputOutput.currentlySupportedTypes())
+            containerInputOutput.setItemAsCurrent(
+                at: presentationIndexPath(for: indexPath),
+                withTypes: containerInputOutput.currentlySupportedTypes()
+            )
             containerInputOutput.switchTo(presentation: .carousel)
         }
     }

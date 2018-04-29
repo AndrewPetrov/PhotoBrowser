@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MediaCollectionViewFooter: UICollectionReusableView {
+class MediaCollectionViewFooter: UIView {
 
     @IBOutlet weak var countLabel: UILabel!
 

@@ -101,7 +101,7 @@ class ViewController: UIViewController {
         items.append(DocumentItem(id: 13, url: URL(fileURLWithPath: myurl2!), name: "PDF", sentTime: getPastDay(18), deliveryStatus: .seen))
 
 
-        appendPhotos(count: 1000, startIndex: 40)
+        appendPhotos(count: 20, startIndex: 40)
     }
 
     override func didReceiveMemoryWarning() {
