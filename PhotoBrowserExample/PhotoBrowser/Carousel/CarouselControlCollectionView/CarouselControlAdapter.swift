@@ -22,13 +22,15 @@ class CarouselControlAdapter: NSObject {
     let itemSize = CGSize(width: 30, height: 50)
 
     private weak var modelInputOutput: ModelInputOutput!
+    private let touchAction: () -> Void
 
-    init(collectionView: UICollectionView, modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput, supportedTypes: ItemTypes) {
+    init(collectionView: UICollectionView, modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput, supportedTypes: ItemTypes, touchAction: @escaping () -> Void) {
         self.collectionView = collectionView
         self.modelInputOutput = modelInputOutput
         self.supportedTypes = supportedTypes
         self.presentationInputOutput = presentationInputOutput
         collectionViewSize = collectionView.frame.size
+        self.touchAction = touchAction
     }
 
     private func isFirstCell(indexPath: IndexPath) -> Bool {
@@ -56,21 +58,21 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
         let leftOffset: CGFloat = isFirstCell(indexPath: indexPath) ? gapSpace : 0
         let rightOffset: CGFloat = isLastCell(indexPath: indexPath) ? gapSpace : 0
 
-
         if let item = modelInputOutput.item(withTypes: supportedTypes, at: indexPath) {
             if let cachedImage = ImageCache.shared.sizedImage(forKey: item.id) {
                 cell.configureCell(image: cachedImage, leftOffset: leftOffset, rightOffset: rightOffset)
             } else {
                 cell.configureCell(image: nil, leftOffset: leftOffset, rightOffset: rightOffset)
-                DispatchQueue.global().async {
-                    //to avoid task for same item in "willDisplay cell"
-                    ImageCache.shared.setSized(UIImage(), forKey: item.id)
-                    let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
-                    ImageCache.shared.setSized(sizedImage, forKey: item.id)
-                    DispatchQueue.main.async {
-                        cell.image = sizedImage
+                DispatchQueue.global()
+                    .async {
+                        //to avoid task for same item in "willDisplay cell"
+                        ImageCache.shared.setSized(UIImage(), forKey: item.id)
+                        let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
+                        ImageCache.shared.setSized(sizedImage, forKey: item.id)
+                        DispatchQueue.main.async {
+                            cell.image = sizedImage
+                        }
                     }
-                }
             }
         }
 
@@ -78,18 +80,25 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
     }
 
     private func updateCurrentCellIndexPath(_ contentOffset: CGFloat) {
-        let centerPoint = CGPoint(x: collectionView.frame.width / 2 , y: 0)
+        let centerPoint = CGPoint(x: collectionView.frame.width / 2, y: 0)
         let convertedPoint = collectionView.convert(centerPoint, from: collectionView.backgroundView)
         if let currentIndex = collectionView.indexPathForItem(at: CGPoint(x: convertedPoint.x, y: 0)) {
             presentationInputOutput.setItemAsCurrent(at: currentIndex, withTypes: supportedTypes)
         }
     }
-    
+
 }
 
 extension CarouselControlAdapter: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.isTracking {
+            touchAction()
+        }
+        if scrollView.isTracking {
+            scrollView.setContentOffset(scrollView.contentOffset, animated: false)
+
+        }
         if scrollView.isDragging {
             updateCurrentCellIndexPath(scrollView.contentOffset.x)
         }
@@ -100,11 +109,19 @@ extension CarouselControlAdapter: UICollectionViewDelegate {
     }
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(
+            at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
+            at: .centeredHorizontally,
+            animated: true
+        )
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        collectionView.scrollToItem(at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes), at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(
+            at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
+            at: .centeredHorizontally,
+            animated: true
+        )
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -112,13 +129,17 @@ extension CarouselControlAdapter: UICollectionViewDelegate {
         let count = 20
 
         for delta in start..<count {
-            if let item = modelInputOutput.item(withTypes: supportedTypes, at: IndexPath(item: max(indexPath.row + delta, 0), section: 0)),
-                ImageCache.shared.sizedImage(forKey: item.id) == nil {
+            if let item = modelInputOutput.item(
+                withTypes: supportedTypes,
+                at: IndexPath(item: max(indexPath.row + delta, 0), section: 0)
+            ),
+               ImageCache.shared.sizedImage(forKey: item.id) == nil {
                 ImageCache.shared.setSized(UIImage(), forKey: item.id)
-                DispatchQueue.global().async {
-                    let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
-                    ImageCache.shared.setSized(sizedImage, forKey: item.id)
-                }
+                DispatchQueue.global()
+                    .async {
+                        let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: self.itemSize)
+                        ImageCache.shared.setSized(sizedImage, forKey: item.id)
+                    }
             }
         }
     }

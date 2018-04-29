@@ -95,9 +95,18 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5kC-ee-eQQ">
                                 <rect key="frame" x="0.0" y="573" width="375" height="50"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OGZ-pj-wYM">
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gap-Ce-VUw">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
-                                        <color key="backgroundColor" white="0.97999999999999998" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="q6B-bU-7vL">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </view>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <blurEffect style="light"/>
+                                    </visualEffectView>
+                                    <collectionView clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OGZ-pj-wYM">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="eDg-Ua-dDi">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -138,9 +147,13 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="7Fm-KU-J2y"/>
                                     <constraint firstItem="OGZ-pj-wYM" firstAttribute="top" secondItem="5kC-ee-eQQ" secondAttribute="top" id="IFZ-Qu-t1z"/>
+                                    <constraint firstItem="Gap-Ce-VUw" firstAttribute="top" secondItem="5kC-ee-eQQ" secondAttribute="top" id="KHu-5E-PRz"/>
                                     <constraint firstAttribute="bottom" secondItem="OGZ-pj-wYM" secondAttribute="bottom" id="Qdn-Lf-qzs"/>
                                     <constraint firstItem="OGZ-pj-wYM" firstAttribute="leading" secondItem="5kC-ee-eQQ" secondAttribute="leading" id="cOz-Pg-sb8"/>
+                                    <constraint firstItem="Gap-Ce-VUw" firstAttribute="leading" secondItem="5kC-ee-eQQ" secondAttribute="leading" id="eAF-Br-Qcy"/>
                                     <constraint firstAttribute="trailing" secondItem="OGZ-pj-wYM" secondAttribute="trailing" id="g0f-zG-i8J"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gap-Ce-VUw" secondAttribute="trailing" id="hPW-lk-Bza"/>
+                                    <constraint firstAttribute="bottom" secondItem="Gap-Ce-VUw" secondAttribute="bottom" id="xqR-hP-2nZ"/>
                                 </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RQH-56-Kr1">
@@ -208,7 +221,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-396" y="-80.50974512743629"/>
+            <point key="canvasLocation" x="1282" y="-107"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="FVb-z3-e6K">

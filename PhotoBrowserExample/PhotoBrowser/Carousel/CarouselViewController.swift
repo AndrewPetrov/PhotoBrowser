@@ -15,6 +15,14 @@ protocol CarouselViewControllerDelegate: class {
     func didDoubleTap(_: CarouselViewController)
 }
 
+enum LastTouchedCollection {
+    
+    case main
+    case carousel
+    case none
+    
+}
+
 class CarouselViewController: UIViewController, Presentatable {
     
     private static var dateFormatter = DateFormatter()
@@ -28,13 +36,19 @@ class CarouselViewController: UIViewController, Presentatable {
     @IBOutlet private weak var carouselControlCollectionView: UICollectionView!
     @IBOutlet private weak var toolbarBottomConstraint: NSLayoutConstraint!
     
+    private var lastTouchedCollection: LastTouchedCollection = .none
+    
     lazy private var carouselControlAdapter: CarouselControlAdapter =
         CarouselControlAdapter(
             collectionView: carouselControlCollectionView,
             modelInputOutput: modelInputOutput,
             presentationInputOutput: presentationInputOutput,
             supportedTypes: supportedTypes
-        )
+        ) { [weak self] in
+            guard let `self` = self else { return }
+            
+            self.lastTouchedCollection = .carousel
+        }
     @IBOutlet private weak var carouselView: UIView!
     @IBOutlet private weak var toolbar: UIToolbar!
     @IBOutlet private weak var deleteBarButtonItem: UIBarButtonItem!
@@ -100,6 +114,7 @@ class CarouselViewController: UIViewController, Presentatable {
         CarouselViewController.dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
         setupNavigationBar()
         cacheFirstImagesForCarouselViewAdapter()
+        collectionView.decelerationRate = 1.5
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -459,9 +474,10 @@ extension CarouselViewController: UICollectionViewDataSource {
 extension CarouselViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if collectionView.isDragging {
-            updateCurrentCellIndexPath(scrollView.contentOffset.x)
+        if scrollView.isTracking {
+            lastTouchedCollection = .main
         }
+        updateCurrentCellIndexPath(scrollView.contentOffset.x)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -480,13 +496,15 @@ extension CarouselViewController: PhotoBrowserInternalDelegate {
         updateToolBar()
         setupDelegate()
         updateTitleView()
-        if !collectionView.isTracking {
+        
+        if !(collectionView.isTracking || lastTouchedCollection == .main) {
             collectionView.scrollToItem(
                 at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
                 at: .centeredHorizontally,
                 animated: false)
         }
-        if !(carouselControlCollectionView.isTracking || carouselControlCollectionView.isDecelerating) {
+        if !(carouselControlCollectionView.isTracking || carouselControlCollectionView.isDecelerating
+            || lastTouchedCollection == .carousel) {
             carouselControlCollectionView.scrollToItem(
                 at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
                 at: .centeredHorizontally,

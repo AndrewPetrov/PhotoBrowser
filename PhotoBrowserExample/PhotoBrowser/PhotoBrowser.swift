@@ -161,7 +161,7 @@ extension PhotoBrowser: PresentationInput {
     }
 
     func currentItemIndex(withTypes types: ItemTypes) -> IndexPath {
-        return modelInputOutput.transfotm(
+        return modelInputOutput.transform(
             indexPath: currentItemIndexPathWithTypes.indexPath,
             fromTypes: currentItemIndexPathWithTypes.types,
             toTypes: types

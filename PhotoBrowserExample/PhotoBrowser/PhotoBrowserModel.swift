@@ -55,7 +55,7 @@ protocol ModelOutput: class {
     func isItemLiked(withTypes types: ItemTypes, at indexPath: IndexPath) -> Bool
     func senderName() -> String
     func startingItemIndexPath(withTypes types: ItemTypes) -> IndexPath
-    func transfotm(indexPath: IndexPath, fromTypes: ItemTypes, toTypes: ItemTypes) -> IndexPath
+    func transform(indexPath: IndexPath, fromTypes: ItemTypes, toTypes: ItemTypes) -> IndexPath
 
 }
 
@@ -176,7 +176,7 @@ extension PhotoBrowserModel: ModelInput {
 
 extension PhotoBrowserModel: ModelOutput {
 
-    func transfotm(indexPath: IndexPath, fromTypes: ItemTypes, toTypes: ItemTypes) -> IndexPath {
+    func transform(indexPath: IndexPath, fromTypes: ItemTypes, toTypes: ItemTypes) -> IndexPath {
         if let realIndexPath = dataSourceIndexPaths(for: [indexPath], withTypes: fromTypes).first,
             realIndexPath.row >= 0, realIndexPath.row <= cachedItems.endIndex {
 
@@ -189,10 +189,10 @@ extension PhotoBrowserModel: ModelOutput {
     }
 
     func startingItemIndexPath(withTypes types: ItemTypes) -> IndexPath {
-        if let startindItem = dataSource.items(for: [dataSource.startingItemIndexPath()]).first,
-            let filtredInxed = filtredItems(withTypes: types).index(of: startindItem) {
+        if let startingItem = dataSource.items(for: [dataSource.startingItemIndexPath()]).first,
+            let filteredIndex = filtredItems(withTypes: types).index(of: startingItem) {
             
-            return IndexPath(item: filtredInxed, section: 0)
+            return IndexPath(item: filteredIndex, section: 0)
         }
         return IndexPath(item: 0, section: 0)
     }
