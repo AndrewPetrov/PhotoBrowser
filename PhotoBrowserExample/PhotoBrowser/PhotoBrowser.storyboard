@@ -12,6 +12,73 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Single View Controller-->
+        <scene sceneID="Eug-C5-atG">
+            <objects>
+                <viewController storyboardIdentifier="SingleViewController" id="kbJ-eA-bqw" customClass="SingleViewController" customModule="PhotoBrowser" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oqR-Kw-gPj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lGA-BF-lrU">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="yH6-lU-Rc1"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem systemItem="action" id="fq8-yQ-guE">
+                                        <connections>
+                                            <action selector="shareAction:" destination="kbJ-eA-bqw" id="RDh-96-9xa"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QCg-74-Zv4">
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zw4-cR-nde">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                        <gestureRecognizers/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="zw4-cR-nde" firstAttribute="leading" secondItem="QCg-74-Zv4" secondAttribute="leading" id="JUt-he-QWF"/>
+                                    <constraint firstAttribute="trailing" secondItem="zw4-cR-nde" secondAttribute="trailing" id="Kaj-oh-Ght"/>
+                                    <constraint firstItem="zw4-cR-nde" firstAttribute="centerY" secondItem="QCg-74-Zv4" secondAttribute="centerY" id="d6g-bS-O07"/>
+                                    <constraint firstItem="zw4-cR-nde" firstAttribute="centerX" secondItem="QCg-74-Zv4" secondAttribute="centerX" id="mBe-Co-rBg"/>
+                                    <constraint firstAttribute="bottom" secondItem="zw4-cR-nde" secondAttribute="bottom" id="qO1-5R-NNz"/>
+                                    <constraint firstItem="zw4-cR-nde" firstAttribute="top" secondItem="QCg-74-Zv4" secondAttribute="top" id="uyp-Ka-CoY"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="T91-F9-Xw3" appends="YES" id="Zea-bw-G52"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="QCg-74-Zv4" firstAttribute="top" secondItem="x15-Pz-8nn" secondAttribute="top" id="45K-JR-Z6j"/>
+                            <constraint firstItem="lGA-BF-lrU" firstAttribute="leading" secondItem="x15-Pz-8nn" secondAttribute="leading" id="M9g-O8-OQN"/>
+                            <constraint firstItem="QCg-74-Zv4" firstAttribute="leading" secondItem="x15-Pz-8nn" secondAttribute="leading" id="Z5P-C3-Bkg"/>
+                            <constraint firstItem="lGA-BF-lrU" firstAttribute="top" secondItem="QCg-74-Zv4" secondAttribute="bottom" id="Zy7-Wk-PRc"/>
+                            <constraint firstItem="x15-Pz-8nn" firstAttribute="trailing" secondItem="QCg-74-Zv4" secondAttribute="trailing" id="bjK-d5-rVo"/>
+                            <constraint firstAttribute="trailing" secondItem="lGA-BF-lrU" secondAttribute="trailing" id="e7b-W2-ZuU"/>
+                            <constraint firstItem="x15-Pz-8nn" firstAttribute="bottom" secondItem="lGA-BF-lrU" secondAttribute="bottom" id="hcF-VS-DjU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="x15-Pz-8nn"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="zw4-cR-nde" id="nlm-lb-Nde"/>
+                        <outlet property="scrollView" destination="QCg-74-Zv4" id="0bU-OE-R3V"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kVH-Dt-Rpp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer delaysTouchesBegan="YES" numberOfTapsRequired="2" id="T91-F9-Xw3">
+                    <connections>
+                        <action selector="changeImageScaleAction:" destination="kbJ-eA-bqw" id="Lgq-gc-ob5"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="493.60000000000002" y="-10.344827586206897"/>
+        </scene>
         <!--Carousel View Controller-->
         <scene sceneID="xbi-jD-LjN">
             <objects>

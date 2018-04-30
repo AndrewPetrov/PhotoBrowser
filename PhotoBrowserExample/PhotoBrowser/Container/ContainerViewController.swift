@@ -49,7 +49,7 @@ protocol ContainerViewControllerDelegate {
     func updateCache()
 }
 
-class ContainerViewController: SelectableViewController, Presentatable {
+class ContainerViewController: SelectableViewController, Presentable {
     
     let presentation: Presentation = .container
     

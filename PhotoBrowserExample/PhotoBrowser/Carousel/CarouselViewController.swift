@@ -23,7 +23,7 @@ enum LastTouchedCollection {
     
 }
 
-class CarouselViewController: UIViewController, Presentatable {
+class CarouselViewController: UIViewController, Presentable {
     
     private static var dateFormatter = DateFormatter()
     let presentation: Presentation = .carousel
@@ -503,8 +503,7 @@ extension CarouselViewController: PhotoBrowserInternalDelegate {
                 at: .centeredHorizontally,
                 animated: false)
         }
-        if !(carouselControlCollectionView.isTracking || carouselControlCollectionView.isDecelerating
-            || lastTouchedCollection == .carousel) {
+        if !(carouselControlCollectionView.isTracking || lastTouchedCollection == .carousel) {
             carouselControlCollectionView.scrollToItem(
                 at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
                 at: .centeredHorizontally,

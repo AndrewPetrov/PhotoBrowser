@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class TableViewController: SelectableViewController, Presentatable {
+class TableViewController: SelectableViewController, Presentable {
 
     let presentation: Presentation = .table
 

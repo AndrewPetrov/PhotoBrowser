@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cpI-FB-5Iq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cpI-FB-5Iq">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -54,13 +54,22 @@
                                     <action selector="didTapOnSinglePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gcu-ey-fLc"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7t-SO-5AP">
+                                <rect key="frame" x="135" y="405" width="144" height="30"/>
+                                <state key="normal" title="Show only one photo"/>
+                                <connections>
+                                    <action selector="showOnlyOnePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qb2-u3-m4c"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="i7t-SO-5AP" firstAttribute="top" secondItem="nlJ-BZ-zTc" secondAttribute="bottom" constant="60" id="17p-pP-D3t"/>
                             <constraint firstItem="8cX-go-2N7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="90" id="45D-dW-q5E"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8cX-go-2N7" secondAttribute="trailing" id="54H-zf-R9w"/>
                             <constraint firstItem="8cX-go-2N7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6O9-Lc-JJG"/>
                             <constraint firstItem="nlJ-BZ-zTc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CVe-hx-WEw"/>
+                            <constraint firstItem="i7t-SO-5AP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Jvs-aa-K3n"/>
                             <constraint firstItem="otz-aG-toP" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KXr-3V-CDc"/>
                             <constraint firstItem="otz-aG-toP" firstAttribute="top" secondItem="8cX-go-2N7" secondAttribute="bottom" constant="80" id="Mp2-Fv-F2C"/>
                             <constraint firstItem="nlJ-BZ-zTc" firstAttribute="top" secondItem="otz-aG-toP" secondAttribute="bottom" constant="30" id="zfs-UW-aSD"/>

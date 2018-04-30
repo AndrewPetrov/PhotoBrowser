@@ -56,6 +56,7 @@ protocol ModelOutput: class {
     func senderName() -> String
     func startingItemIndexPath(withTypes types: ItemTypes) -> IndexPath
     func transform(indexPath: IndexPath, fromTypes: ItemTypes, toTypes: ItemTypes) -> IndexPath
+    func allowedActions() -> AllowedActions
 
 }
 
@@ -105,7 +106,7 @@ class PhotoBrowserModel {
         print("browser deinit")
     }
 
-    private func filtredItems(withTypes types: ItemTypes) -> [Item] {
+    private func filteredItems(withTypes types: ItemTypes) -> [Item] {
         if let items = itemsCacheByTypes[types] {
             return items
         } else {
@@ -119,10 +120,10 @@ class PhotoBrowserModel {
     // types is necessary for calculation unfiltred index path in all Items
     private func dataSourceIndexPaths(for typedIndexPaths: [IndexPath], withTypes types: ItemTypes) -> [IndexPath] {
         var dataSourceIndexPaths = [IndexPath]()
-        var filtredItemsArray = filtredItems(withTypes: types)
+        var filteredItemsArray = filteredItems(withTypes: types)
 
         for typedIndexPath in typedIndexPaths {
-            let targetItem = filtredItemsArray[typedIndexPath.row]
+            let targetItem = filteredItemsArray[typedIndexPath.row]
             if let dataSourceIndexPathRow = cachedItems.index(of: targetItem),
                 dataSourceIndexPathRow >= cachedItems.startIndex,
                 dataSourceIndexPathRow <= cachedItems.endIndex {
@@ -181,7 +182,7 @@ extension PhotoBrowserModel: ModelOutput {
             realIndexPath.row >= 0, realIndexPath.row <= cachedItems.endIndex {
 
             let realItem = cachedItems[realIndexPath.row]
-            if let targetIndexPathRow = filtredItems(withTypes: toTypes).index(of: realItem) {
+            if let targetIndexPathRow = filteredItems(withTypes: toTypes).index(of: realItem) {
                 return IndexPath(row: targetIndexPathRow, section: 0)
             }
         }
@@ -190,7 +191,7 @@ extension PhotoBrowserModel: ModelOutput {
 
     func startingItemIndexPath(withTypes types: ItemTypes) -> IndexPath {
         if let startingItem = dataSource.items(for: [dataSource.startingItemIndexPath()]).first,
-            let filteredIndex = filtredItems(withTypes: types).index(of: startingItem) {
+            let filteredIndex = filteredItems(withTypes: types).index(of: startingItem) {
             
             return IndexPath(item: filteredIndex, section: 0)
         }
@@ -198,20 +199,20 @@ extension PhotoBrowserModel: ModelOutput {
     }
 
     func numberOfItems(withTypes types: ItemTypes) -> Int {
-        return filtredItems(withTypes: types).count
+        return filteredItems(withTypes: types).count
 
     }
 
     func item(withTypes types: ItemTypes, at indexPath: IndexPath) -> Item? {
-        if indexPath.row < filtredItems(withTypes: types).count {
-            return filtredItems(withTypes: types)[indexPath.row]
+        if indexPath.row < filteredItems(withTypes: types).count {
+            return filteredItems(withTypes: types)[indexPath.row]
         }
         return nil
     }
 
 
     func indexPath(for item: Item, withTypes types: ItemTypes) -> IndexPath {
-        return IndexPath(row: filtredItems(withTypes: types).index(of: item) ?? 0, section: 0)
+        return IndexPath(row: filteredItems(withTypes: types).index(of: item) ?? 0, section: 0)
     }
 
     func intersectionOfBrowserOutputTypes(inputTypes: ItemTypes) -> ItemTypes {
@@ -222,8 +223,8 @@ extension PhotoBrowserModel: ModelOutput {
 
     func isItemLiked(withTypes types: ItemTypes, at indexPath: IndexPath) -> Bool {
 
-        if indexPath.row < filtredItems(withTypes: types).count {
-            return filtredItems(withTypes: types)[indexPath.row].isLiked
+        if indexPath.row < filteredItems(withTypes: types).count {
+            return filteredItems(withTypes: types)[indexPath.row].isLiked
         }
         return false
     }
@@ -232,7 +233,8 @@ extension PhotoBrowserModel: ModelOutput {
         return dataSource?.senderName() ?? ""
     }
 
-
-
+    func allowedActions() -> AllowedActions {
+        return AllowedActions.onlyShare
+    }
 }
 

@@ -125,6 +125,13 @@ class ViewController: UIViewController {
         let photoBrowser = PhotoBrowser(modelInputOutput: photoBrowserModel, presentation: .carousel)
         navigationController?.pushViewController(photoBrowser, animated: true)
     }
+    
+    @IBAction func showOnlyOnePhoto(_ sender: Any) {
+        populateGalleryDataSource()
+        let photoBrowserModel = PhotoBrowserModel.make(dataSource: self, delegate: self)
+        let photoBrowser = PhotoBrowser(modelInputOutput: photoBrowserModel, presentation: .single)
+        navigationController?.pushViewController(photoBrowser, animated: true)
+    }
 
 }
 

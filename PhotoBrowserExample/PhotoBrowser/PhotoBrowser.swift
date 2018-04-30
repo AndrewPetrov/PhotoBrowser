@@ -38,12 +38,20 @@ enum Presentation {
     case carousel
     case container
     case table
+    case single
 
 }
 
-typealias PresentationViewController = Presentatable & PhotoBrowserInternalDelegate & UIViewController
+enum AllowedActions {
+    
+    case all
+    case onlyShare
+    
+}
 
-protocol Presentatable where Self: UIViewController {
+typealias PresentationViewController = Presentable & PhotoBrowserInternalDelegate & UIViewController
+
+protocol Presentable where Self: UIViewController {
 
     var presentation: Presentation { get }
 
@@ -51,7 +59,7 @@ protocol Presentatable where Self: UIViewController {
 
 class PhotoBrowser: UIViewController {
 
-    private var modelInputOutput: ModelInputOutput!
+    private var modelInputOutput: ModelInputOutput
     private weak var delegate: PhotoBrowserInternalDelegate?
 
     //for transitions to the same item
@@ -84,6 +92,7 @@ class PhotoBrowser: UIViewController {
     private lazy var carouselViewController = CarouselViewController.make(modelInputOutput: modelInputOutput, presentationInputOutput: self)
     private lazy var containerViewController = ContainerViewController.make (modelInputOutput: modelInputOutput, presentationInputOutput: self)
     private lazy var tableViewController = TableViewController.make(modelInputOutput: modelInputOutput, presentationInputOutput: self)
+    private lazy var singleViewController = SingleViewController.make(modelInputOutput: modelInputOutput, presentationInputOutput: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +102,7 @@ class PhotoBrowser: UIViewController {
 
     private func getViewController(by presentation: Presentation) -> PresentationViewController? {
 
-        let presentationViewControllers: [PresentationViewController] = [carouselViewController, containerViewController, tableViewController]
+        let presentationViewControllers: [PresentationViewController] = [carouselViewController, containerViewController, tableViewController, singleViewController]
         return presentationViewControllers.filter { $0.presentation == presentation }.first
     }
 
