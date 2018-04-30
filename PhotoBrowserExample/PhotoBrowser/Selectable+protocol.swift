@@ -16,7 +16,6 @@ class SelectableViewController: UIViewController {
     internal var supportedTypes: ItemTypes = [.image, .video]
 
     internal var selectButton: UIBarButtonItem!
-    internal var selectAllButton: UIBarButtonItem!
     internal var trashButton: UIBarButtonItem!
     internal var actionButton: UIBarButtonItem!
     internal let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -76,7 +75,6 @@ class SelectableViewController: UIViewController {
     internal func updateUIRalatedToSelection() {
         updateSelectionTitle()
         updateToolbarButtons()
-        updateSelectAllTitle()
     }
 
     internal func getSelectionTitle() -> String {
@@ -123,24 +121,7 @@ class SelectableViewController: UIViewController {
 
         present(alertController, animated: true, completion: nil)
     }
-
-    @objc internal func toggleSelectAll() {
-        if getSelectedIndexPaths().count < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
-            selectAll()
-        } else {
-            deselectAll()
-        }
-    }
-
-    private func selectAll() {
-        let count = modelInputOutput.numberOfItems(withTypes: supportedTypes)
-        for row in 0..<count {
-            let indexPath = IndexPath(row: row, section: 0)
-            setItem(at: indexPath, slected: true)
-        }
-        updateUIRalatedToSelection()
-    }
-
+    
     private func deselectAll() {
         let count = modelInputOutput.numberOfItems(withTypes: supportedTypes)
         for row in 0..<count {
@@ -148,14 +129,6 @@ class SelectableViewController: UIViewController {
             setItem(at: indexPath, slected: false)
         }
         updateUIRalatedToSelection()
-    }
-
-    internal func updateSelectAllTitle() {
-        if getSelectedIndexPaths().count < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
-            selectAllButton.title = "Select All"
-        } else {
-            selectAllButton.title = "Deselect All"
-        }
     }
 
     internal func isAllItemsLiked() -> Bool {

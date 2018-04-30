@@ -172,8 +172,6 @@ class ContainerViewController: SelectableViewController, Presentable {
         
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
         parent?.navigationItem.rightBarButtonItem = selectButton
-        
-        selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
     }
     
     // MARK: - Update controls
@@ -233,8 +231,7 @@ class ContainerViewController: SelectableViewController, Presentable {
     }
     
     internal override func updateNavigationBar() {
-        parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
-        parent?.navigationItem.hidesBackButton = isSelectionAllowed
+        // do nothing for now
     }
     
     @objc func mediaTypeDidChange(_ sender: UISegmentedControl) {

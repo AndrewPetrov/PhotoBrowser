@@ -95,8 +95,6 @@ class TableViewController: SelectableViewController, Presentable {
     private func setupNavigationBar() {
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
         parent?.navigationItem.rightBarButtonItem = selectButton
-
-        selectAllButton = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(toggleSelectAll))
     }
 
     // MARK: - Update controls
@@ -122,9 +120,6 @@ class TableViewController: SelectableViewController, Presentable {
     }
 
     internal override func updateNavigationBar() {
-        parent?.navigationItem.hidesBackButton = isSelectionAllowed
-        parent?.navigationItem.leftBarButtonItem = isSelectionAllowed ? selectAllButton : nil
-
         let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height:  parent?.navigationController?.navigationBar.frame.height ?? 20))
         let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
             itemTypes: modelInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
