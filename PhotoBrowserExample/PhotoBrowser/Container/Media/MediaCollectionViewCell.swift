@@ -13,7 +13,7 @@ class MediaCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet{
-            selectionImageView.image = isSelected ? #imageLiteral(resourceName: "iOSPhotoBrowser_selected") : #imageLiteral(resourceName: "iOSPhotoBrowser_nonSelected")
+            selectionImageView.image = isSelected ? #imageLiteral(resourceName: "iOSPhotoBrowser_selected") : nil
         }
     }
 

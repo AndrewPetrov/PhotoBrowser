@@ -48,7 +48,7 @@ class LinkTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        selectionImageView.image = isSelected ? #imageLiteral(resourceName: "iOSPhotoBrowser_selected") : #imageLiteral(resourceName: "iOSPhotoBrowser_nonSelected")
+        selectionImageView.image = isSelected ? #imageLiteral(resourceName: "iOSPhotoBrowser_selected") : nil
 
     }
 
