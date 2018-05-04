@@ -57,8 +57,8 @@ extension DocsViewController: ContainerViewControllerDelegate {
         return tableView.indexPathsForVisibleRows ?? [IndexPath]()
     }
 
-    func setItem(at indexPath: IndexPath, slected: Bool) {
-        if slected {
+    func setItem(at indexPath: IndexPath, selected: Bool) {
+        if selected {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         } else {
             tableView.deselectRow(at: indexPath, animated: false)

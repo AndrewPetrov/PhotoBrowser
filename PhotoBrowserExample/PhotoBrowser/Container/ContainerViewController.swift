@@ -27,25 +27,33 @@ enum ContainerItemType: Int {
     }
 }
 
-typealias ContainerViewControllerInputOutput = ContainerViewControllerImput & ContainerViewControllerOutput
+typealias ContainerViewControllerInputOutput = ContainerViewControllerInput & ContainerViewControllerOutput
 
-protocol ContainerViewControllerImput: class {
+protocol ContainerViewControllerInput: class {
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath)
+    
     func switchTo(presentation: Presentation)
+    
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes)
+    
     func open(item: Item)
 }
 
 protocol ContainerViewControllerOutput: class {
     func isSelectionAllowed() -> Bool
+    
     func selectedIndexPaths() -> [IndexPath]
+    
     func currentlySupportedTypes() -> ItemTypes
 }
 
 protocol ContainerViewControllerDelegate {
     func reloadUI()
-    func setItem(at indexPath: IndexPath, slected: Bool)
+    
+    func setItem(at indexPath: IndexPath, selected: Bool)
+    
     func getSelectedIndexPaths() -> [IndexPath]
+    
     func updateCache()
 }
 
@@ -56,15 +64,26 @@ class ContainerViewController: SelectableViewController, Presentable {
     private var mediaTypesSegmentedControl: UISegmentedControl!
     internal weak var presentationInputOutput: PresentationInputOutput!
     
-    var forwardButton = UIBarButtonItem(barButtonSystemItem: .reply, target: self, action: #selector(forwardButtonDidTap))
+    var forwardButton = UIBarButtonItem(
+        barButtonSystemItem: .reply,
+        target: self,
+        action: #selector(forwardButtonDidTap)
+    )
     
     @IBOutlet private weak var toolbar: UIToolbar!
+    private var selectedCountLabel = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var toolbarBottomConstraint: NSLayoutConstraint!
     
     private let uiBarButtonImageSize = CGSize(width: 25, height: 25)
-    private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "iOSPhotoBrowser_doubleTick"), scaledToSize: uiBarButtonImageSize)
-    private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(image: #imageLiteral(resourceName: "iOSPhotoBrowser_likeNo"), scaledToSize: uiBarButtonImageSize)
+    private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(
+        image: #imageLiteral(resourceName: "iOSPhotoBrowser_doubleTick"),
+        scaledToSize: uiBarButtonImageSize
+    )
+    private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(
+        image: #imageLiteral(resourceName: "iOSPhotoBrowser_likeNo"),
+        scaledToSize: uiBarButtonImageSize
+    )
     
     private var delegate: ContainerViewControllerDelegate?
     
@@ -77,7 +96,7 @@ class ContainerViewController: SelectableViewController, Presentable {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
+    
     deinit {
         print("-ContainerViewController")
     }
@@ -93,9 +112,18 @@ class ContainerViewController: SelectableViewController, Presentable {
         updateToolbarPosition()
     }
     
-    private lazy var mediaViewController = MediaViewController.make(modelInputOutput: modelInputOutput, containerInputOutput: self)
-    private lazy var linksViewController = LinksViewController.make(modelInputOutput: modelInputOutput, containerInputOutput: self)
-    private lazy var docsViewController = DocsViewController.make(modelInputOutput: modelInputOutput, containerInputOutput: self)
+    private lazy var mediaViewController = MediaViewController.make(
+        modelInputOutput: modelInputOutput,
+        containerInputOutput: self
+    )
+    private lazy var linksViewController = LinksViewController.make(
+        modelInputOutput: modelInputOutput,
+        containerInputOutput: self
+    )
+    private lazy var docsViewController = DocsViewController.make(
+        modelInputOutput: modelInputOutput,
+        containerInputOutput: self
+    )
     
     private func add(asChildViewController viewController: UIViewController & ContainerViewControllerDelegate) {
         delegate = viewController
@@ -128,7 +156,8 @@ class ContainerViewController: SelectableViewController, Presentable {
     }
     
     static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
+            .instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         
@@ -139,19 +168,15 @@ class ContainerViewController: SelectableViewController, Presentable {
     
     private func createBarButtonItems() {
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
-        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonDidTap))
+        actionButton = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(actionButtonDidTap)
+        )
     }
     
     private func setupToolbar() {
-        guard let type = ContainerItemType(rawValue: mediaTypesSegmentedControl.selectedSegmentIndex) else { return }
-        
-        switch type {
-        case .media:
-            toolbar.items = [actionButton, flexibleSpace, trashButton]
-            
-        case .links, .docs:
-            updateToolbarButtons()
-        }
+        toolbar.items = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace, trashButton]
     }
     
     private func setupNavigationBar() {
@@ -159,7 +184,7 @@ class ContainerViewController: SelectableViewController, Presentable {
             ContainerItemType.media.title,
             ContainerItemType.links.title,
             ContainerItemType.docs.title
-            ])
+        ])
         
         mediaTypesSegmentedControl.selectedSegmentIndex = 0;
         mediaTypesSegmentedControl.addTarget(self, action: #selector(mediaTypeDidChange(_:)), for: .valueChanged)
@@ -167,8 +192,8 @@ class ContainerViewController: SelectableViewController, Presentable {
         parent?.navigationItem.titleView?.alpha = 0
         UIView.animate(withDuration: 0.1,
                        animations: { [weak self] in
-                        self?.parent?.navigationItem.titleView?.alpha = 1
-        })
+                           self?.parent?.navigationItem.titleView?.alpha = 1
+                       })
         
         selectButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(toggleSelection))
         parent?.navigationItem.rightBarButtonItem = selectButton
@@ -179,7 +204,7 @@ class ContainerViewController: SelectableViewController, Presentable {
     internal override func reloadUI() {
         delegate?.reloadUI()
     }
-
+    
     internal override func updateCache() {
         delegate?.updateCache()
     }
@@ -189,26 +214,19 @@ class ContainerViewController: SelectableViewController, Presentable {
     }
     
     internal override func updateToolbarButtons() {
-        let sizedImage = isAllItemsLiked() ? likedYesSizedImage : likedNoSizedImage
-        let likeButton = UIBarButtonItem(image: sizedImage, style: .plain, target: self, action: #selector(likeButtonDidTap(_:)))
-        
         actionButton.isEnabled = getSelectedIndexPaths().count != 0
         trashButton.isEnabled = getSelectedIndexPaths().count != 0
-        likeButton.isEnabled = getSelectedIndexPaths().count != 0
-        forwardButton.isEnabled = getSelectedIndexPaths().count != 0
-        
-        toolbar.items = [forwardButton, flexibleSpace, likeButton, flexibleSpace, actionButton, flexibleSpace, trashButton]
     }
     
     internal override func setItem(at indexPath: IndexPath, slected: Bool) {
-        delegate?.setItem(at: indexPath, slected: slected)
+        delegate?.setItem(at: indexPath, selected: slected)
     }
     
     private func clearNavigationBar() {
         UIView.animate(withDuration: 0.1,
                        animations: { [weak self] in
-                        self?.parent?.navigationItem.titleView?.alpha = 0
-        }) { [weak self] _ in
+                           self?.parent?.navigationItem.titleView?.alpha = 0
+                       }) { [weak self] _ in
             self?.parent?.navigationItem.titleView = nil
         }
     }
@@ -218,7 +236,8 @@ class ContainerViewController: SelectableViewController, Presentable {
             toolbarBottomConstraint.constant = 0
         } else {
             if let navigationController = parent?.navigationController {
-                toolbarBottomConstraint.constant = -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
+                toolbarBottomConstraint.constant =
+                    -(toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height)
             }
         }
         UIView.animate(withDuration: 0.33) {
@@ -227,7 +246,7 @@ class ContainerViewController: SelectableViewController, Presentable {
     }
     
     internal override func updateSelectionTitle() {
-        //do nothing for now
+        selectedCountLabel.title = getSelectionTitle()
     }
     
     internal override func updateNavigationBar() {
@@ -250,7 +269,6 @@ class ContainerViewController: SelectableViewController, Presentable {
             supportedTypes = [.document]
             add(asChildViewController: docsViewController)
         }
-        setupToolbar()
         updateSelectButtonTitle()
     }
     
@@ -264,21 +282,21 @@ class ContainerViewController: SelectableViewController, Presentable {
     }
     
     @objc private func actionButtonDidTap(_ sender: Any) {
-        modelInputOutput.shareItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
+        modelInputOutput.shareItem(withTypes: supportedTypes, indexPaths:Array(selectedIndexPaths()).sorted())
         isSelectionAllowed = false
         delegate?.reloadUI()
     }
     
     @objc private func forwardButtonDidTap(_ sender: Any) {
-        modelInputOutput.forwardItem(withTypes: supportedTypes, indexPaths: Array(selectedIndexPaths()).sorted())
+        modelInputOutput.forwardItem(withTypes: supportedTypes, indexPaths:Array(selectedIndexPaths()).sorted())
         isSelectionAllowed = false
         delegate?.reloadUI()
     }
     
 }
 
-extension ContainerViewController: ContainerViewControllerImput {
-
+extension ContainerViewController: ContainerViewControllerInput {
+    
     func open(item: Item) {
         if let documentItem = item as? DocumentItem {
             let webView = WKWebView(frame: view.frame)
@@ -288,17 +306,15 @@ extension ContainerViewController: ContainerViewControllerImput {
             navigationController?.pushViewController(webViewController, animated: true)
         }
     }
-
+    
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes) {
         presentationInputOutput.setItemAsCurrent(at: indexPath, withTypes: types)
     }
-
-
+    
     func switchTo(presentation: Presentation) {
         presentationInputOutput.setAutoplayVideoEnabled(to: presentation != .carousel)
         presentationInputOutput.switchTo(presentation: presentation)
     }
-
     
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath) {
         updateUIRalatedToSelection()
@@ -325,9 +341,9 @@ extension ContainerViewController: ContainerViewControllerOutput {
 extension ContainerViewController: PhotoBrowserInternalDelegate {
     
     func currentItemIndexDidChange() {
-        
+    
     }
-
+    
     func getSupportedTypes() -> ItemTypes {
         return supportedTypes
     }

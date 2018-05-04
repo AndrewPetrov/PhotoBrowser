@@ -16,7 +16,6 @@ class LinkTableViewCell: UITableViewCell {
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var selectionImageView: UIImageView!
     @IBOutlet private weak var selectionViewWidth: NSLayoutConstraint!
-    @IBOutlet private weak var likedImageView: UIImageView!
     
     private var goToMessageHandler: (() -> ())?
 
@@ -29,7 +28,6 @@ class LinkTableViewCell: UITableViewCell {
         self.goToMessageHandler = goToMessageHandler
         linkLabel.text = item.url.absoluteString
         descriptionLabel.text = item.name
-        likedImageView.isHidden = !isLiked
 
         selectionImageView.alpha = !isSelectionAllowed ? 1 : 0
         selectionViewWidth.constant = isSelectionAllowed ? 50 : 0

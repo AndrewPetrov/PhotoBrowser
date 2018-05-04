@@ -20,7 +20,6 @@ class MediaCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var selectionImagView: UIImageView!
     @IBOutlet private weak var videoImagView: UIImageView!
     @IBOutlet private weak var videoDurationLabel: UILabel!
-    @IBOutlet private weak var likedImageView: UIImageView!
 
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var selectionImageView: UIImageView!
@@ -36,7 +35,6 @@ class MediaCollectionViewCell: UICollectionViewCell {
         selectionImageView.isHidden = !isSelectionAllowed
         videoImagView.isHidden = !isVideo
         videoDurationLabel.text = videoDuration
-        likedImageView.isHidden = !isLiked
     }
 
 }

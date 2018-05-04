@@ -60,10 +60,10 @@ class MediaViewController: UIViewController {
 
         updateCacheInBackground()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         setupCollectionView()
     }
 
@@ -79,8 +79,8 @@ class MediaViewController: UIViewController {
         layout.sectionHeadersPinToVisibleBounds = true
         layout.headerReferenceSize = CGSize(width: 30, height: 44)
 
-        layout.invalidateLayout()
         addFooter(space: space)
+        layout.invalidateLayout()
     }
 
     private func addFooter(space: CGFloat) {
@@ -190,9 +190,9 @@ extension MediaViewController: ContainerViewControllerDelegate {
         return [IndexPath]()
     }
 
-    func setItem(at indexPath: IndexPath, slected: Bool) {
+    func setItem(at indexPath: IndexPath, selected: Bool) {
         let targetIndexPath = sectionedIndexPath(for: indexPath)
-        if slected {
+        if selected {
             collectionView.selectItem(at: targetIndexPath, animated: false, scrollPosition: .left)
         } else {
             collectionView.deselectItem(at: targetIndexPath, animated: false)
@@ -200,7 +200,7 @@ extension MediaViewController: ContainerViewControllerDelegate {
     }
 
     func reloadUI() {
-        collectionView.reloadData()
+        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
     }
 
 }
