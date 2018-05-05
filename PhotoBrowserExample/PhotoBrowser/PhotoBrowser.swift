@@ -13,23 +13,29 @@ import UIKit
 protocol PhotoBrowserInternalDelegate: class {
 
     func currentItemIndexDidChange()
+
     func getSupportedTypes() -> ItemTypes
 
 }
+
 //action by presentations
 typealias PresentationInputOutput = PresentationInput & PresentationOutput & UIViewController
 
 protocol PresentationOutput: class {
 
     func switchTo(presentation: Presentation)
+
     func goToMessage(with indexPath: IndexPath)
+
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes)
+
     func setAutoplayVideoEnabled(to enabled: Bool)
 
 }
 
 protocol PresentationInput: class {
     func currentItemIndex(withTypes types: ItemTypes) -> IndexPath
+
     func shouldAutoplayVideo() -> Bool
 }
 
@@ -43,10 +49,10 @@ enum Presentation {
 }
 
 enum AllowedActions {
-    
+
     case all
     case onlyShare
-    
+
 }
 
 typealias PresentationViewController = Presentable & PhotoBrowserInternalDelegate & UIViewController
@@ -73,14 +79,13 @@ class PhotoBrowser: UIViewController {
 
     }()
 
-    private var currentPresentation: Presentation
-    private var previousPresentation: Presentation?
+    private let presentationStack: Stack<Presentation>
 
     private var isVideoAutoplayEnabled = true
 
     init(modelInputOutput: ModelInputOutput, presentation: Presentation) {
         self.modelInputOutput = modelInputOutput
-        self.currentPresentation = presentation
+        presentationStack = Stack(presentation)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -89,13 +94,34 @@ class PhotoBrowser: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private lazy var carouselViewController = CarouselViewController.make(modelInputOutput: modelInputOutput, presentationInputOutput: self)
-    private lazy var containerViewController = ContainerViewController.make (modelInputOutput: modelInputOutput, presentationInputOutput: self)
-    private lazy var tableViewController = TableViewController.make(modelInputOutput: modelInputOutput, presentationInputOutput: self)
-    private lazy var singleViewController = SingleViewController.make(modelInputOutput: modelInputOutput, presentationInputOutput: self)
+    private lazy var carouselViewController = CarouselViewController.make(
+        modelInputOutput: modelInputOutput,
+        presentationInputOutput: self
+    )
+    private lazy var containerViewController = ContainerViewController.make(
+        modelInputOutput: modelInputOutput,
+        presentationInputOutput: self
+    )
+    private lazy var tableViewController = TableViewController.make(
+        modelInputOutput: modelInputOutput,
+        presentationInputOutput: self
+    )
+    private lazy var singleViewController = SingleViewController.make(
+        modelInputOutput: modelInputOutput,
+        presentationInputOutput: self
+    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(
+            title: "Back",
+            style: UIBarButtonItemStyle.plain,
+            target: self,
+            action: #selector(back(sender:))
+        )
+        self.navigationItem.leftBarButtonItem = newBackButton
 
         switchToCurrentPresentation()
     }
@@ -107,10 +133,12 @@ class PhotoBrowser: UIViewController {
     }
 
     func switchToCurrentPresentation() {
-        guard let currentPresentationViewController = getViewController(by: currentPresentation) else { return }
+        guard let currentPresentation = presentationStack.current,
+              let currentPresentationViewController = getViewController(by: currentPresentation) else { return }
 
         delegate = currentPresentationViewController as PhotoBrowserInternalDelegate
-        if let previousPresentation = previousPresentation, let previousPresentationViewController = getViewController(by: previousPresentation) {
+        if let previousPresentation = presentationStack.previous,
+           let previousPresentationViewController = getViewController(by: previousPresentation) {
             previousPresentationViewController.willMove(toParentViewController: nil)
             addChildViewController(currentPresentationViewController)
 
@@ -124,7 +152,7 @@ class PhotoBrowser: UIViewController {
                 animations: {
                     previousPresentationViewController.view.alpha = 0
                     currentPresentationViewController.view.alpha = 1
-            }, completion: { _ in
+                }, completion: { _ in
                 previousPresentationViewController.removeFromParentViewController()
                 currentPresentationViewController.didMove(toParentViewController: self)
             })
@@ -132,8 +160,6 @@ class PhotoBrowser: UIViewController {
         } else {
             add(asChildViewController: currentPresentationViewController)
         }
-
-        return
     }
 
     private func add(asChildViewController viewController: UIViewController) {
@@ -159,7 +185,15 @@ class PhotoBrowser: UIViewController {
         modelInputOutput.scrollToMessage(at: messageindexPath)
     }
 
+    @objc func back(sender: UIBarButtonItem) {
+        presentationStack.pop()
 
+        if presentationStack.count == 0 || presentationStack.previous == nil {
+            _ = navigationController?.popViewController(animated: true)
+        } else {
+            switchToCurrentPresentation()
+        }
+    }
 
 }
 
@@ -187,32 +221,62 @@ extension PhotoBrowser: PresentationOutput {
 
     func setItemAsCurrent(at indexPath: IndexPath, withTypes types: ItemTypes) {
         if currentItemIndexPathWithTypes.indexPath != indexPath ||
-            currentItemIndexPathWithTypes.types != types {
+               currentItemIndexPathWithTypes.types != types {
             currentItemIndexPathWithTypes = (indexPath, types)
             delegate?.currentItemIndexDidChange()
         }
     }
-
 
     func goToMessage(with indexPath: IndexPath) {
         openChat(on: indexPath)
     }
 
     func switchTo(presentation: Presentation) {
-        previousPresentation = currentPresentation
-        currentPresentation = presentation
+        presentationStack.push(presentation)
         //check If presentation supports current Item type
         if let targetSupportedTypes = getViewController(by: presentation)?.getSupportedTypes(),
-            let currentItemType = modelInputOutput.item(withTypes: currentItemIndexPathWithTypes.types, at: currentItemIndexPathWithTypes.indexPath)?.type {
+           let currentItemType = modelInputOutput.item(
+               withTypes: currentItemIndexPathWithTypes.types,
+               at: currentItemIndexPathWithTypes.indexPath
+           )?.type {
             if targetSupportedTypes.contains(currentItemType) {
                 switchToCurrentPresentation()
             } else {
-                if let previousPresentation = previousPresentation {
-                    currentPresentation = previousPresentation
-                }
+                _ = presentationStack.pop()
             }
         }
     }
 
 }
 
+class Stack<T> where T: Equatable {
+
+    private var array = [T]()
+
+    private(set) var current: T?
+    private(set) var previous: T?
+
+    var count: Int {
+        return array.count
+    }
+
+    init(_ current: T) {
+        array.append(current)
+        self.current = current
+    }
+
+    func pop() {
+        previous = array.last
+        if !array.isEmpty {
+            array.removeLast()
+        }
+        current = array.last
+    }
+
+    func push(_ new: T) {
+        previous = array.last
+        array.append(new)
+        current = array.last
+    }
+
+}
