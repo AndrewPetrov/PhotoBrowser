@@ -176,7 +176,14 @@ class ContainerViewController: SelectableViewController, Presentable {
     }
     
     private func setupToolbar() {
-        toolbar.items = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace, trashButton]
+        let actions = modelInputOutput.allowedActions()
+        switch actions {
+        case .all:
+            toolbar.items = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace, trashButton]
+    
+        case .onlyShare:
+            toolbar.items = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace]
+        }
     }
     
     private func setupNavigationBar() {

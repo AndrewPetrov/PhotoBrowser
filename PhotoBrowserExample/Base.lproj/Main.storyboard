@@ -41,15 +41,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otz-aG-toP">
-                                <rect key="frame" x="131" y="255" width="152" height="30"/>
-                                <state key="normal" title="Tap on grouped photo"/>
+                                <rect key="frame" x="88.666666666666686" y="255" width="237" height="30"/>
+                                <state key="normal" title="Tap on grouped photo (only share)"/>
                                 <connections>
                                     <action selector="didTapOnGroupedPhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qlc-wG-oaB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nlJ-BZ-zTc">
-                                <rect key="frame" x="139.66666666666666" y="315" width="134.99999999999997" height="30"/>
-                                <state key="normal" title="Tap on single photo"/>
+                                <rect key="frame" x="97.666666666666686" y="315" width="219" height="30"/>
+                                <state key="normal" title="Tap on single photo (all actions)"/>
                                 <connections>
                                     <action selector="didTapOnSinglePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Gcu-ey-fLc"/>
                                 </connections>

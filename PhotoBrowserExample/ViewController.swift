@@ -112,7 +112,7 @@ class ViewController: UIViewController {
     @IBAction func didTapOnGroupedPhoto(_ sender: Any) {
         populateGalleryDataSource()
         DispatchQueue.main.async {
-            let photoBrowserModel = PhotoBrowserModel.make(dataSource: self, delegate: self)
+            let photoBrowserModel = PhotoBrowserModel.make(dataSource: self, delegate: self, allowedActions: .onlyShare)
             let photoBrowser = PhotoBrowser(modelInputOutput: photoBrowserModel, presentation: .table)
             self.navigationController?.pushViewController(photoBrowser, animated: true)
         }

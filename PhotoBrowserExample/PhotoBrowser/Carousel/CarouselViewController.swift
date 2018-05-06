@@ -110,7 +110,7 @@ class CarouselViewController: UIViewController, Presentable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         CarouselViewController.dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
         setupNavigationBar()
         cacheFirstImagesForCarouselViewAdapter()
@@ -119,7 +119,7 @@ class CarouselViewController: UIViewController, Presentable {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-    
+        
         lastTouchedCollection = .none
     }
     
@@ -128,15 +128,15 @@ class CarouselViewController: UIViewController, Presentable {
         
         setupCarouselControlCollectionView()
         collectionView.reloadData()
-    
+        
         if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
-        modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+               modelInputOutput.numberOfItems(withTypes: supportedTypes) {
             debugPrint((carouselControlCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize)
             centerCarouselControl(animated: false)
             centerCollectionView(animated: false)
         }
         carouselControlCollectionView.reloadData()
-    
+        
         updateToolBar()
     }
     
@@ -157,7 +157,7 @@ class CarouselViewController: UIViewController, Presentable {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    
+        
         setupDelegate()
         setupGestureRecognizers()
         
@@ -175,8 +175,8 @@ class CarouselViewController: UIViewController, Presentable {
         setupCollectionView()
         carouselControlAdapter.collectionViewSize = carouselControlCollectionView.frame.size
         if isFirstAppearing,
-            presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
-                modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+           presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
+               modelInputOutput.numberOfItems(withTypes: supportedTypes) {
             carouselControlCollectionView.reloadData()
             centerCarouselControl(animated: false)
             centerCollectionView(animated: false)
@@ -185,14 +185,13 @@ class CarouselViewController: UIViewController, Presentable {
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
-    
+        
         isFirstAppearing = false
         setupNavigationBar()
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
-        
         
         isFirstAppearing = true
     }
@@ -280,7 +279,15 @@ class CarouselViewController: UIViewController, Presentable {
             target: self,
             action: #selector(likeButtonDidTap(_:))
         )
-        toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem, flexibleSpace, deleteBarButtonItem]
+        let actions = modelInputOutput.allowedActions()
+        switch actions {
+        
+        case .all:
+            toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem, flexibleSpace, deleteBarButtonItem]
+        
+        case .onlyShare:
+            toolbar.items = [actionBarButtonItem, flexibleSpace, likeBarButtonItem]
+        }
     }
     
     private func toggleFullScreen() {

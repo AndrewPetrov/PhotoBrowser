@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum AllowedActions {
+
+    case all
+    case onlyShare
+
+}
 
 //relations to someone who has created browser
 protocol PhotoBrowserDelegate: class {
@@ -68,12 +74,14 @@ class PhotoBrowserModel {
     lazy var cachedItems = [Item]()
     private var itemsCacheByTypes = [ItemTypes: [Item]]()
     private var cachedTypes: ItemTypes?
+    private var actions: AllowedActions = .all
 
-    static func make(dataSource: PhotoBrowserDataSouce, delegate: PhotoBrowserDelegate) -> PhotoBrowserModel {
+    static func make(dataSource: PhotoBrowserDataSouce, delegate: PhotoBrowserDelegate, allowedActions: AllowedActions = .all) -> PhotoBrowserModel {
         let model = PhotoBrowserModel()
         model.dataSource = dataSource
         model.delegate = delegate
         model.updateCache()
+        model.actions = allowedActions
 
         return model
     }
@@ -82,8 +90,6 @@ class PhotoBrowserModel {
         let minCount = 20
         let startIndex = max(0, dataSource.startingItemIndexPath().row - minCount / 2)
         let finishIndex = min(startIndex + minCount, dataSource.itemsCount() - 1)
-
-
 
         for index in startIndex...finishIndex {
             if let item = dataSource.items(for: [IndexPath(item: index, section: 0)]).first {
@@ -125,8 +131,8 @@ class PhotoBrowserModel {
         for typedIndexPath in typedIndexPaths {
             let targetItem = filteredItemsArray[typedIndexPath.row]
             if let dataSourceIndexPathRow = cachedItems.index(of: targetItem),
-                dataSourceIndexPathRow >= cachedItems.startIndex,
-                dataSourceIndexPathRow <= cachedItems.endIndex {
+               dataSourceIndexPathRow >= cachedItems.startIndex,
+               dataSourceIndexPathRow <= cachedItems.endIndex {
                 dataSourceIndexPaths.append(IndexPath(row: dataSourceIndexPathRow, section: 0))
             }
         }
@@ -179,7 +185,7 @@ extension PhotoBrowserModel: ModelOutput {
 
     func transform(indexPath: IndexPath, fromTypes: ItemTypes, toTypes: ItemTypes) -> IndexPath {
         if let realIndexPath = dataSourceIndexPaths(for: [indexPath], withTypes: fromTypes).first,
-            realIndexPath.row >= 0, realIndexPath.row <= cachedItems.endIndex {
+           realIndexPath.row >= 0, realIndexPath.row <= cachedItems.endIndex {
 
             let realItem = cachedItems[realIndexPath.row]
             if let targetIndexPathRow = filteredItems(withTypes: toTypes).index(of: realItem) {
@@ -191,8 +197,8 @@ extension PhotoBrowserModel: ModelOutput {
 
     func startingItemIndexPath(withTypes types: ItemTypes) -> IndexPath {
         if let startingItem = dataSource.items(for: [dataSource.startingItemIndexPath()]).first,
-            let filteredIndex = filteredItems(withTypes: types).index(of: startingItem) {
-            
+           let filteredIndex = filteredItems(withTypes: types).index(of: startingItem) {
+
             return IndexPath(item: filteredIndex, section: 0)
         }
         return IndexPath(item: 0, section: 0)
@@ -209,7 +215,6 @@ extension PhotoBrowserModel: ModelOutput {
         }
         return nil
     }
-
 
     func indexPath(for item: Item, withTypes types: ItemTypes) -> IndexPath {
         return IndexPath(row: filteredItems(withTypes: types).index(of: item) ?? 0, section: 0)
@@ -234,7 +239,7 @@ extension PhotoBrowserModel: ModelOutput {
     }
 
     func allowedActions() -> AllowedActions {
-        return AllowedActions.onlyShare
+        return actions
     }
 }
 

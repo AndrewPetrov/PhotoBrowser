@@ -50,13 +50,6 @@ enum Presentation {
 
 }
 
-enum AllowedActions {
-
-    case all
-    case onlyShare
-
-}
-
 typealias PresentationViewController = Presentable & PhotoBrowserInternalDelegate & UIViewController
 
 protocol Presentable where Self: UIViewController {

@@ -110,7 +110,15 @@ class TableViewController: SelectableViewController, Presentable {
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
         selectedCountLabel = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
-        toolbar.items? = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace, trashButton]
+        let actions = modelInputOutput.allowedActions()
+        switch actions {
+        case .all:
+            toolbar.items? = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace, trashButton]
+
+        case .onlyShare:
+            toolbar.items? = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace]
+        }
+
     }
 
     private func setupNavigationBar() {
