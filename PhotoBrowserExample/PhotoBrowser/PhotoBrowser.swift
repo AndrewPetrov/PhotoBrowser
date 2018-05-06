@@ -34,9 +34,11 @@ protocol PresentationOutput: class {
 }
 
 protocol PresentationInput: class {
+    
     func currentItemIndex(withTypes types: ItemTypes) -> IndexPath
 
     func shouldAutoplayVideo() -> Bool
+    
 }
 
 enum Presentation {

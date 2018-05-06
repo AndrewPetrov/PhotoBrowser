@@ -86,8 +86,7 @@ extension DocsViewController: UITableViewDataSource {
                 with: item,
                 size: "100500",
                 extensionText: "jpg",
-                isSelectionAllowed: isSelectionAllowed,
-                isLiked: item.isLiked
+                isSelectionAllowed: isSelectionAllowed
             )
         }
 

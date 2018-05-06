@@ -132,7 +132,7 @@ class VideoItem: Item {
 
             return thumbnail
         } catch let error {
-            print("*** Error generating thumbnail: \(error.localizedDescription)")
+            debugPrint("*** Error generating thumbnail: \(error.localizedDescription)")
             return nil
         }
     }

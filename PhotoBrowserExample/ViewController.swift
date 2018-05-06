@@ -96,7 +96,7 @@ class ViewController: UIViewController {
         let myurl2 = Bundle.main.path(forResource: "NSPredicateCheatsheet", ofType: "pdf")
         let destPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         let fileManager = FileManager.default
-        print(fileManager.fileExists(atPath: myurl2!))
+        debugPrint(fileManager.fileExists(atPath: myurl2!))
 
         items.append(DocumentItem(id: 13, url: URL(fileURLWithPath: myurl2!), name: "PDF", sentTime: getPastDay(18), deliveryStatus: .seen))
 
@@ -188,19 +188,19 @@ extension ViewController: PhotoBrowserDelegate {
     }
 
     func saveItem(at indexPaths: [IndexPath]) {
-        print("saved item with indexPath = \(indexPaths)")
+        debugPrint("saved item with indexPath = \(indexPaths)")
     }
 
     func forwardItem(at indexPaths: [IndexPath]) {
-        print("forward item with indexPath = \(indexPaths)")
+        debugPrint("forward item with indexPath = \(indexPaths)")
     }
 
     func shareItem(at indexPaths: [IndexPath]) {
-        print("shared item with indexPath = \(indexPaths)")
+        debugPrint("shared item with indexPath = \(indexPaths)")
     }
 
     func setAsMyProfilePhoto(indexPath: IndexPath) {
-        print("set As My Profile Photo item with indexPath = \(indexPath)")
+        debugPrint("set As My Profile Photo item with indexPath = \(indexPath)")
     }
 
 }

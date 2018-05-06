@@ -22,9 +22,9 @@ class CarouselControlAdapter: NSObject {
     let itemSize = CGSize(width: 30, height: 50)
 
     private weak var modelInputOutput: ModelInputOutput!
-    private let touchAction: () -> Void
+    private let touchAction: (LastTouchedCollection) -> Void
 
-    init(collectionView: UICollectionView, modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput, supportedTypes: ItemTypes, touchAction: @escaping () -> Void) {
+    init(collectionView: UICollectionView, modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput, supportedTypes: ItemTypes, touchAction: @escaping (LastTouchedCollection) -> Void) {
         self.collectionView = collectionView
         self.modelInputOutput = modelInputOutput
         self.supportedTypes = supportedTypes
@@ -51,7 +51,6 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselControlCollectionViewCell",
                                                       for: indexPath) as! CarouselControlCollectionViewCell
 
@@ -93,7 +92,7 @@ extension CarouselControlAdapter: UICollectionViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.isTracking {
-            touchAction()
+            touchAction(.carousel)
         }
         if scrollView.isTracking {
             scrollView.setContentOffset(scrollView.contentOffset, animated: false)
@@ -105,6 +104,7 @@ extension CarouselControlAdapter: UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        touchAction(.none)
         presentationInputOutput.setItemAsCurrent(at: indexPath, withTypes: supportedTypes)
     }
 

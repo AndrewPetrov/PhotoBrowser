@@ -103,7 +103,7 @@ class PhotoBrowserModel {
 
     deinit {
         ImageCache.shared.cleanCache()
-        print("browser deinit")
+        debugPrint("browser deinit")
     }
 
     private func filteredItems(withTypes types: ItemTypes) -> [Item] {

@@ -98,7 +98,7 @@ class ContainerViewController: SelectableViewController, Presentable {
     }
     
     deinit {
-        print("-ContainerViewController")
+        debugPrint("-ContainerViewController")
     }
     
     override func viewDidLoad() {

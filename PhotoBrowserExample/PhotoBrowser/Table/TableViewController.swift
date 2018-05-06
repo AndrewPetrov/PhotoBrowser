@@ -22,6 +22,7 @@ class TableViewController: SelectableViewController, Presentable {
     @IBOutlet private weak var tableView: UITableView!
 
     private weak var presentationInputOutput: PresentationInputOutput!
+    private var isViewAppeared = false
 
     // MARK: - Life cycle
 
@@ -34,11 +35,13 @@ class TableViewController: SelectableViewController, Presentable {
     }
 
     deinit {
-        print("-TableViewController")
+        debugPrint("-TableViewController")
     }
 
     static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> TableViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "TableViewController") as! TableViewController
+        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
+            withIdentifier: "TableViewController"
+        ) as! TableViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
 
@@ -58,12 +61,22 @@ class TableViewController: SelectableViewController, Presentable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row
-            < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
-            tableView.scrollToRow(at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes), at: .middle, animated: false)
+               < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            tableView.scrollToRow(
+                at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
+                at: .middle,
+                animated: false
+            )
         }
 
         updateToolbarPosition()
-        updateNavigationBar() 
+        updateNavigationBar()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        isViewAppeared = true
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -75,17 +88,25 @@ class TableViewController: SelectableViewController, Presentable {
         }
         coordinator.animate(alongsideTransition: { [weak self] (context) -> Void in
             guard let `self` = self else { return }
-            self.tableView.scrollToRow(at: secondIndex ?? firstIndex ?? IndexPath(item: 0, section: 0), at: .middle, animated: true)
-            }, completion: { [weak self] (context) -> Void in
-                guard let `self` = self else { return }
-                self.updateNavigationBar()
+            self.tableView.scrollToRow(
+                at: secondIndex ?? firstIndex ?? IndexPath(item: 0, section: 0),
+                at: .middle,
+                animated: true
+            )
+        }, completion: { [weak self] (context) -> Void in
+            guard let `self` = self else { return }
+            self.updateNavigationBar()
         })
     }
 
     // MARK: - Setup controls
 
     private func setupToolbar() {
-        actionButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(actionButtonDidTap))
+        actionButton = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(actionButtonDidTap)
+        )
         trashButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(trashButtonDidTap))
         selectedCountLabel = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
@@ -110,7 +131,7 @@ class TableViewController: SelectableViewController, Presentable {
                 toolbarBottomContraint.constant -= bottomPadding
             }
         }
-        UIView.animate(withDuration: 0.33) { [weak self] in
+        UIView.animate(withDuration: isViewAppeared ? 0.33 : 0) { [weak self] in
             self?.toolbar.superview?.layoutIfNeeded()
         }
     }
@@ -120,7 +141,14 @@ class TableViewController: SelectableViewController, Presentable {
     }
 
     internal override func updateNavigationBar() {
-        let titleView = TitleView.init(frame: CGRect(x: 0, y: 0, width: 100, height:  parent?.navigationController?.navigationBar.frame.height ?? 20))
+        let titleView = TitleView.init(
+            frame: CGRect(
+                x: 0,
+                y: 0,
+                width: 100,
+                height: parent?.navigationController?.navigationBar.frame.height ?? 20
+            )
+        )
         let itemsTitle = ItemsSelectionHelper.getSelectionTitle(
             itemTypes: modelInputOutput.intersectionOfBrowserOutputTypes(inputTypes: supportedTypes),
             count: modelInputOutput.numberOfItems(withTypes: supportedTypes)

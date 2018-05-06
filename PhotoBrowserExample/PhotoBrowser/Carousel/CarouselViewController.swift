@@ -44,10 +44,10 @@ class CarouselViewController: UIViewController, Presentable {
             modelInputOutput: modelInputOutput,
             presentationInputOutput: presentationInputOutput,
             supportedTypes: supportedTypes
-        ) { [weak self] in
+        ) { [weak self] (last) in
             guard let `self` = self else { return }
             
-            self.lastTouchedCollection = .carousel
+            self.lastTouchedCollection = last
         }
     @IBOutlet private weak var carouselView: UIView!
     @IBOutlet private weak var toolbar: UIToolbar!
@@ -61,11 +61,11 @@ class CarouselViewController: UIViewController, Presentable {
     //caching scaled images
     private let uiBarButtonImageSize = CGSize(width: 25, height: 25)
     private lazy var likedYesSizedImage = UIImageHelper.imageWithImage(
-        image: #imageLiteral(resourceName:"iOSPhotoBrowser_likedYes"),
+        image: #imageLiteral(resourceName: "iOSPhotoBrowser_likedYes"),
         scaledToSize: uiBarButtonImageSize
     )
     private lazy var likedNoSizedImage = UIImageHelper.imageWithImage(
-        image: #imageLiteral(resourceName:"iOSPhotoBrowser_likeNo"),
+        image: #imageLiteral(resourceName: "iOSPhotoBrowser_likeNo"),
         scaledToSize: uiBarButtonImageSize
     )
     private lazy var flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -95,7 +95,7 @@ class CarouselViewController: UIViewController, Presentable {
     }
     
     deinit {
-        print("-CarouselViewController")
+        debugPrint("-CarouselViewController")
     }
     
     static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
@@ -110,36 +110,54 @@ class CarouselViewController: UIViewController, Presentable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         CarouselViewController.dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
         setupNavigationBar()
         cacheFirstImagesForCarouselViewAdapter()
         collectionView.decelerationRate = 1.5
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    
+        lastTouchedCollection = .none
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        carouselControlCollectionView.reloadData()
+        
         setupCarouselControlCollectionView()
         collectionView.reloadData()
-        
+    
         if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
-               modelInputOutput.numberOfItems(withTypes: supportedTypes) {
-            carouselControlCollectionView.scrollToItem(
-                at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
-                at: .centeredHorizontally,
-                animated: false
-            )
+        modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            debugPrint((carouselControlCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize)
+            centerCarouselControl(animated: false)
+            centerCollectionView(animated: false)
         }
-        
+        carouselControlCollectionView.reloadData()
+    
         updateToolBar()
-        //force viewDidLayoutSubviews always after viewWillAppear
-        view.setNeedsLayout()
+    }
+    
+    private func centerCollectionView(animated: Bool) {
+        collectionView.scrollToItem(
+            at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
+            at: .centeredHorizontally,
+            animated: animated)
+    }
+    
+    private func centerCarouselControl(animated: Bool) {
+        carouselControlCollectionView.scrollToItem(
+            at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
+            at: .centeredHorizontally,
+            animated: animated)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+    
         setupDelegate()
         setupGestureRecognizers()
         
@@ -149,7 +167,6 @@ class CarouselViewController: UIViewController, Presentable {
             
             playVideo(videoItem)
         }
-        isFirstAppearing = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -157,26 +174,25 @@ class CarouselViewController: UIViewController, Presentable {
         
         setupCollectionView()
         carouselControlAdapter.collectionViewSize = carouselControlCollectionView.frame.size
-        carouselControlCollectionView.reloadData()
-        if isFirstAppearing, presentationInputOutput.currentItemIndex(
-            withTypes: supportedTypes
-        ).row < modelInputOutput.numberOfItems(withTypes: supportedTypes) {
-            collectionView.scrollToItem(
-                at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
-                at: .centeredHorizontally,
-                animated: false
-            )
+        if isFirstAppearing,
+            presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
+                modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            carouselControlCollectionView.reloadData()
+            centerCarouselControl(animated: false)
+            centerCollectionView(animated: false)
         }
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
         super.didMove(toParentViewController: parent)
-        
+    
+        isFirstAppearing = false
         setupNavigationBar()
     }
     
     override func willMove(toParentViewController parent: UIViewController?) {
         super.willMove(toParentViewController: parent)
+        
         
         isFirstAppearing = true
     }
@@ -195,20 +211,14 @@ class CarouselViewController: UIViewController, Presentable {
             guard let `self` = self else { return }
             self.carouselControlAdapter.collectionViewSize = size
             self.carouselControlCollectionView.reloadData()
-            self.carouselControlCollectionView.scrollToItem(
-                at: self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes),
-                at: .centeredHorizontally,
-                animated: true)
+            self.centerCarouselControl(animated: true)
             self.imageViewOnTopOfCollectionView.frame.size = size
         }, completion: { [weak self] (context) -> Void in
             guard let `self` = self else { return }
             
             self.collectionView.reloadData()
             self.collectionView.layoutIfNeeded()
-            self.collectionView.scrollToItem(
-                at: self.presentationInputOutput.currentItemIndex(withTypes: self.supportedTypes),
-                at: .centeredHorizontally,
-                animated: false)
+            self.centerCollectionView(animated: false)
             self.collectionView.isHidden = false
             self.imageViewOnTopOfCollectionView.isHidden = true
         })
@@ -282,10 +292,9 @@ class CarouselViewController: UIViewController, Presentable {
         toolbarBottomConstraint.constant = 0
         if isFullScreen {
             if let navigationController = parent?.navigationController {
-                toolbarBottomConstraint.constant = -(
-                    toolbar.frame.height + navigationController.navigationBar.intrinsicContentSize.height +
-                        carouselControlCollectionView.frame.height
-                )
+                toolbarBottomConstraint.constant = -(toolbar.frame.height
+                    + navigationController.navigationBar.intrinsicContentSize.height
+                    + carouselControlCollectionView.frame.height)
             }
         }
         UIView.animate(withDuration: 0.3) {
@@ -477,7 +486,9 @@ extension CarouselViewController: UICollectionViewDelegate {
         if scrollView.isTracking {
             lastTouchedCollection = .main
         }
-        updateCurrentCellIndexPath(scrollView.contentOffset.x)
+        if lastTouchedCollection == .main {
+            updateCurrentCellIndexPath(scrollView.contentOffset.x)
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -497,17 +508,11 @@ extension CarouselViewController: PhotoBrowserInternalDelegate {
         setupDelegate()
         updateTitleView()
         
-        if !(collectionView.isTracking || lastTouchedCollection == .main) {
-            collectionView.scrollToItem(
-                at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
-                at: .centeredHorizontally,
-                animated: false)
+        if !collectionView.isTracking && lastTouchedCollection != .main {
+            centerCollectionView(animated: false)
         }
-        if !(carouselControlCollectionView.isTracking || lastTouchedCollection == .carousel) {
-            carouselControlCollectionView.scrollToItem(
-                at: presentationInputOutput.currentItemIndex(withTypes: supportedTypes),
-                at: .centeredHorizontally,
-                animated: true)
+        if !carouselControlCollectionView.isTracking && lastTouchedCollection != .carousel {
+            centerCarouselControl(animated: true)
         }
     }
     
