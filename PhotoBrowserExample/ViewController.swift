@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+//View controller just for testing, code may be not optimized
 class ViewController: UIViewController {
     
     var items = [Item]()
@@ -121,7 +122,6 @@ class ViewController: UIViewController {
         //add docs
         
         let myUrl2 = Bundle.main.path(forResource: "NSPredicateCheatsheet", ofType: "pdf")
-        //        let destPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         let fileManager = FileManager.default
         debugPrint(fileManager.fileExists(atPath: myUrl2!))
         

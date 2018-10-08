@@ -11,15 +11,15 @@ import UIKit
 
 class CarouselControlAdapter: NSObject {
     
-    private let supportedTypes: ItemTypes
     var collectionViewSize: CGSize
-    private weak var presentationInputOutput: PresentationInputOutput!
+    let itemSize = CGSize(width: 30, height: 50)
     
+    private let supportedTypes: ItemTypes
+    private weak var presentationInputOutput: PresentationInputOutput!
     private weak var collectionView: UICollectionView!
     private var gapSpace: CGFloat {
         return (collectionViewSize.width - itemSize.width) / 2
     }
-    let itemSize = CGSize(width: 30, height: 50)
     
     private weak var modelInputOutput: ModelInputOutput!
     private let touchAction: (LastTouchedCollection) -> Void
@@ -29,6 +29,7 @@ class CarouselControlAdapter: NSObject {
          presentationInputOutput: PresentationInputOutput,
          supportedTypes: ItemTypes,
          touchAction: @escaping (LastTouchedCollection) -> Void) {
+        
         self.collectionView = collectionView
         self.modelInputOutput = modelInputOutput
         self.supportedTypes = supportedTypes
@@ -50,7 +51,6 @@ class CarouselControlAdapter: NSObject {
 extension CarouselControlAdapter: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return modelInputOutput.numberOfItems(withTypes: supportedTypes)
     }
     
@@ -67,19 +67,20 @@ extension CarouselControlAdapter: UICollectionViewDataSource {
                 cell.configureCell(image: cachedImage, leftOffset: leftOffset, rightOffset: rightOffset)
             } else {
                 cell.configureCell(image: nil, leftOffset: leftOffset, rightOffset: rightOffset)
-                DispatchQueue.global()
-                             .async {
-                                 //to avoid task for same item in "willDisplay cell"
-                                 ImageCache.shared.setSized(UIImage(), forKey: item.id)
-                                 let sizedImage = UIImageHelper.imageWithImage(
-                                     image: item.image,
-                                     scaledToSize: self.itemSize
-                                 )
-                                 ImageCache.shared.setSized(sizedImage, forKey: item.id)
-                                 DispatchQueue.main.async {
-                                     cell.image = sizedImage
-                                 }
-                             }
+                DispatchQueue
+                    .global()
+                    .async {
+                        //to avoid task for same item in "willDisplay cell"
+                        ImageCache.shared.setSized(UIImage(), forKey: item.id)
+                        let sizedImage = UIImageHelper.imageWithImage(
+                            image: item.image,
+                            scaledToSize: self.itemSize
+                        )
+                        ImageCache.shared.setSized(sizedImage, forKey: item.id)
+                        DispatchQueue.main.async {
+                            cell.image = sizedImage
+                        }
+                    }
             }
         }
         

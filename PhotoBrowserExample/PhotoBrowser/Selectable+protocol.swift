@@ -86,7 +86,8 @@ class SelectableViewController: UIViewController {
         }
         return ItemsSelectionHelper.getSelectionTitle(
             itemTypes: itemTypes,
-            count: getSelectedIndexPaths().count)
+            count: getSelectedIndexPaths().count
+        )
     }
     
     internal func updateSelectButtonTitle() {

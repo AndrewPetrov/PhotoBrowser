@@ -41,9 +41,6 @@ class TableViewController: SelectableViewController, Presentable {
     static func make(modelInputOutput: ModelInputOutput,
                      presentationInputOutput: PresentationInputOutput) -> TableViewController {
         let newViewController = StoryboardScene.PhotoBrowser.tableViewController.instantiate()
-//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
-//            withIdentifier: "TableViewController"
-//        ) as! TableViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         

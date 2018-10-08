@@ -158,8 +158,6 @@ class ContainerViewController: SelectableViewController, Presentable {
     static func make(modelInputOutput: ModelInputOutput,
                      presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
         let newViewController = StoryboardScene.PhotoBrowser.containerViewController.instantiate()
-//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
-//            .instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         

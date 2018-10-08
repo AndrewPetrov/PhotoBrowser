@@ -13,8 +13,8 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var playImageView: UIImageView!
-    
     @IBOutlet private weak var scrollView: UIScrollView!
+    
     private var zoomOutHandler: (() -> ())?
     private var isVideo = false
     

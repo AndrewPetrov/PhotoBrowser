@@ -31,6 +31,7 @@ class CarouselViewController: UIViewController, Presentable {
     private let supportedTypes: ItemTypes = [.image, .video]
     private weak var modelInputOutput: ModelInputOutput!
     private weak var presentationInputOutput: PresentationInputOutput!
+    private var lastTouchedCollection: LastTouchedCollection = .none
     
     @IBOutlet private weak var imageViewOnTopOfCollectionView: UIImageView!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
@@ -38,7 +39,6 @@ class CarouselViewController: UIViewController, Presentable {
     @IBOutlet private weak var carouselControlCollectionView: UICollectionView!
     @IBOutlet private weak var toolbarBottomConstraint: NSLayoutConstraint!
     
-    private var lastTouchedCollection: LastTouchedCollection = .none
     
     lazy private var carouselControlAdapter: CarouselControlAdapter =
         CarouselControlAdapter(
@@ -103,9 +103,6 @@ class CarouselViewController: UIViewController, Presentable {
     static func make(modelInputOutput: ModelInputOutput,
                      presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
         let newViewController = StoryboardScene.PhotoBrowser.carouselViewController.instantiate()
-//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
-//            withIdentifier: "CarouselViewController"
-//        ) as! CarouselViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         
@@ -501,14 +498,6 @@ extension CarouselViewController: UICollectionViewDelegate {
         if lastTouchedCollection == .main {
             updateCurrentCellIndexPath(scrollView.contentOffset.x)
         }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-    
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-    
     }
     
 }

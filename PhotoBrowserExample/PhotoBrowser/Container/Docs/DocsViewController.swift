@@ -27,8 +27,6 @@ class DocsViewController: UIViewController {
     static func make(modelInputOutput: ModelInputOutput,
                      containerInputOutput: ContainerViewControllerInputOutput) -> DocsViewController {
          let newViewController  = StoryboardScene.PhotoBrowser.docsViewController.instantiate()
-//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
-//            .instantiateViewController(withIdentifier: "DocsViewController") as! DocsViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
         

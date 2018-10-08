@@ -28,9 +28,6 @@ class SingleViewController: UIViewController, Presentable {
     static func make(modelInputOutput: ModelInputOutput,
                      presentationInputOutput: PresentationInputOutput) -> SingleViewController {
         let newViewController = StoryboardScene.PhotoBrowser.singleViewController.instantiate()
-//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
-//            withIdentifier: "SingleViewController"
-//        ) as! SingleViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         
