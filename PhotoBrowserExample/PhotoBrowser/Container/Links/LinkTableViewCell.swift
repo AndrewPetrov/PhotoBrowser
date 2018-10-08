@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class LinkTableViewCell: UITableViewCell {
-
+    
     @IBOutlet private weak var mainImageView: UIImageView!
     @IBOutlet private weak var linkLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
@@ -18,17 +18,20 @@ class LinkTableViewCell: UITableViewCell {
     @IBOutlet private weak var selectionViewWidth: NSLayoutConstraint!
     
     private var goToMessageHandler: (() -> ())?
-
+    
     @IBAction func goToMessageButtonDidTap(_ sender: UIButton) {
         goToMessageHandler?()
     }
-
-    func configureCell(with item: LinkItem, isSelectionAllowed: Bool, isLiked: Bool, goToMessageHandler: @escaping () -> ()) {
+    
+    func configureCell(with item: LinkItem,
+                       isSelectionAllowed: Bool,
+                       isLiked: Bool,
+                       goToMessageHandler: @escaping () -> ()) {
         mainImageView.image = item.image
         self.goToMessageHandler = goToMessageHandler
         linkLabel.text = item.url.absoluteString
         descriptionLabel.text = item.name
-
+        
         selectionImageView.alpha = !isSelectionAllowed ? 1 : 0
         selectionViewWidth.constant = isSelectionAllowed ? 50 : 0
         UIView.animate(withDuration: 0.33) {
@@ -36,18 +39,18 @@ class LinkTableViewCell: UITableViewCell {
             self.layoutIfNeeded()
         }
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
-
+        
         mainImageView.image = nil
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         selectionImageView.image = isSelected ? #imageLiteral(resourceName: "iOSPhotoBrowser_selected") : nil
-
+        
     }
-
+    
 }

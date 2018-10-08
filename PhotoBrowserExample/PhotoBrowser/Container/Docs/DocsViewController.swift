@@ -13,24 +13,28 @@ class DocsViewController: UIViewController {
     
     private weak var modelInputOutput: ModelInputOutput!
     private weak var containerInputOutput: ContainerViewControllerInputOutput!
-
+    
     @IBOutlet private weak var tableView: UITableView!
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
-    static func make(modelInputOutput: ModelInputOutput, containerInputOutput: ContainerViewControllerInputOutput) -> DocsViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(withIdentifier: "DocsViewController") as! DocsViewController
+    
+    static func make(modelInputOutput: ModelInputOutput,
+                     containerInputOutput: ContainerViewControllerInputOutput) -> DocsViewController {
+         let newViewController  = StoryboardScene.PhotoBrowser.docsViewController.instantiate()
+//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
+//            .instantiateViewController(withIdentifier: "DocsViewController") as! DocsViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
-
+        
         return newViewController
     }
-
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         let firstIndex = tableView.indexPathsForVisibleRows?.first
@@ -40,23 +44,27 @@ class DocsViewController: UIViewController {
         }
         coordinator.animate(alongsideTransition: { [weak self] (context) -> Void in
             guard let `self` = self else { return }
-            self.tableView.scrollToRow(at: secondIndex ?? firstIndex ?? IndexPath(item: 0, section: 0), at: .middle, animated: true)
-            }, completion: nil)
+            self.tableView.scrollToRow(
+                at: secondIndex ?? firstIndex ?? IndexPath(item: 0, section: 0),
+                at: .middle,
+                animated: true
+            )
+        }, completion: nil)
     }
-
+    
 }
 
 extension DocsViewController: ContainerViewControllerDelegate {
-
+    
     func updateCache() {
         //do nothing for now
         reloadUI()
     }
-
+    
     func getSelectedIndexPaths() -> [IndexPath] {
         return tableView.indexPathsForVisibleRows ?? [IndexPath]()
     }
-
+    
     func setItem(at indexPath: IndexPath, selected: Bool) {
         if selected {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
@@ -64,24 +72,27 @@ extension DocsViewController: ContainerViewControllerDelegate {
             tableView.deselectRow(at: indexPath, animated: false)
         }
     }
-
+    
     func reloadUI() {
         tableView.reloadData()
     }
-
+    
 }
 
 extension DocsViewController: UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return modelInputOutput.numberOfItems(withTypes: containerInputOutput.currentlySupportedTypes())
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "DocsTableViewCell") as! DocsTableViewCell
         let isSelectionAllowed = containerInputOutput.isSelectionAllowed()
-        if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) as? DocumentItem {
+        if let item = modelInputOutput.item(
+            withTypes: containerInputOutput.currentlySupportedTypes(),
+            at: indexPath
+        ) as? DocumentItem {
             cell.configureCell(
                 with: item,
                 size: "100500",
@@ -89,25 +100,28 @@ extension DocsViewController: UITableViewDataSource {
                 isSelectionAllowed: isSelectionAllowed
             )
         }
-
+        
         return cell
     }
-
+    
 }
 
 extension DocsViewController: UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if containerInputOutput.isSelectionAllowed() {
             containerInputOutput.didSetItemAs(isSelected: true, at: indexPath)
         } else {
             tableView.deselectRow(at: indexPath, animated: true)
-            if let item = modelInputOutput.item(withTypes: containerInputOutput.currentlySupportedTypes(), at: indexPath) {
+            if let item = modelInputOutput.item(
+                withTypes: containerInputOutput.currentlySupportedTypes(),
+                at: indexPath
+            ) {
                 containerInputOutput.open(item: item)
             }
         }
     }
-
+    
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         containerInputOutput.didSetItemAs(isSelected: false, at: indexPath)
     }

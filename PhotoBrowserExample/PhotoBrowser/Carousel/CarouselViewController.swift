@@ -98,7 +98,8 @@ class CarouselViewController: UIViewController, Presentable {
         debugPrint("-CarouselViewController")
     }
     
-    static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
+    static func make(modelInputOutput: ModelInputOutput,
+                     presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
             withIdentifier: "CarouselViewController"
         ) as! CarouselViewController
@@ -130,7 +131,7 @@ class CarouselViewController: UIViewController, Presentable {
         collectionView.reloadData()
         
         if presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
-               modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            modelInputOutput.numberOfItems(withTypes: supportedTypes) {
             debugPrint((carouselControlCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize)
             centerCarouselControl(animated: false)
             centerCollectionView(animated: false)
@@ -162,8 +163,8 @@ class CarouselViewController: UIViewController, Presentable {
         setupGestureRecognizers()
         
         if let videoItem = modelInputOutput.item(withTypes: supportedTypes, at: currentCellIndexPath) as? VideoItem,
-           isFirstAppearing,
-           presentationInputOutput.shouldAutoplayVideo() {
+            isFirstAppearing,
+            presentationInputOutput.shouldAutoplayVideo() {
             
             playVideo(videoItem)
         }
@@ -175,8 +176,8 @@ class CarouselViewController: UIViewController, Presentable {
         setupCollectionView()
         carouselControlAdapter.collectionViewSize = carouselControlCollectionView.frame.size
         if isFirstAppearing,
-           presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
-               modelInputOutput.numberOfItems(withTypes: supportedTypes) {
+            presentationInputOutput.currentItemIndex(withTypes: supportedTypes).row <
+                modelInputOutput.numberOfItems(withTypes: supportedTypes) {
             carouselControlCollectionView.reloadData()
             centerCarouselControl(animated: false)
             centerCollectionView(animated: false)
@@ -454,14 +455,14 @@ class CarouselViewController: UIViewController, Presentable {
             if let item = modelInputOutput.item(
                 withTypes: supportedTypes,
                 at: IndexPath(item: safeIndex, section: 0)),
-               ImageCache.shared.sizedImage(forKey: item.id) == nil {
+                ImageCache.shared.sizedImage(forKey: item.id) == nil {
                 ImageCache.shared.setSized(UIImage(), forKey: item.id)
                 let size = carouselControlAdapter.itemSize
                 DispatchQueue.global()
-                    .async {
-                        let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: size)
-                        ImageCache.shared.setSized(sizedImage, forKey: item.id)
-                    }
+                             .async {
+                                 let sizedImage = UIImageHelper.imageWithImage(image: item.image, scaledToSize: size)
+                                 ImageCache.shared.setSized(sizedImage, forKey: item.id)
+                             }
             }
         }
     }
@@ -474,7 +475,8 @@ extension CarouselViewController: UICollectionViewDataSource {
         return modelInputOutput.numberOfItems(withTypes: supportedTypes)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCollectionViewCell",
                                                       for: indexPath) as! CarouselCollectionViewCell
         let item = modelInputOutput.item(withTypes: supportedTypes, at: indexPath)

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class TableViewCell: UITableViewCell {
-
+    
     @IBOutlet private weak var mainImageView: UIImageView!
     @IBOutlet private weak var buttomInset: NSLayoutConstraint!
     @IBOutlet private weak var likeImageView: UIImageView!
@@ -18,15 +18,21 @@ class TableViewCell: UITableViewCell {
     @IBOutlet private weak var deliveryStatusImageView: UIImageView!
     @IBOutlet private weak var selectionImageView: UIImageView!
     @IBOutlet private weak var playImageView: UIImageView!
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
-
+        
         mainImageView.image = nil
     }
-
-    func configureCell(image: UIImage, isLiked: Bool, isVideo: Bool, hasInset: Bool, isSelectionAllowed: Bool, deliveryStatus: DeliveryStatus, sentTime: Date) {
-
+    
+    func configureCell(image: UIImage,
+                       isLiked: Bool,
+                       isVideo: Bool,
+                       hasInset: Bool,
+                       isSelectionAllowed: Bool,
+                       deliveryStatus: DeliveryStatus,
+                       sentTime: Date) {
+        
         buttomInset.constant = hasInset ? TableViewController.inset : 0
         mainImageView.image = image
         var image = UIImage()
@@ -39,18 +45,18 @@ class TableViewCell: UITableViewCell {
             break
         }
         deliveryStatusImageView.image = image
-
+        
         dateLabel.text = TableViewController.dateFormatter.string(from: sentTime)
-
+        
         likeImageView.image = isLiked ? #imageLiteral(resourceName: "iOSPhotoBrowser_star") : nil
-
+        
         selectionImageView.isHidden = !isSelectionAllowed
         playImageView.isHidden = !isVideo
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         selectionImageView.image = selected ? #imageLiteral(resourceName: "iOSPhotoBrowser_selected") : nil
     }
-
+    
 }

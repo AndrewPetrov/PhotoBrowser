@@ -20,13 +20,9 @@
 		773863542034BF7700FD2FEA /* TitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 773863532034BF7700FD2FEA /* TitleView.xib */; };
 		773863562034BFBB00FD2FEA /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773863552034BFBB00FD2FEA /* TitleView.swift */; };
 		773863592034C21A00FD2FEA /* ItemsSelectionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773863582034C21A00FD2FEA /* ItemsSelectionHelper.swift */; };
-		7738635D2034E6C200FD2FEA /* Cock - 10685.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7738635B2034E6AA00FD2FEA /* Cock - 10685.mp4 */; };
-		7738635E2034E6C800FD2FEA /* Runner - 10809.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7738635C2034E6AB00FD2FEA /* Runner - 10809.mp4 */; };
-		7738635F2034E6CE00FD2FEA /* Roast - 11620.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7738635A2034E6A900FD2FEA /* Roast - 11620.mp4 */; };
 		7738636120359C0A00FD2FEA /* DocsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7738636020359C0A00FD2FEA /* DocsTableViewCell.swift */; };
 		773AA7B52031DE8200930D51 /* Selectable+protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773AA7B42031DE8200930D51 /* Selectable+protocol.swift */; };
 		776B94FA203B568300CC4ACA /* NSPredicateCheatsheet.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 776B94F9203B568200CC4ACA /* NSPredicateCheatsheet.pdf */; };
-		7796303B2030896700EF4861 /* small.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7796303A2030895B00EF4861 /* small.mp4 */; };
 		779A8D80202E282400CCFF26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D7F202E282400CCFF26 /* AppDelegate.swift */; };
 		779A8D82202E282400CCFF26 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779A8D81202E282400CCFF26 /* ViewController.swift */; };
 		779A8D85202E282400CCFF26 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 779A8D83202E282400CCFF26 /* Main.storyboard */; };
@@ -46,7 +42,10 @@
 		77EC29422094BE49008B5FBB /* MediaCollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77EC29412094BE49008B5FBB /* MediaCollectionViewFooter.xib */; };
 		77EC29442095F21B008B5FBB /* UIView+LoadFromNib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EC29432095F21B008B5FBB /* UIView+LoadFromNib.swift */; };
 		77EC294720966737008B5FBB /* SingleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EC294620966737008B5FBB /* SingleViewController.swift */; };
+		77F11122216BD742008243DA /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F11121216BD742008243DA /* Assets.swift */; };
 		77F4CBDE202F0A7100DED9AF /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F4CBDD202F0A7000DED9AF /* Item.swift */; };
+		ABC352368B52EFB4ACF08FEA /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = ABC35F9B4F51953A5E757BA0 /* swiftgen.yml */; };
+		ABC35BEC7BC9483BFFECE877 /* StoryboardScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC352A7CA50F69E596AF3A1 /* StoryboardScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,13 +64,9 @@
 		773863532034BF7700FD2FEA /* TitleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleView.xib; sourceTree = "<group>"; };
 		773863552034BFBB00FD2FEA /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		773863582034C21A00FD2FEA /* ItemsSelectionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsSelectionHelper.swift; sourceTree = "<group>"; };
-		7738635A2034E6A900FD2FEA /* Roast - 11620.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roast - 11620.mp4"; sourceTree = "<group>"; };
-		7738635B2034E6AA00FD2FEA /* Cock - 10685.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cock - 10685.mp4"; sourceTree = "<group>"; };
-		7738635C2034E6AB00FD2FEA /* Runner - 10809.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Runner - 10809.mp4"; sourceTree = "<group>"; };
 		7738636020359C0A00FD2FEA /* DocsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsTableViewCell.swift; sourceTree = "<group>"; };
 		773AA7B42031DE8200930D51 /* Selectable+protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Selectable+protocol.swift"; sourceTree = "<group>"; };
 		776B94F9203B568200CC4ACA /* NSPredicateCheatsheet.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = NSPredicateCheatsheet.pdf; sourceTree = "<group>"; };
-		7796303A2030895B00EF4861 /* small.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = small.mp4; sourceTree = "<group>"; };
 		779A8D7C202E282400CCFF26 /* PhotoBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A8D7F202E282400CCFF26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		779A8D81202E282400CCFF26 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,7 +88,14 @@
 		77EC29412094BE49008B5FBB /* MediaCollectionViewFooter.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaCollectionViewFooter.xib; sourceTree = "<group>"; };
 		77EC29432095F21B008B5FBB /* UIView+LoadFromNib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+LoadFromNib.swift"; sourceTree = "<group>"; };
 		77EC294620966737008B5FBB /* SingleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleViewController.swift; sourceTree = "<group>"; };
+		77F11121216BD742008243DA /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		77F11123216BD902008243DA /* Roast - 11620.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roast - 11620.mp4"; sourceTree = "<group>"; };
+		77F11124216BD902008243DA /* small.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = small.mp4; sourceTree = "<group>"; };
+		77F11125216BD902008243DA /* Runner - 10809.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Runner - 10809.mp4"; sourceTree = "<group>"; };
+		77F11126216BD902008243DA /* Cock - 10685.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cock - 10685.mp4"; sourceTree = "<group>"; };
 		77F4CBDD202F0A7000DED9AF /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		ABC352A7CA50F69E596AF3A1 /* StoryboardScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardScene.swift; sourceTree = "<group>"; };
+		ABC35F9B4F51953A5E757BA0 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = file.yml; path = swiftgen.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				779A8D7D202E282400CCFF26 /* Products */,
 				622E346C3215BB49A9420154 /* Pods */,
 				60F9AB7DC00D41FFFFCFFC50 /* Frameworks */,
+				ABC35F9B4F51953A5E757BA0 /* swiftgen.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,16 +199,12 @@
 		779A8D7E202E282400CCFF26 /* PhotoBrowserExample */ = {
 			isa = PBXGroup;
 			children = (
+				77F11120216BD6B5008243DA /* Resources */,
 				77DF1E7C202E29F5003CFA75 /* PhotoBrowser */,
 				779A8D7F202E282400CCFF26 /* AppDelegate.swift */,
 				779A8D81202E282400CCFF26 /* ViewController.swift */,
 				779A8D83202E282400CCFF26 /* Main.storyboard */,
-				7738635B2034E6AA00FD2FEA /* Cock - 10685.mp4 */,
-				7738635A2034E6A900FD2FEA /* Roast - 11620.mp4 */,
-				7738635C2034E6AB00FD2FEA /* Runner - 10809.mp4 */,
-				7796303A2030895B00EF4861 /* small.mp4 */,
 				776B94F9203B568200CC4ACA /* NSPredicateCheatsheet.pdf */,
-				779A8D86202E282400CCFF26 /* Assets.xcassets */,
 				779A8D88202E282400CCFF26 /* LaunchScreen.storyboard */,
 				779A8D8B202E282400CCFF26 /* Info.plist */,
 			);
@@ -270,12 +269,34 @@
 			path = Single;
 			sourceTree = "<group>";
 		};
+		77F11120216BD6B5008243DA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				77F11126216BD902008243DA /* Cock - 10685.mp4 */,
+				77F11123216BD902008243DA /* Roast - 11620.mp4 */,
+				77F11125216BD902008243DA /* Runner - 10809.mp4 */,
+				77F11124216BD902008243DA /* small.mp4 */,
+				779A8D86202E282400CCFF26 /* Assets.xcassets */,
+				ABC352D566B3AD1ACD7777EA /* SwiftGen */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		77F4CBDC202F0A5C00DED9AF /* Item */ = {
 			isa = PBXGroup;
 			children = (
 				77F4CBDD202F0A7000DED9AF /* Item.swift */,
 			);
 			path = Item;
+			sourceTree = "<group>";
+		};
+		ABC352D566B3AD1ACD7777EA /* SwiftGen */ = {
+			isa = PBXGroup;
+			children = (
+				77F11121216BD742008243DA /* Assets.swift */,
+				ABC352A7CA50F69E596AF3A1 /* StoryboardScene.swift */,
+			);
+			path = SwiftGen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,8 +310,6 @@
 				779A8D78202E282400CCFF26 /* Sources */,
 				779A8D79202E282400CCFF26 /* Frameworks */,
 				779A8D7A202E282400CCFF26 /* Resources */,
-				9BA02988CE22AFFEDF94347E /* [CP] Embed Pods Frameworks */,
-				2701EC0433833627050D9506 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -341,55 +360,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				77EC29422094BE49008B5FBB /* MediaCollectionViewFooter.xib in Resources */,
-				7738635F2034E6CE00FD2FEA /* Roast - 11620.mp4 in Resources */,
-				7738635E2034E6C800FD2FEA /* Runner - 10809.mp4 in Resources */,
-				7738635D2034E6C200FD2FEA /* Cock - 10685.mp4 in Resources */,
-				7796303B2030896700EF4861 /* small.mp4 in Resources */,
 				779A8D8A202E282400CCFF26 /* LaunchScreen.storyboard in Resources */,
 				779A8D87202E282400CCFF26 /* Assets.xcassets in Resources */,
 				77BEE9AD2038326A0046BE0C /* PhotoBrowser.storyboard in Resources */,
 				776B94FA203B568300CC4ACA /* NSPredicateCheatsheet.pdf in Resources */,
 				773863542034BF7700FD2FEA /* TitleView.xib in Resources */,
 				779A8D85202E282400CCFF26 /* Main.storyboard in Resources */,
+				ABC352368B52EFB4ACF08FEA /* swiftgen.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2701EC0433833627050D9506 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBrowser/Pods-PhotoBrowser-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9BA02988CE22AFFEDF94347E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBrowser/Pods-PhotoBrowser-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLinkPreview.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PhotoBrowser/Pods-PhotoBrowser-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9D4393C364753BA4CB82CEA3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -426,6 +409,7 @@
 				7738636120359C0A00FD2FEA /* DocsTableViewCell.swift in Sources */,
 				772D969320337CA9003903EC /* CarouselControlAdapter.swift in Sources */,
 				772D969620337EEB003903EC /* CarouselControlCollectionViewCell.swift in Sources */,
+				77F11122216BD742008243DA /* Assets.swift in Sources */,
 				773AA7B52031DE8200930D51 /* Selectable+protocol.swift in Sources */,
 				773863592034C21A00FD2FEA /* ItemsSelectionHelper.swift in Sources */,
 				7737C75E203078460052F6A2 /* DocsViewController.swift in Sources */,
@@ -443,6 +427,7 @@
 				7737C760203082B20052F6A2 /* LinkTableViewCell.swift in Sources */,
 				77A97DE12031D06200F79E3C /* WebViewController.swift in Sources */,
 				77DF1E7E202E2A50003CFA75 /* PhotoBrowser.swift in Sources */,
+				ABC35BEC7BC9483BFFECE877 /* StoryboardScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

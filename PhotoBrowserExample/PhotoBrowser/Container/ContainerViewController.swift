@@ -155,7 +155,8 @@ class ContainerViewController: SelectableViewController, Presentable {
         setupNavigationBar()
     }
     
-    static func make(modelInputOutput: ModelInputOutput, presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
+    static func make(modelInputOutput: ModelInputOutput,
+                     presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
         let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
             .instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
         newViewController.modelInputOutput = modelInputOutput
@@ -180,7 +181,7 @@ class ContainerViewController: SelectableViewController, Presentable {
         switch actions {
         case .all:
             toolbar.items = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace, trashButton]
-    
+        
         case .onlyShare:
             toolbar.items = [actionButton, flexibleSpace, selectedCountLabel, flexibleSpace]
         }

@@ -9,9 +9,9 @@
 import Foundation
 
 class ItemsSelectionHelper {
-
+    
     static func getSelectionTitle(itemTypes: ItemTypes, count: Int) -> String {
         return "\(count) " + itemTypes.description(isPlural: count > 1)
     }
-
+    
 }

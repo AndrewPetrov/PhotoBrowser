@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class MediaCollectionViewHeader: UICollectionReusableView {
-
+    
     @IBOutlet weak var dateLabel: UILabel!
-
+    
     func configureView(text: String) {
         dateLabel.text = text
     }

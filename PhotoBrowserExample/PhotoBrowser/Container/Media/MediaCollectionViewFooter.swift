@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class MediaCollectionViewFooter: UIView {
-
+    
     @IBOutlet weak var countLabel: UILabel!
-
+    
     func configureView(text: String) {
         countLabel.text = text
     }

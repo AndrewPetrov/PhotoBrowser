@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -78,7 +76,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="493.60000000000002" y="-10.344827586206897"/>
+            <point key="canvasLocation" x="443" y="-152"/>
         </scene>
         <!--Carousel View Controller-->
         <scene sceneID="xbi-jD-LjN">
@@ -113,7 +111,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                                             <gestureRecognizers/>
                                                         </imageView>
-                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iOSPhotoBrowser_play" translatesAutoresizingMaskIntoConstraints="NO" id="ZuF-rn-fXZ">
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="iOSPhotoBrowser_play" translatesAutoresizingMaskIntoConstraints="NO" id="ZuF-rn-fXZ">
                                                             <rect key="frame" x="75" y="75" width="50" height="50"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="50" id="I50-qz-BHs"/>
@@ -289,7 +287,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1282" y="-107"/>
+            <point key="canvasLocation" x="443" y="575"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="FVb-z3-e6K">
@@ -311,30 +309,30 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UCG-Fq-6gg">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="326.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="326.5"/>
                                                 </imageView>
                                                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iOSPhotoBrowser_play" translatesAutoresizingMaskIntoConstraints="NO" id="OKF-16-qC0">
-                                                    <rect key="frame" x="162.5" y="143.5" width="50" height="50"/>
+                                                    <rect key="frame" x="135" y="143.5" width="50" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="9qv-fJ-KjP"/>
                                                         <constraint firstAttribute="width" constant="50" id="V1y-rO-b5s"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="69I-3O-2Qq">
-                                                    <rect key="frame" x="283" y="295.5" width="42" height="21"/>
+                                                    <rect key="frame" x="228" y="295.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BTS-vK-7Lc">
-                                                    <rect key="frame" x="210" y="286.5" width="30" height="30"/>
+                                                    <rect key="frame" x="155" y="286.5" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="MfP-bw-YDO"/>
                                                         <constraint firstAttribute="width" constant="30" id="lwe-hh-cia"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fv1-Nn-JmT">
-                                                    <rect key="frame" x="335" y="286.5" width="30" height="30"/>
+                                                    <rect key="frame" x="280" y="286.5" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="p5y-1b-IXw"/>
                                                         <constraint firstAttribute="height" constant="30" id="pEv-aV-qNy"/>
@@ -426,7 +424,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JPj-Vs-rMz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-396" y="1513"/>
+            <point key="canvasLocation" x="443" y="1289"/>
         </scene>
         <!--Container View Controller-->
         <scene sceneID="47H-wz-srO">
@@ -468,7 +466,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5hn-Bv-0CK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1181.5999999999999" y="658.92053973013503"/>
+            <point key="canvasLocation" x="-531" y="575"/>
         </scene>
         <!--Links View Controller-->
         <scene sceneID="1UW-LC-MpN">
@@ -482,7 +480,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LinkTableViewCell" rowHeight="100" id="2UB-8u-fKe" customClass="LinkTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="LinkTableViewCell" rowHeight="100" id="2UB-8u-fKe" customClass="LinkTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2UB-8u-fKe" id="rLx-ov-7Dj">
@@ -590,7 +588,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4fM-B6-JcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2107.2463768115945" y="658.69565217391312"/>
+            <point key="canvasLocation" x="1622" y="575"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="4Xh-R5-oPF">
@@ -620,7 +618,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q8B-Ha-10c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2858" y="676"/>
+            <point key="canvasLocation" x="1622" y="2015"/>
         </scene>
         <!--Docs View Controller-->
         <scene sceneID="efD-ax-bRK">
@@ -634,7 +632,7 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="DocsTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocsTableViewCell" id="dcQ-5Q-Axk" customClass="DocsTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="DocsTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DocsTableViewCell" id="dcQ-5Q-Axk" customClass="DocsTableViewCell" customModule="PhotoBrowser" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dcQ-5Q-Axk" id="rh5-ke-DMR">
@@ -642,13 +640,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hTr-AD-Tqa">
-                                                    <rect key="frame" x="0.0" y="0.0" width="37.5" height="49.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="37" height="49.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="hTr-AD-Tqa" secondAttribute="height" multiplier="3:4" id="GV2-WS-5ti"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CGG-9g-rST">
-                                                    <rect key="frame" x="42.5" y="3" width="272.5" height="20"/>
+                                                    <rect key="frame" x="42" y="3" width="273" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="aC2-YQ-3mD"/>
                                                     </constraints>
@@ -732,7 +730,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TGV-ng-pWB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2109" y="1419"/>
+            <point key="canvasLocation" x="1622" y="1289"/>
         </scene>
         <!--Media View Controller-->
         <scene sceneID="MqV-RY-4Yg">
@@ -811,16 +809,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kTQ-t6-k5d">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Kdo-Ed-Fe2">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             </view>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.48415492957746481" colorSpace="custom" customColorSpace="sRGB"/>
                                             <blurEffect style="light"/>
                                         </visualEffectView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="this month" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Okj-aB-aUO">
-                                            <rect key="frame" x="8" y="15" width="359" height="21"/>
+                                            <rect key="frame" x="8" y="14.5" width="304" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -862,11 +860,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nbw-uW-HBJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2109" y="-107"/>
+            <point key="canvasLocation" x="1622" y="-152"/>
         </scene>
     </scenes>
     <resources>
-        <image name="iOSPhotoBrowser_play" width="512" height="512"/>
+        <image name="iOSPhotoBrowser_play" width="250.7755126953125" height="250.7755126953125"/>
         <image name="iOSPhotoBrowser_videoIcon" width="512" height="512"/>
     </resources>
 </document>

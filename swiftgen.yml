@@ -1,0 +1,10 @@
+output_dir: PhotoBrowserExample/Resources/SwiftGen/
+xcassets:
+  paths: PhotoBrowserExample/Resources/Assets.xcassets
+  templateName: swift4
+  output: Assets.swift
+storyboards:
+  paths:
+    - PhotoBrowserExample/
+  templateName: swift4
+  output: StoryboardScene.swift

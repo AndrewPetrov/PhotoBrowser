@@ -14,19 +14,19 @@ class CarouselControlCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var leftConstraint: NSLayoutConstraint!
     @IBOutlet private weak var rightConstraint: NSLayoutConstraint!
-
+    
     weak var image: UIImage? {
         didSet {
             imageView.image = image
         }
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
-
+        
         imageView.image = nil
     }
-
+    
     func configureCell(image: UIImage?, leftOffset: CGFloat, rightOffset: CGFloat) {
         imageView.image = image
         leftConstraint.constant = leftOffset

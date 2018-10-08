@@ -11,22 +11,22 @@ import UIKit
 import AVFoundation
 
 struct ItemTypes: OptionSet, Equatable, Hashable {
-
+    
     var hashValue: Int {
         return self.rawValue
     }
-
+    
     let rawValue: Int
-
-     static let image = ItemTypes(rawValue: 1)
-     static let video = ItemTypes(rawValue: 2)
-     static let link = ItemTypes(rawValue: 4)
-     static let document = ItemTypes(rawValue: 8)
-
+    
+    static let image = ItemTypes(rawValue: 1)
+    static let video = ItemTypes(rawValue: 2)
+    static let link = ItemTypes(rawValue: 4)
+    static let document = ItemTypes(rawValue: 8)
+    
     static func ==(lhs: ItemTypes, rhs: ItemTypes) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
-
+    
     func description(isPlural: Bool) -> String {
         switch self {
         case .image:
@@ -38,7 +38,7 @@ struct ItemTypes: OptionSet, Equatable, Hashable {
         case .document:
             return isPlural ? "Documents" : "Document"
         default:
-             return isPlural ? "Items" : "Item"
+            return isPlural ? "Items" : "Item"
         }
     }
 }
@@ -52,7 +52,7 @@ enum DeliveryStatus {
 typealias Id = Int
 
 class Item: Equatable {
-
+    
     //Discuss what will be ID
     var id: Id
     var image: UIImage
@@ -63,7 +63,7 @@ class Item: Equatable {
     var isLiked: Bool
     //goes from Chat
     var messageIndexPath: IndexPath
-
+    
     init(id: Id,
          image: UIImage,
          name: String = "",
@@ -72,7 +72,7 @@ class Item: Equatable {
          deliveryStatus: DeliveryStatus = .nonDelivered,
          isLiked: Bool = false,
          messageIndexPath: IndexPath = IndexPath(row: 100500, section: 42)) {
-
+        
         self.id = id
         self.image = image
         self.name = name
@@ -82,7 +82,7 @@ class Item: Equatable {
         self.isLiked = isLiked
         self.messageIndexPath = messageIndexPath
     }
-
+    
     static func ==(lhs: Item, rhs: Item) -> Bool {
         return lhs.id == rhs.id &&
             lhs.image == rhs.image &&
@@ -93,20 +93,24 @@ class Item: Equatable {
             lhs.isLiked == rhs.isLiked &&
             lhs.messageIndexPath == rhs.messageIndexPath
     }
-
+    
 }
 
 class ImageItem: Item {
-
-    init(id: Id, image: UIImage, name: String = "", sentTime: Date = Date(), deliveryStatus: DeliveryStatus = .nonDelivered) {
+    
+    init(id: Id,
+         image: UIImage,
+         name: String = "",
+         sentTime: Date = Date(),
+         deliveryStatus: DeliveryStatus = .nonDelivered) {
         super.init(id: id, image: image, name: name, sentTime: sentTime, type: .image, deliveryStatus: deliveryStatus)
     }
 }
 
 class VideoItem: Item {
-
+    
     let url: URL
-
+    
     init(id: Id,
          url: URL,
          thumbnail: UIImage?,
@@ -114,42 +118,42 @@ class VideoItem: Item {
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
         self.url = url
-
+        
         super.init(id: id, image: thumbnail ?? VideoItem.getThumbnailFrom(url: url) ?? UIImage(),
                    name: name,
                    sentTime: sentTime,
                    type: .video,
                    deliveryStatus: deliveryStatus)
     }
-
+    
     private static func getThumbnailFrom(url: URL) -> UIImage? {
         do {
-            let asset = AVURLAsset(url: url , options: nil)
+            let asset = AVURLAsset(url: url, options: nil)
             let imgGenerator = AVAssetImageGenerator(asset: asset)
             imgGenerator.appliesPreferredTrackTransform = true
             let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
             let thumbnail = UIImage(cgImage: cgImage)
-
+            
             return thumbnail
         } catch let error {
             debugPrint("*** Error generating thumbnail: \(error.localizedDescription)")
             return nil
         }
     }
-
+    
 }
 
 class LinkItem: Item {
-
+    
     let url: URL
-
+    
     init(id: Id,
          url: URL,
          thumbnail: UIImage,
          name: String = "",
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
-
+        
         self.url = url
         super.init(id: id,
                    image: thumbnail,
@@ -158,18 +162,18 @@ class LinkItem: Item {
                    type: .link,
                    deliveryStatus: deliveryStatus)
     }
-
+    
 }
 
 class DocumentItem: Item {
     let url: URL
-
+    
     init(id: Id,
          url: URL,
          name: String = "",
          sentTime: Date = Date(),
          deliveryStatus: DeliveryStatus = .nonDelivered) {
-
+        
         self.url = url
         super.init(id: id,
                    image: DocumentItem.getThumbnailFrom(url: url),
@@ -178,7 +182,7 @@ class DocumentItem: Item {
                    type: .document,
                    deliveryStatus: deliveryStatus)
     }
-
+    
     private static func getThumbnailFrom(url: URL) -> UIImage {
         switch url.deletingPathExtension().lastPathComponent {
         case "jpg":
@@ -189,6 +193,6 @@ class DocumentItem: Item {
             return #imageLiteral(resourceName: "iOSPhotoBrowser_docUnknown")
         }
     }
-
+    
 }
 

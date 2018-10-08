@@ -16,40 +16,39 @@ class UIImageHelper {
         let horizontalScale = newSize.width / originalSize.width
         let verticalScale = newSize.height / originalSize.height
         let maxScale = max(horizontalScale, verticalScale)
-
+        
         let targetSize = CGSize(width: originalSize.width * maxScale, height: originalSize.height * maxScale)
         UIGraphicsBeginImageContextWithOptions(targetSize, false, 0.0);
         image.draw(in: CGRect(origin: CGPoint.zero, size: targetSize))
         let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-
+        
         return newImage
     }
 }
 
-
 class ImageCache {
-
-    private static  let _shared = ImageCache()
-
+    
+    private static let _shared = ImageCache()
+    
     private var sizedImages = [Id: UIImage]()
-
+    
     static var shared: ImageCache {
         return _shared
     }
-
+    
 }
 
 extension ImageCache {
-
+    
     func setSized(_ image: UIImage, forKey key: Id) {
         sizedImages[key] = image
     }
-
+    
     func sizedImage(forKey key: Id) -> UIImage? {
         return sizedImages[key]
     }
-
+    
     func cleanCache() {
         sizedImages = [Id: UIImage]()
     }

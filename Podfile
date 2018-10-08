@@ -6,6 +6,7 @@ target 'PhotoBrowser' do
   use_frameworks!
 
   # Pods for PhotoBrowser
+	pod 'SwiftGen', '~> 5.3.0'
 
 
 end
