@@ -13,11 +13,6 @@ class ViewController: UIViewController {
     
     var items = [Item]()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -25,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     private func appendPhotos(count: Int, startIndex: Int) {
-        let namesArray = (1...11).map { String($0) }//["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]
+        let namesArray = (1...11).map { String($0) }
         
         for index in 0..<count {
             items.append(
@@ -126,7 +121,7 @@ class ViewController: UIViewController {
         //add docs
         
         let myUrl2 = Bundle.main.path(forResource: "NSPredicateCheatsheet", ofType: "pdf")
-        let destPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        //        let destPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         let fileManager = FileManager.default
         debugPrint(fileManager.fileExists(atPath: myUrl2!))
         
@@ -174,7 +169,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: PhotoBrowserDataSouce {
+extension ViewController: PhotoBrowserDataSource {
     
     func items(for indexPaths: [IndexPath]) -> [Item] {
         var tempItems = [Item]()

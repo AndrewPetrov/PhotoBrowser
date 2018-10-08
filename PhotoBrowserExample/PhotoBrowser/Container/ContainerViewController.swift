@@ -127,38 +127,39 @@ class ContainerViewController: SelectableViewController, Presentable {
     
     private func add(asChildViewController viewController: UIViewController & ContainerViewControllerDelegate) {
         delegate = viewController
-        addChildViewController(viewController)
+        addChild(viewController)
         
         viewController.view.frame = containerView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         containerView.addSubview(viewController.view)
-        viewController.didMove(toParentViewController: self)
+        viewController.didMove(toParent: self)
     }
     
     private func removeChildViewControllers() {
-        for childViewController in childViewControllers {
-            childViewController.willMove(toParentViewController: nil)
+        for childViewController in children {
+            childViewController.willMove(toParent: nil)
             childViewController.view.removeFromSuperview()
-            childViewController.removeFromParentViewController()
+            childViewController.removeFromParent()
         }
     }
     
-    override func removeFromParentViewController() {
+    override func removeFromParent() {
         clearNavigationBar()
         
-        super.removeFromParentViewController()
+        super.removeFromParent()
     }
     
-    override func willMove(toParentViewController parent: UIViewController?) {
-        super.willMove(toParentViewController: parent)
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
         
         setupNavigationBar()
     }
     
     static func make(modelInputOutput: ModelInputOutput,
                      presentationInputOutput: PresentationInputOutput) -> ContainerViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
-            .instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
+        let newViewController = StoryboardScene.PhotoBrowser.containerViewController.instantiate()
+//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
+//            .instantiateViewController(withIdentifier: "ContainerViewController") as! ContainerViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         
@@ -226,8 +227,8 @@ class ContainerViewController: SelectableViewController, Presentable {
         trashButton.isEnabled = getSelectedIndexPaths().count != 0
     }
     
-    internal override func setItem(at indexPath: IndexPath, slected: Bool) {
-        delegate?.setItem(at: indexPath, selected: slected)
+    internal override func setItem(at indexPath: IndexPath, selected: Bool) {
+        delegate?.setItem(at: indexPath, selected: selected)
     }
     
     private func clearNavigationBar() {
@@ -325,7 +326,7 @@ extension ContainerViewController: ContainerViewControllerInput {
     }
     
     func didSetItemAs(isSelected: Bool, at indexPath: IndexPath) {
-        updateUIRalatedToSelection()
+        updateUIRelatedToSelection()
     }
     
 }

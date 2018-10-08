@@ -28,7 +28,7 @@ protocol PhotoBrowserDelegate: class {
     
 }
 
-protocol PhotoBrowserDataSouce: class {
+protocol PhotoBrowserDataSource: class {
     
     func startingItemIndexPath() -> IndexPath
     func items(for indexPaths: [IndexPath]) -> [Item]
@@ -68,7 +68,7 @@ protocol ModelOutput: class {
 
 class PhotoBrowserModel {
     
-    private weak var dataSource: PhotoBrowserDataSouce!
+    private weak var dataSource: PhotoBrowserDataSource!
     private weak var delegate: PhotoBrowserDelegate!
     
     lazy var cachedItems = [Item]()
@@ -76,7 +76,7 @@ class PhotoBrowserModel {
     private var cachedTypes: ItemTypes?
     private var actions: AllowedActions = .all
     
-    static func make(dataSource: PhotoBrowserDataSouce,
+    static func make(dataSource: PhotoBrowserDataSource,
                      delegate: PhotoBrowserDelegate,
                      allowedActions: AllowedActions = .all) -> PhotoBrowserModel {
         let model = PhotoBrowserModel()
@@ -125,7 +125,7 @@ class PhotoBrowserModel {
         }
     }
     
-    // types is necessary for calculation unfiltred index path in all Items
+    // types is necessary for calculation unfiltered index path in all Items
     private func dataSourceIndexPaths(for typedIndexPaths: [IndexPath], withTypes types: ItemTypes) -> [IndexPath] {
         var dataSourceIndexPaths = [IndexPath]()
         var filteredItemsArray = filteredItems(withTypes: types)

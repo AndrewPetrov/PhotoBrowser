@@ -27,8 +27,9 @@ class LinksViewController: UIViewController {
     static func make(modelInputOutput: ModelInputOutput,
                      containerInputOutput: ContainerViewControllerInputOutput) -> LinksViewController {
         
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
-            .instantiateViewController(withIdentifier: "LinksViewController") as! LinksViewController
+        let newViewController = StoryboardScene.PhotoBrowser.linksViewController.instantiate()
+//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil)
+//            .instantiateViewController(withIdentifier: "LinksViewController") as! LinksViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
         
@@ -54,8 +55,10 @@ class LinksViewController: UIViewController {
     }
     
     private func showWebViewController(url: URL) {
-        let storyboard = UIStoryboard(name: "PhotoBrowser", bundle: nil)
-        let controller = storyboard.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+//        let storyboard = UIStoryboard(name: "PhotoBrowser", bundle: nil)
+//        let controller = storyboard.instantiateViewController(withIdentifier: "WebViewController") as! WebViewController
+        let controller = StoryboardScene.PhotoBrowser.webViewController.instantiate()
+        
         controller.url = url
         
         navigationController?.pushViewController(controller, animated: true)

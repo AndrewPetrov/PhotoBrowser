@@ -47,9 +47,10 @@ class MediaViewController: UIViewController {
     
     static func make(modelInputOutput: ModelInputOutput,
                      containerInputOutput: ContainerViewControllerInputOutput) -> MediaViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
-            withIdentifier: "MediaViewController"
-        ) as! MediaViewController
+        let newViewController = StoryboardScene.PhotoBrowser.mediaViewController.instantiate()
+//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
+//            withIdentifier: "MediaViewController"
+//        ) as! MediaViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.containerInputOutput = containerInputOutput
         

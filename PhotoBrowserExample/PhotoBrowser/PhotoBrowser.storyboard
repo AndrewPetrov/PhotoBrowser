@@ -278,7 +278,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jcw-un-fcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer delaysTouchesBegan="YES" numberOfTapsRequired="2" id="OYU-sE-aS5" userLabel="Dubble Tap Gesture Recognizer">
                     <connections>
-                        <action selector="collectionViewDidDubbleTap:" destination="dbb-mi-v7G" id="Q8m-tE-4Jn"/>
+                        <action selector="collectionViewDidDubleTap" destination="dbb-mi-v7G" id="Q8m-tE-4Jn"/>
                     </connections>
                 </tapGestureRecognizer>
                 <tapGestureRecognizer delaysTouchesBegan="YES" id="1UZ-eA-gtd">
@@ -364,7 +364,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="buttomInset" destination="mqr-Ke-qUQ" id="nl4-vM-q11"/>
+                                            <outlet property="bottomInset" destination="mqr-Ke-qUQ" id="nl4-vM-q11"/>
                                             <outlet property="dateLabel" destination="69I-3O-2Qq" id="2uj-FY-GIR"/>
                                             <outlet property="deliveryStatusImageView" destination="fv1-Nn-JmT" id="L7x-j4-GSc"/>
                                             <outlet property="likeImageView" destination="BTS-vK-7Lc" id="kdc-Bc-zaE"/>

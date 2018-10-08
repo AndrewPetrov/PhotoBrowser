@@ -59,8 +59,8 @@ class SelectableViewController: UIViewController {
         fatalError("need to override updateCache")
     }
     
-    internal func setItem(at indexPath: IndexPath, slected: Bool) {
-        fatalError("need to override setItem(at indexPath: IndexPath, slected: Bool)")
+    internal func setItem(at indexPath: IndexPath, selected: Bool) {
+        fatalError("need to override setItem(at indexPath: IndexPath, selected: Bool)")
     }
     
     internal func updateToolbarButtons() {
@@ -71,7 +71,7 @@ class SelectableViewController: UIViewController {
         fatalError("need to override getSelectedIndexPaths")
     }
     
-    internal func updateUIRalatedToSelection() {
+    internal func updateUIRelatedToSelection() {
         updateSelectionTitle()
         updateToolbarButtons()
     }
@@ -91,7 +91,7 @@ class SelectableViewController: UIViewController {
     
     internal func updateSelectButtonTitle() {
         selectButton.isEnabled = modelInputOutput.numberOfItems(withTypes: supportedTypes) > 0
-        let title = isSelectionAllowed ? "Calcel" : "Select"
+        let title = isSelectionAllowed ? "Cancel" : "Select"
         selectButton.title = title
     }
     
@@ -110,7 +110,7 @@ class SelectableViewController: UIViewController {
                 indexPaths: self.getSelectedIndexPaths()
             )
             self.isSelectionAllowed = false
-            self.updateUIRalatedToSelection()
+            self.updateUIRelatedToSelection()
             self.updateCache()
         }
         alertController.addAction(deleteForMeAction)
@@ -125,9 +125,9 @@ class SelectableViewController: UIViewController {
         let count = modelInputOutput.numberOfItems(withTypes: supportedTypes)
         for row in 0..<count {
             let indexPath = IndexPath(row: row, section: 0)
-            setItem(at: indexPath, slected: false)
+            setItem(at: indexPath, selected: false)
         }
-        updateUIRalatedToSelection()
+        updateUIRelatedToSelection()
     }
     
     internal func isAllItemsLiked() -> Bool {

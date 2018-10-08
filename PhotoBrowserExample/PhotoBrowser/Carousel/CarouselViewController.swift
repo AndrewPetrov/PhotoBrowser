@@ -25,11 +25,13 @@ enum LastTouchedCollection {
 
 class CarouselViewController: UIViewController, Presentable {
     
-    private static var dateFormatter = DateFormatter()
     let presentation: Presentation = .carousel
+    
+    private static var dateFormatter = DateFormatter()
     private let supportedTypes: ItemTypes = [.image, .video]
     private weak var modelInputOutput: ModelInputOutput!
     private weak var presentationInputOutput: PresentationInputOutput!
+    
     @IBOutlet private weak var imageViewOnTopOfCollectionView: UIImageView!
     @IBOutlet private weak var layout: UICollectionViewFlowLayout!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -100,9 +102,10 @@ class CarouselViewController: UIViewController, Presentable {
     
     static func make(modelInputOutput: ModelInputOutput,
                      presentationInputOutput: PresentationInputOutput) -> CarouselViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
-            withIdentifier: "CarouselViewController"
-        ) as! CarouselViewController
+        let newViewController = StoryboardScene.PhotoBrowser.carouselViewController.instantiate()
+//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
+//            withIdentifier: "CarouselViewController"
+//        ) as! CarouselViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         
@@ -115,7 +118,7 @@ class CarouselViewController: UIViewController, Presentable {
         CarouselViewController.dateFormatter.dateFormat = "MM/dd/yyyy h:mm a"
         setupNavigationBar()
         cacheFirstImagesForCarouselViewAdapter()
-        collectionView.decelerationRate = 1.5
+        collectionView.decelerationRate = UIScrollView.DecelerationRate(rawValue: 1.5)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -184,15 +187,15 @@ class CarouselViewController: UIViewController, Presentable {
         }
     }
     
-    override func didMove(toParentViewController parent: UIViewController?) {
-        super.didMove(toParentViewController: parent)
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
         
         isFirstAppearing = false
         setupNavigationBar()
     }
     
-    override func willMove(toParentViewController parent: UIViewController?) {
-        super.willMove(toParentViewController: parent)
+    override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
         
         isFirstAppearing = true
     }
@@ -422,7 +425,7 @@ class CarouselViewController: UIViewController, Presentable {
         }
     }
     
-    @IBAction func collectionViewDidDubbleTap(_ sender: UITapGestureRecognizer) {
+    @IBAction func collectionViewDidDoubleTap(_ sender: UITapGestureRecognizer) {
         collectionView.isScrollEnabled = !collectionView.isScrollEnabled
         delegate?.didDoubleTap(self)
     }

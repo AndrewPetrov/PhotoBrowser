@@ -39,6 +39,10 @@
 		77BEE9AD2038326A0046BE0C /* PhotoBrowser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 77BEE9AC2038326A0046BE0C /* PhotoBrowser.storyboard */; };
 		77BEE9AF2039B4060046BE0C /* MediaCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BEE9AE2039B4060046BE0C /* MediaCollectionViewHeader.swift */; };
 		77DF1E7E202E2A50003CFA75 /* PhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DF1E7D202E2A50003CFA75 /* PhotoBrowser.swift */; };
+		77E961EF216BE8E00059D349 /* Cock - 10685.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 77F11126216BD902008243DA /* Cock - 10685.mp4 */; };
+		77E961F0216BE8E00059D349 /* Roast - 11620.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 77F11123216BD902008243DA /* Roast - 11620.mp4 */; };
+		77E961F1216BE8E00059D349 /* Runner - 10809.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 77F11125216BD902008243DA /* Runner - 10809.mp4 */; };
+		77E961F2216BE8E00059D349 /* small.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 77F11124216BD902008243DA /* small.mp4 */; };
 		77EC29422094BE49008B5FBB /* MediaCollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77EC29412094BE49008B5FBB /* MediaCollectionViewFooter.xib */; };
 		77EC29442095F21B008B5FBB /* UIView+LoadFromNib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EC29432095F21B008B5FBB /* UIView+LoadFromNib.swift */; };
 		77EC294720966737008B5FBB /* SingleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77EC294620966737008B5FBB /* SingleViewController.swift */; };
@@ -327,11 +331,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = AndrewPetrov;
 				TargetAttributes = {
 					779A8D7B202E282400CCFF26 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -359,6 +364,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77E961EF216BE8E00059D349 /* Cock - 10685.mp4 in Resources */,
+				77E961F0216BE8E00059D349 /* Roast - 11620.mp4 in Resources */,
+				77E961F1216BE8E00059D349 /* Runner - 10809.mp4 in Resources */,
+				77E961F2216BE8E00059D349 /* small.mp4 in Resources */,
 				77EC29422094BE49008B5FBB /* MediaCollectionViewFooter.xib in Resources */,
 				779A8D8A202E282400CCFF26 /* LaunchScreen.storyboard in Resources */,
 				779A8D87202E282400CCFF26 /* Assets.xcassets in Resources */,
@@ -467,6 +476,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -474,6 +484,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -524,6 +535,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -531,6 +543,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -577,7 +590,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -597,7 +610,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = AndrewPetrov.PhotoBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -69,9 +69,7 @@ class PhotoBrowser: UIViewController {
             return (modelInputOutput.startingItemIndexPath(withTypes: currentTypes), currentTypes)
         } else {
             fatalError("PhotoBrowserDelegate == nil")
-            return (IndexPath(), [.image])
         }
-        
     }()
     
     private let presentationStack: Stack<Presentation>
@@ -112,7 +110,7 @@ class PhotoBrowser: UIViewController {
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(
             title: "Back",
-            style: UIBarButtonItemStyle.plain,
+            style: UIBarButtonItem.Style.plain,
             target: self,
             action: #selector(back(sender:))
         )
@@ -122,20 +120,20 @@ class PhotoBrowser: UIViewController {
     }
     
     private func getViewController(by presentation: Presentation) -> PresentationViewController? {
-        
-        let presentationViewControllers: [PresentationViewController] = [carouselViewController, containerViewController, tableViewController, singleViewController]
+        let presentationViewControllers: [PresentationViewController] =
+            [carouselViewController, containerViewController, tableViewController, singleViewController]
         return presentationViewControllers.filter { $0.presentation == presentation }.first
     }
     
-    func switchToCurrentPresentation() {
+    private func switchToCurrentPresentation() {
         guard let currentPresentation = presentationStack.current,
             let currentPresentationViewController = getViewController(by: currentPresentation) else { return }
         
         delegate = currentPresentationViewController as PhotoBrowserInternalDelegate
         if let previousPresentation = presentationStack.previous,
             let previousPresentationViewController = getViewController(by: previousPresentation) {
-            previousPresentationViewController.willMove(toParentViewController: nil)
-            addChildViewController(currentPresentationViewController)
+            previousPresentationViewController.willMove(toParent: nil)
+            addChild(currentPresentationViewController)
             
             previousPresentationViewController.view.alpha = 1
             currentPresentationViewController.view.alpha = 0
@@ -148,8 +146,8 @@ class PhotoBrowser: UIViewController {
                     previousPresentationViewController.view.alpha = 0
                     currentPresentationViewController.view.alpha = 1
                 }, completion: { _ in
-                previousPresentationViewController.removeFromParentViewController()
-                currentPresentationViewController.didMove(toParentViewController: self)
+                previousPresentationViewController.removeFromParent()
+                currentPresentationViewController.didMove(toParent: self)
             })
             
         } else {
@@ -159,28 +157,28 @@ class PhotoBrowser: UIViewController {
     
     private func add(asChildViewController viewController: UIViewController) {
         
-        addChildViewController(viewController)
+        addChild(viewController)
         view.addSubview(viewController.view)
         
         viewController.view.frame = view.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewController.didMove(toParentViewController: self)
+        viewController.didMove(toParent: self)
     }
     
     private func removeChildViewControllers() {
-        for childViewController in childViewControllers {
-            childViewController.willMove(toParentViewController: nil)
+        for childViewController in children {
+            childViewController.willMove(toParent: nil)
             childViewController.view.removeFromSuperview()
-            childViewController.removeFromParentViewController()
+            childViewController.removeFromParent()
         }
     }
     
-    private func openChat(on messageindexPath: IndexPath) {
+    private func openChat(on messageIndexPath: IndexPath) {
         navigationController?.popToRootViewController(animated: false)
-        modelInputOutput.scrollToMessage(at: messageindexPath)
+        modelInputOutput.scrollToMessage(at: messageIndexPath)
     }
     
-    @objc func back(sender: UIBarButtonItem) {
+    @objc private func back(sender: UIBarButtonItem) {
         presentationStack.pop()
         
         if presentationStack.count == 0 || presentationStack.previous == nil {

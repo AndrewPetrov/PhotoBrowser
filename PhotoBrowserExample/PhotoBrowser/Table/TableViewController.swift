@@ -40,9 +40,10 @@ class TableViewController: SelectableViewController, Presentable {
     
     static func make(modelInputOutput: ModelInputOutput,
                      presentationInputOutput: PresentationInputOutput) -> TableViewController {
-        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
-            withIdentifier: "TableViewController"
-        ) as! TableViewController
+        let newViewController = StoryboardScene.PhotoBrowser.tableViewController.instantiate()
+//        let newViewController = UIStoryboard(name: "PhotoBrowser", bundle: nil).instantiateViewController(
+//            withIdentifier: "TableViewController"
+//        ) as! TableViewController
         newViewController.modelInputOutput = modelInputOutput
         newViewController.presentationInputOutput = presentationInputOutput
         
@@ -171,8 +172,8 @@ class TableViewController: SelectableViewController, Presentable {
         trashButton.isEnabled = getSelectedIndexPaths().count != 0
     }
     
-    internal override func setItem(at indexPath: IndexPath, slected: Bool) {
-        if slected {
+    internal override func setItem(at indexPath: IndexPath, selected: Bool) {
+        if selected {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
@@ -246,7 +247,7 @@ extension TableViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isSelectionAllowed {
-            updateUIRalatedToSelection()
+            updateUIRelatedToSelection()
         } else {
             tableView.deselectRow(at: indexPath, animated: false)
             presentationInputOutput.setItemAsCurrent(at: indexPath, withTypes: supportedTypes)
@@ -256,7 +257,7 @@ extension TableViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        updateUIRalatedToSelection()
+        updateUIRelatedToSelection()
     }
     
 }

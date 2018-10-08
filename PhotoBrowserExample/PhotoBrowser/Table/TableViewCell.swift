@@ -12,7 +12,7 @@ import UIKit
 class TableViewCell: UITableViewCell {
     
     @IBOutlet private weak var mainImageView: UIImageView!
-    @IBOutlet private weak var buttomInset: NSLayoutConstraint!
+    @IBOutlet private weak var bottomInset: NSLayoutConstraint!
     @IBOutlet private weak var likeImageView: UIImageView!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var deliveryStatusImageView: UIImageView!
@@ -33,7 +33,7 @@ class TableViewCell: UITableViewCell {
                        deliveryStatus: DeliveryStatus,
                        sentTime: Date) {
         
-        buttomInset.constant = hasInset ? TableViewController.inset : 0
+        bottomInset.constant = hasInset ? TableViewController.inset : 0
         mainImageView.image = image
         var image = UIImage()
         switch deliveryStatus {
