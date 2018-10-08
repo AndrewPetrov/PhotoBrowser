@@ -12,5 +12,7 @@ The **Browser** can show items of several *types*, and has several *representati
 For example we have such input data: **Photo_1**, **Video_1**, **Photo_2**, **Photo_3**, **Photo_4**
 so if representation can display Photos and Videos **Photo_2** has index **2**, if only Photos - index **1**. In this way also all actions go to the main model.
 
+Also in CarouselView all images represented as miniatures at the bottom of the screen. When a user scrolled them quickly phone started to skip some frames and moving was not so smooth. I used caching for fix this issue. 
+
 ## Plans
 To finish this project and make a customizable pod from it
