@@ -2,7 +2,7 @@
  
 
 ## Disclaimer 
-The task was abandoned just in the middle of developing (for reasons not related to developing), so here you can find a lot of bugs, UI is very simple on this phase. There is no design at all. Also there is autolayout engine warnings in a console
+The task was abandoned just in the middle of developing (for reasons not related to developing), so here you can find a lot of bugs, UI is very simple on this phase. There is no design at all. Also there is autolayout engine warnings in a console. But it was completely writtrn by me.
 
 ## Goal
 To duplicate **WhatsApp** built-in photo browser
